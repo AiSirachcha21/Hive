@@ -1,6 +1,7 @@
 ﻿using Hive.Server.Application.Authentication.Commands.Login;
 using Hive.Server.Domain;
 using Hive.Server.Infrastructure;
+using Hive.Shared;
 using Hive.Shared.Errors;
 using Hive.Shared.Login;
 using Hive.Shared.Registration;
@@ -45,10 +46,19 @@ namespace Hive.Server.Application.Authentication.Commands.Register
                 user.UserName = request.regReq.Email;
 
                 var result = await request.userManager.CreateAsync(user, request.regReq.Password);
+                
 
                 if (!result.Succeeded)
                 {
                     dto.Error = new ErrorResponse { Message = "Failed to create user", ErrorCode = 400 };
+                    return dto;
+                }
+
+                var addToRolesResult = await request.userManager.AddToRoleAsync(user, UserRoles.SystemAdmin);
+
+                if (!addToRolesResult.Succeeded)
+                {
+                    dto.Error = new ErrorResponse { Message = "There was an issue when creating your user profile. Please try again later.", ErrorCode = 500 };
                     return dto;
                 }
 
