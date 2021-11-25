@@ -1,4 +1,5 @@
 ﻿using Hive.Shared;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -8,11 +9,15 @@ namespace Hive.Server.Infrastructure
 {
     public static class ApplicationDbContextSeed
     {
-        public static async Task SeedAsync(ApplicationDbContext ctx)
+        public static void SeedUserRoles (this ModelBuilder builder)
         {
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = UserRoles.SystemAdmin, NormalizedName = UserRoles.SystemAdmin.ToUpper() });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = UserRoles.ProjectOwner, NormalizedName = UserRoles.ProjectOwner.ToUpper() });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = UserRoles.Contributer, NormalizedName = UserRoles.Contributer.ToUpper() });
         }
 
-        public static void SeedForecastsAsync(this ModelBuilder builder)
+
+        public static void SeedForecasts(this ModelBuilder builder)
         {
             string[] Summaries = new[]{ "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering","Scorching"};
         

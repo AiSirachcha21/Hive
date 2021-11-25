@@ -1,5 +1,6 @@
 ﻿using Hive.Server.Domain;
-using Hive.Shared;
+using HiveShared = Hive.Shared;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -12,14 +13,16 @@ namespace Hive.Server.Infrastructure
         {
         }
 
-        public DbSet<WeatherForecast> Forecasts { get; set; }
+        public DbSet<HiveShared.WeatherForecast> Forecasts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(builder);
-            builder.SeedForecastsAsync();
+
+            builder.SeedUserRoles();
+            builder.SeedForecasts();
         }
     }
 }
