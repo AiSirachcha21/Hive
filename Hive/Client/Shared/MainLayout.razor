@@ -1,0 +1,32 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <AuthorizeView>
+        <Authorized>
+            <div class="sidebar">
+                <NavMenu />
+            </div>
+
+            <div class="main">
+                <div class="top-row">
+                    <button type="button" class="btn btn-link ml-md-auto" @onclick="@Logout">Logout</button>
+                </div>
+
+                <div class="content px-4">
+                    @Body
+                </div>
+            </div>
+        </Authorized>
+        <Authorizing>
+            <div class="container-fluid d-flex justify-content-center align-items-center">
+                <div class="spinner-border" role="status"></div>
+            </div>
+        </Authorizing>
+
+    </AuthorizeView>
+
+</div>
+
+@code {
+
+}
