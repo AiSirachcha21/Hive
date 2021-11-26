@@ -33,16 +33,18 @@ namespace Hive.Server.Application.Authentication.Commands.Login
 
             public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
             {
+                LoginResponse errorResponse = new() { Message = "Invalid Username/Password", StatusCode = 400 };
+
                 ApplicationUser user = await request.userManager.FindByNameAsync(request.loginReq.UserName);
                 if (user == null)
                 {
-                    return new LoginResponse { Message = "User does not exist", StatusCode = 400 };
+                    return errorResponse;
                 }
 
                 var singInResult = await request.signInManager.CheckPasswordSignInAsync(user, request.loginReq.Password, false);
                 if (!singInResult.Succeeded)
                 {
-                    return new LoginResponse { Message = "Invalid password", StatusCode = 400 };
+                    return errorResponse;
                 }
 
                 await request.signInManager.SignInAsync(user, request.loginReq.RememberMe);
