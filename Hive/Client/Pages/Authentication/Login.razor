@@ -1,28 +1,51 @@
 ﻿@page "/login"
 
-@layout AuthenticatedLayout
+@layout LoginLayout
 
-<h2>Login</h2>
+<style>
+    .logo {
+        width: 9.0625rem;
+    }
+</style>
+
+<img class="logo my-4" src="images/logo.svg" alt="Hive Logo" />
+<div>
+    <MudText Typo="Typo.h1">Login</MudText>
+    <MudText Typo="Typo.subtitle1">Task Management made easy.</MudText>
+</div>
+
 
 <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="LoginRequest">
     <DataAnnotationsValidator />
+    @if (Error != null || !string.IsNullOrEmpty(Error))
+    {
+        <MudAlert Severity="Severity.Error">@Error</MudAlert>
+    }
 
-    <label for="inputUsername" class="sr-only">User Name</label>
-    <InputText id="inputUsername" class="form-control" @bind-Value="LoginRequest.UserName" autofocus placeholder="Username" />
-    <ValidationMessage For="@(() => LoginRequest.UserName)" />
+    <MudTextField InputType="InputType.Email"
+                  Label="Email"
+                  @bind-Value="LoginRequest.UserName"
+                  AutoFocus="true"
+                  For="@(() => LoginRequest.UserName)"
+                  Variant="Variant.Outlined"
+                  Class="mb-4" />
 
-    <label for="inputPassword" class="sr-only">Password</label>
-    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="LoginRequest.Password" />
-    <ValidationMessage For="@(() => LoginRequest.Password)" />
+    <MudTextField InputType="InputType.Password"
+                  Label="Password"
+                  @bind-Value="LoginRequest.Password"
+                  For="@(() => LoginRequest.Password)"
+                  Variant="Variant.Outlined" />
 
-    <div class="form-check m-3">
-        <InputCheckbox id="inputRememberMe" class="form-check-input" @bind-Value="@LoginRequest.RememberMe" />
-        <label class="form-check-label" for="inputRememberMe">Remember Me</label>
+    <div class="d-flex align-center justify-space-between mb-4">
+        <MudCheckBox @bind-Checked="@LoginRequest.RememberMe" Color="Color.Primary" Label="Remember Me"></MudCheckBox>
+        <MudText Typo="Typo.body1" Color="@Color.Primary">Forgot Password?</MudText>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <label class="text-danger">@Error</label>
-    <NavLink href="register">
-        <h6 class="font-weight-normal text-center">Create account</h6>
-    </NavLink>
-</EditForm>
 
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" DisableElevation="true" FullWidth="true" Class="my-4">Sign in</MudButton>
+    <MudText Class="d-flex">
+        Don't have an account ? &nbsp;
+        <MudLink href="register">
+            <MudText Color="@Color.Primary">Sign Up</MudText>
+        </MudLink>
+    </MudText>
+</EditForm>

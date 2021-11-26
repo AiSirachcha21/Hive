@@ -17,7 +17,7 @@ namespace Hive.Client.Pages.Authentication
         public LoginRequest LoginRequest { get; set; } = new LoginRequest();
 
 
-        internal async Task OnSubmit()
+        private async Task OnSubmit()
         {
             Error = null;
             try
