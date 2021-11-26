@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MudBlazor.Services;
 
 namespace Hive.Client
 {
@@ -25,8 +26,8 @@ namespace Hive.Client
             builder.Services.AddScoped<AuthStateProvider>();
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<AuthStateProvider>());
             builder.Services.AddScoped<IAuthService, AuthService>();
-
-            builder.Services.AddAntDesign();
+            
+            builder.Services.AddMudServices();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
