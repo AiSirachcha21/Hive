@@ -9,9 +9,9 @@ namespace Hive.Shared.Login
 {
     public class LoginRequest
     {
-        [Required]
+        [Required(ErrorMessage = "Email is required.")]
         public string UserName{ get; set; }
-        [Required]
+        [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
     }
