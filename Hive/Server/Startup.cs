@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using Hive.Server.Application.Mappings;
 using Hive.Server.Domain;
 using Hive.Server.Infrastructure;
@@ -52,7 +53,12 @@ namespace Hive.Server
                 mc => mc.AddProfile(new MappingProfile())
             ));
 
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddFluentValidation(s => 
+            {
+                s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                s.DisableDataAnnotationsValidation = true;
+            }).AddNewtonsoftJson();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
