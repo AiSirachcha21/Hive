@@ -11,43 +11,36 @@ namespace Hive.Server.Application.Authentication.Commands.Login
 {
     public class LoginCommand : IRequest<LoginResponse>
     {
-        private readonly LoginRequest loginReq;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        public LoginRequest LoginReq { get; set; }
+        public UserManager<ApplicationUser> UserManager { get; set; }
+        public SignInManager<ApplicationUser> SignInManager { get; set; }
 
         public LoginCommand(LoginRequest loginReq, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            this.loginReq = loginReq;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            LoginReq = loginReq;
+            UserManager = userManager;
+            SignInManager = signInManager;
         }
 
         public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
         {
-            private readonly ApplicationDbContext _context;
-
-            public LoginCommandHandler(ApplicationDbContext context)
-            {
-                _context = context;
-            }
-
             public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
             {
                 LoginResponse errorResponse = new() { Message = "Invalid Username/Password", StatusCode = 400 };
 
-                ApplicationUser user = await request.userManager.FindByNameAsync(request.loginReq.UserName);
+                ApplicationUser user = await request.UserManager.FindByNameAsync(request.LoginReq.UserName);
                 if (user == null)
                 {
                     return errorResponse;
                 }
 
-                var singInResult = await request.signInManager.CheckPasswordSignInAsync(user, request.loginReq.Password, false);
+                var singInResult = await request.SignInManager.CheckPasswordSignInAsync(user, request.LoginReq.Password, false);
                 if (!singInResult.Succeeded)
                 {
                     return errorResponse;
                 }
 
-                await request.signInManager.SignInAsync(user, request.loginReq.RememberMe);
+                await request.SignInManager.SignInAsync(user, request.LoginReq.RememberMe);
 
                 return new LoginResponse { StatusCode = 200, Message = $"Welcome {user.UserName}" };
             }
