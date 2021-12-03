@@ -33,7 +33,7 @@ namespace Hive.Server
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer("Server=DESKTOP-QSKOPNV;Database=TheGreatTodoList;User Id=sa;Password=ryank1999;"));
+            services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer("Server=DESKTOP-5NSLH7U;Database=TheGreatTodoList;User Id=sa;Password=ryank1999;"));
 
             //Identity
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
