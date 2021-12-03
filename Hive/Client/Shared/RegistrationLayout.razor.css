@@ -1,0 +1,8 @@
+﻿.registration-layout {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 50%;
+}

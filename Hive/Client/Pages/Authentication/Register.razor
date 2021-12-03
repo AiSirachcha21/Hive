@@ -3,24 +3,68 @@
 @layout RegistrationLayout
 
 
-<h1 class="h2 font-weight-normal login-title">
-   Register
-</h1>
+<style>
+    .logo {
+        width: 9.0625rem;
+    }
+</style>
+
+<img class="logo my-4" src="~/images/logo.svg" alt="Hive Logo" />
+<div>
+    <MudText Typo="Typo.h1">A little bit about yourself</MudText>
+    <MudText Typo="Typo.subtitle1">This will be your profile across our platform.</MudText>
+</div>
 
 <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="RegisterRequest">
     <DataAnnotationsValidator />
-    <label for="inputUsername" class="sr-only">Email</label>
-    <InputText id="inputUsername" class="form-control" placeholder="E-Mail" autofocus @bind-Value="@RegisterRequest.Email" />
-    <ValidationMessage For="@(() => RegisterRequest.Email)" />
-    <label for="inputPassword" class="sr-only">Password</label>
-    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="@RegisterRequest.Password" />
-    <ValidationMessage For="@(() => RegisterRequest.Password)" />
-    <label for="inputPasswordConfirm" class="sr-only">Password Confirmation</label>
-    <InputText type="password" id="inputPasswordConfirm" class="form-control" placeholder="Password Confirmation" @bind-Value="@RegisterRequest.PasswordConfirm" />
-    <ValidationMessage For="@(() => RegisterRequest.PasswordConfirm)" />
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
+    @if (Error != null || !string.IsNullOrEmpty(Error))
+    {
+        <MudAlert Severity="Severity.Error">@Error</MudAlert>
+    }
+
+    <div class="d-flex flex-wrap mb-2">
+        <MudTextField Label="First Name"
+                      @bind-Value="RegisterRequest.FirstName"
+                      For="@(()=>RegisterRequest.FirstName)"
+                      Variant="Variant.Outlined"
+                      InputType="InputType.Text"
+                      Class="pr-4" />
+        <MudTextField Label="Last Name"
+                      @bind-Value="RegisterRequest.LastName"
+                      For="@(()=>RegisterRequest.LastName)"
+                      Variant="Variant.Outlined"
+                      InputType="InputType.Text"
+                      Class="pr-4" />
+    </div>
+    <MudTextField Label="Email"
+                  @bind-Value="RegisterRequest.Email"
+                  For="@(()=>RegisterRequest.Email)"
+                  Variant="Variant.Outlined"
+                  InputType="InputType.Email"
+                  Class="pr-4" />
+    <MudTextField Label="Password"
+                  @bind-Value="RegisterRequest.Password"
+                  For="@(()=>RegisterRequest.Password)"
+                  Variant="Variant.Outlined"
+                  InputType="InputType.Password"
+                  Class="pr-4" />
+    <MudTextField Label="Confrim Password"
+                  @bind-Value="RegisterRequest.PasswordConfirm"
+                  For="@(()=>RegisterRequest.PasswordConfirm)"
+                  Variant="Variant.Outlined"
+                  InputType="InputType.Hidden"
+                  Class="pr-4" />
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               ButtonType="ButtonType.Submit"
+               DisableElevation="true"
+               FullWidth="true"
+               Class="my-4">Next</MudButton>
     <label class="text-danger">@Error</label>
-    <NavLink href="login">
-        <h6 class="font-weight-normal text-center">Already have an account? Click here to login</h6>
-    </NavLink>
+    <MudText Class="d-flex">
+        Already have an account ? &nbsp;
+        <MudLink Href="login">
+            <MudText Color="Color.Primary">Login</MudText>
+        </MudLink>
+    </MudText>
 </EditForm>

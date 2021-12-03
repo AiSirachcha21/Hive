@@ -24,7 +24,8 @@ namespace Hive.Client.Pages.Authentication
             {
                 await AuthProvider.Register(RegisterRequest);
                 Navigation.NavigateTo("");
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Error = ex.Message;
             }
