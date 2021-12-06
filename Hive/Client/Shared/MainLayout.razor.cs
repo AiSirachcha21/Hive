@@ -9,12 +9,11 @@ namespace Hive.Client.Shared
     {
         [CascadingParameter]
         Task<AuthenticationState> AuthenticationState { get; set; }
-
         [Inject]
         public NavigationManager Navigation { get; set; }
-
         [Inject]
         public AuthStateProvider AuthProvider { get; set; }
+        public bool DrawerOpen { get; set; } = true;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -23,6 +22,8 @@ namespace Hive.Client.Shared
                 Navigation.NavigateTo("/login");
             }
         }
+
+        void ToggleDrawer() => DrawerOpen = !DrawerOpen;
 
         async Task Logout()
         {

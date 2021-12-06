@@ -1,6 +1,9 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <div class="top-row pl-4 navbar navbar-dark">
+        <MudDrawer @bind-Open="DrawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2" Variant="@DrawerVariant.Mini">
+            @*NavMenu*@
+        </MudDrawer>
+        <!--<div class="top-row pl-4 navbar navbar-dark">
             <a class="navbar-brand" href="">Hive</a>
             <button class="navbar-toggler" @onclick="ToggleNavMenu">
                 <span class="navbar-toggler-icon"></span>
@@ -25,13 +28,15 @@
                     </NavLink>
                 </li>
             </ul>
-        </div>
+        </div>-->
     </Authorized>
 
 </AuthorizeView>
 
 
 @code {
+    [Parameter]
+    public bool DrawerOpen { get; set; }
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;

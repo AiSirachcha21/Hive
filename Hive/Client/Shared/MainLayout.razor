@@ -1,32 +1,52 @@
 ﻿@inherits LayoutComponentBase
 
+<style>
+    .logo {
+        width: 6.0625rem;
+    }
+</style>
+
 <div class="page">
     <AuthorizeView>
         <Authorized>
-            <div class="sidebar">
-                <NavMenu />
-            </div>
-
-            <div class="main">
-                <div class="top-row">
-                    <button type="button" class="btn btn-link ml-md-auto" @onclick="@Logout">Logout</button>
-                </div>
-
-                <div class="content px-4">
-                    @Body
-                </div>
-            </div>
+            <MudLayout>
+                <MudAppBar Color="@Color.Transparent" Elevation="1">
+                    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleDrawer())" />
+                    <img class="logo my-4" src="images/logo.svg" alt="Hive Logo" />
+                    <MudSpacer />
+                    <MudMenu Dense="true">
+                        <ActivatorContent>
+                            <div class="d-flex align-center">
+                                <MudAvatar Class="mr-2" Color="@Color.Primary">@GenerateDisplayName(context.User.Identity.Name)</MudAvatar>
+                                <MudText>@context.User.Identity.Name</MudText>
+                            </div>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <MudMenuItem OnClick="@Logout">Sign Out</MudMenuItem>
+                        </ChildContent>
+                    </MudMenu>
+                </MudAppBar>
+                <NavMenu DrawerOpen="@DrawerOpen" />
+                <MudMainContent Class="px-6">
+                    <div class="pt-4">
+                        @Body
+                    </div>
+                </MudMainContent>
+            </MudLayout>
         </Authorized>
         <Authorizing>
             <div class="container-fluid d-flex justify-content-center align-items-center">
                 <div class="spinner-border" role="status"></div>
             </div>
         </Authorizing>
-
     </AuthorizeView>
 
 </div>
 
 @code {
-
+    string GenerateDisplayName(string name)
+    {
+        var splitName = name.Split(" ");
+        return splitName.First().First() + splitName.Last();
+    }
 }
