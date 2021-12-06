@@ -46,7 +46,8 @@ namespace Hive.Server.Application.Authentication.Commands.Register
             {
                 ApplicationUser user = new ApplicationUser();
                 RegisterCommandDto dto = new RegisterCommandDto();
-                user.UserName = user.Email = request.regReq.Email;
+                user.UserName = request.regReq.Email;
+                user.Email = request.regReq.Email;
                 user.FirstName = request.regReq.FirstName;
                 user.LastName = request.regReq.LastName;
 

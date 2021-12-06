@@ -62,14 +62,15 @@ namespace Hive.Server.Controllers
         }
 
         [HttpGet]
-        public CurrentUser GetCurrentUserInfo()
+        public async Task<CurrentUser> GetCurrentUserInfo()
         {
+            var user = await _userManager.GetUserAsync(User);
             return new CurrentUser
             {
                 IsAuthenticated = User.Identity.IsAuthenticated,
                 UserName = User.Identity.Name,
-                Claims = User.Claims
-                .ToDictionary(c => c.Type, c => c.Value)
+                Claims = User.Claims.ToDictionary(c => c.Type, c => c.Value),
+                DisplayName = $"{user.FirstName} {user.LastName.First()}"
             };
         }
     }

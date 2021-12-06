@@ -31,7 +31,11 @@ namespace Hive.Client.Services
                 var userInfo = await GetCurrentUser();
                 if (userInfo.IsAuthenticated)
                 {
-                    var claims = new[] { new Claim(ClaimTypes.Name, _currentUser.UserName) }.Concat(_currentUser.Claims.Select(c => new Claim(c.Key, c.Value)));
+                    var claims = new[]
+                    {
+                        new Claim(ClaimTypes.Name, _currentUser.DisplayName),
+                        new Claim(ClaimTypes.Email, _currentUser.UserName)
+                    }.Concat(_currentUser.Claims.Select(c => new Claim(c.Key, c.Value)));
                     identity = new ClaimsIdentity(claims, "Server authentication");
                 }
             }
