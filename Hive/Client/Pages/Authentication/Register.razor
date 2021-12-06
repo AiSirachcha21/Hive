@@ -1,4 +1,5 @@
 ﻿@page "/register"
+@using System.Text.RegularExpressions
 
 @layout RegistrationLayout
 
@@ -17,9 +18,22 @@
 
 <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="RegisterRequest">
     <DataAnnotationsValidator />
-    @if (Error != null || !string.IsNullOrEmpty(Error))
+    @if (Errors != null)
     {
-        <MudAlert Severity="Severity.Error">@Error</MudAlert>
+        <MudAlert Severity="Severity.Error" Class="my-4" NoIcon="true">
+            <div class="d-flex">
+                <MudIcon Icon="@Icons.Outlined.ErrorOutline" Color="@Color.Error" Class="mr-4"/>
+                <MudText Typo="@Typo.subtitle1" Color="@Color.Error">Error</MudText>
+            </div>
+            <MudList Dense="true" DisableGutters="true">
+                @foreach (var err in Errors)
+                {
+                    <MudListItem Text="@err" />
+                }
+            </MudList>
+
+
+        </MudAlert>
     }
 
     <div class="d-flex flex-wrap mb-2">
@@ -45,9 +59,13 @@
     <MudTextField Label="Password"
                   @bind-Value="RegisterRequest.Password"
                   For="@(()=>RegisterRequest.Password)"
+                  Adornment="Adornment.End"
+                  AdornmentIcon="@(ShowPassword ? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility)"
+                  OnAdornmentClick="@TogglePasswordVisibility"
                   Variant="Variant.Outlined"
-                  InputType="InputType.Password"
+                  InputType="@(ShowPassword ? InputType.Text : InputType.Password)"
                   Class="pr-4" />
+
     <MudTextField Label="Confrim Password"
                   @bind-Value="RegisterRequest.PasswordConfirm"
                   For="@(()=>RegisterRequest.PasswordConfirm)"
@@ -60,7 +78,6 @@
                DisableElevation="true"
                FullWidth="true"
                Class="my-4">Next</MudButton>
-    <label class="text-danger">@Error</label>
     <MudText Class="d-flex">
         Already have an account ? &nbsp;
         <MudLink Href="login">

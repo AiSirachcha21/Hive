@@ -1,8 +1,14 @@
 ﻿using Hive.Client.Services;
 using Hive.Shared.Registration;
 using Microsoft.AspNetCore.Components;
-using System;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using System.Net;
+using System;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace Hive.Client.Pages.Authentication
 {
@@ -12,14 +18,18 @@ namespace Hive.Client.Pages.Authentication
         public NavigationManager Navigation { get; set; }
         [Inject]
         public AuthStateProvider AuthProvider { get; set; }
-
         public RegistrationRequest RegisterRequest { get; set; } = new RegistrationRequest();
+        public List<string> Errors { get; set; }
+        public bool ShowPassword { get; set; }
 
-        public string Error { get; set; }
+        void TogglePasswordVisibility()
+        {
+            ShowPassword = !ShowPassword;
+        }
 
         async Task OnSubmit()
         {
-            Error = null;
+            Errors = null;
             try
             {
                 await AuthProvider.Register(RegisterRequest);
@@ -27,7 +37,7 @@ namespace Hive.Client.Pages.Authentication
             }
             catch (Exception ex)
             {
-                Error = ex.Message;
+                Errors= JsonConvert.DeserializeObject<List<IdentityError>>(ex.Message).Select(e => e.Description).ToList();
             }
         }
     }
