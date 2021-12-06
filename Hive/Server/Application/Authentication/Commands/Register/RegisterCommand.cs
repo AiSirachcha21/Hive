@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,14 +46,16 @@ namespace Hive.Server.Application.Authentication.Commands.Register
             {
                 ApplicationUser user = new ApplicationUser();
                 RegisterCommandDto dto = new RegisterCommandDto();
-                user.UserName = request.regReq.Email;
+                user.UserName = user.Email = request.regReq.Email;
+                user.FirstName = request.regReq.FirstName;
+                user.LastName = request.regReq.LastName;
 
                 var result = await request.userManager.CreateAsync(user, request.regReq.Password);
 
 
                 if (!result.Succeeded)
                 {
-                    dto.Error = new ErrorResponse { Message = "Failed to create user", ErrorCode = 400 };
+                    dto.Errors = result.Errors.ToList();
                     return dto;
                 }
 
@@ -60,7 +64,7 @@ namespace Hive.Server.Application.Authentication.Commands.Register
 
                 if (!addToRolesResult.Succeeded || !attachIdToClaimsResult.Succeeded)
                 {
-                    dto.Error = new ErrorResponse { Message = "There was an issue when creating your user profile. Please try again later.", ErrorCode = 500 };
+                    dto.Errors = new List<IdentityError> { new IdentityError { Code = "500", Description = "There was a problem when adding your profile" } };
                     return dto;
                 }
 

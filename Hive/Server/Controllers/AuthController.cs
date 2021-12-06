@@ -50,7 +50,7 @@ namespace Hive.Server.Controllers
         public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
         {
             var response = await Mediator.Send(new RegisterCommand(request, _userManager, _signInManager));
-            return response.Error != null ? BadRequest(response.Error) : Ok(response.Data);
+            return response.Errors != null ? BadRequest(response.Errors) : Ok(response.Data);
         }
 
         [Authorize]

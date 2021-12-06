@@ -33,11 +33,11 @@ namespace Hive.Server
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer("Server=DESKTOP-5NSLH7U;Database=TheGreatTodoList;User Id=sa;Password=ryank1999;"));
+            services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer("Server=AI-WIN11;Database=TheGreatTodoList;User Id=sa;Password=ryank1999;"));
 
             //Identity
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-            services.ConfigureApplicationCookie(options => 
+            services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = false;
                 options.Events.OnRedirectToLogin = context =>
@@ -53,7 +53,7 @@ namespace Hive.Server
                 mc => mc.AddProfile(new MappingProfile())
             ));
 
-            services.AddControllers().AddFluentValidation(s => 
+            services.AddControllers().AddFluentValidation(s =>
             {
                 s.RegisterValidatorsFromAssemblyContaining<Startup>();
                 s.DisableDataAnnotationsValidation = true;
@@ -85,7 +85,7 @@ namespace Hive.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-           
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
