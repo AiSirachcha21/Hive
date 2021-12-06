@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@using Hive.Client.Shared.Constants
 
 @layout LoginLayout
 
@@ -44,7 +45,7 @@
     <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" DisableElevation="true" FullWidth="true" Class="my-4">Sign in</MudButton>
     <MudText Class="d-flex">
         Don't have an account ? &nbsp;
-        <MudLink href="register">
+        <MudLink href="@Routes.Register">
             <MudText Color="@Color.Primary">Sign Up</MudText>
         </MudLink>
     </MudText>

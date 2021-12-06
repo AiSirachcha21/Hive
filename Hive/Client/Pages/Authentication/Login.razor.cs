@@ -1,4 +1,5 @@
 ﻿using Hive.Client.Services;
+using Hive.Client.Shared.Constants;
 using Hive.Shared.Login;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -23,7 +24,7 @@ namespace Hive.Client.Pages.Authentication
             try
             {
                 await AuthProvider.Login(LoginRequest);
-                Navigation.NavigateTo("");
+                Navigation.NavigateTo(Routes.Index);
             }
             catch (Exception ex)
             {
