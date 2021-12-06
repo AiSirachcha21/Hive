@@ -1,10 +1,10 @@
 ﻿@using MudBlazor.Utilities
-<MudThemeProvider Theme="_appTheme"/>
-<MudDialogProvider/>
-<MudSnackbarProvider/>
+<MudThemeProvider Theme="_appTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
 <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
     <Found Context="routeData">
-        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
     <NotFound>
         <CascadingAuthenticationState>
@@ -15,9 +15,9 @@
     </NotFound>
 </Router>
 
-@code{
-    static readonly string[] HeadingFonts = {"Montserrat", "Arial", "sans-serif"};
-    static readonly string[] DefaultFonts = {"Nunito", "sans-serif"};
+@code {
+    static readonly string[] HeadingFonts = { "Montserrat", "Arial", "sans-serif" };
+    static readonly string[] DefaultFonts = { "Nunito", "sans-serif" };
 
     readonly MudTheme _appTheme = new()
         {
@@ -28,40 +28,40 @@
                 PrimaryLighten = "#f3a35c",
                 PrimaryContrastText = new MudColor("#fff"),
                 TextPrimary = new MudColor("#333"),
-        },
-        Typography = new Typography()
-        {
-            Body1 = new Body1()
-            {
-                FontFamily = DefaultFonts,
             },
-            Body2 = new Body2()
+            Typography = new Typography()
             {
-                FontFamily = DefaultFonts
-            },
-            Button = new Button()
-            {
-                FontFamily = DefaultFonts
-            },
-            H1 = new H1()
-            {
-                FontFamily = HeadingFonts,
-                FontWeight = 700,
-                FontSize = "32px"
-            },
-            H2 = new H2()
-            {
-                FontFamily = DefaultFonts,
-                FontWeight = 600,
-                FontSize = "24px"
-            },
-            H3 = new H3()
-            {
-                FontFamily = DefaultFonts,
-                FontWeight = 500,
-                FontSize = "18px"
-            },
-        }
-    };
+                Body1 = new Body1()
+                {
+                    FontFamily = DefaultFonts,
+                },
+                Body2 = new Body2()
+                {
+                    FontFamily = DefaultFonts
+                },
+                Button = new Button()
+                {
+                    FontFamily = DefaultFonts
+                },
+                H1 = new H1()
+                {
+                    FontFamily = HeadingFonts,
+                    FontWeight = 700,
+                    FontSize = "32px"
+                },
+                H2 = new H2()
+                {
+                    FontFamily = DefaultFonts,
+                    FontWeight = 600,
+                    FontSize = "24px"
+                },
+                H3 = new H3()
+                {
+                    FontFamily = DefaultFonts,
+                    FontWeight = 500,
+                    FontSize = "18px"
+                },
+            }
+        };
 
 }
