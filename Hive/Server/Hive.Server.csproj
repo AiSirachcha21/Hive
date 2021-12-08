@@ -43,7 +43,6 @@
   <ItemGroup>
     <Folder Include="Application\Authentication\Queries\" />
     <Folder Include="Application\Common\Interfaces\" />
-    <Folder Include="Application\Organizations\Commands\CreateOrganization\" />
   </ItemGroup>
 
 

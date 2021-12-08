@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Hive.Shared.Organizations.QueryDtos
+namespace Hive.Shared.Organizations.QueryViewModels
 {
-    public class OrganzationDto
+    public class OrganzationViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

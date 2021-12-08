@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Hive.Server.Application.Authentication.Commands.Register
 {
-    public class RegisterCommandDto
+    public class RegisterCommandViewModel
     {
         public IList<IdentityError> Errors { get; set; }
         public LoginResponse Data { get; set; }

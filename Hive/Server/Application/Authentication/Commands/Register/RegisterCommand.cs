@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Hive.Server.Application.Authentication.Commands.Register
 {
-    public record RegisterCommand : IRequest<RegisterCommandDto>
+    public record RegisterCommand : IRequest<RegisterCommandViewModel>
     {
         private readonly RegistrationRequest regReq;
         private readonly UserManager<ApplicationUser> userManager;
@@ -27,7 +27,7 @@ namespace Hive.Server.Application.Authentication.Commands.Register
             this.signInManager = signInManager;
         }
 
-        public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterCommandDto>
+        public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterCommandViewModel>
         {
             private readonly ApplicationDbContext _context;
             private readonly IMediator _mediator;
@@ -38,10 +38,10 @@ namespace Hive.Server.Application.Authentication.Commands.Register
                 _mediator = mediator;
             }
 
-            public async Task<RegisterCommandDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
+            public async Task<RegisterCommandViewModel> Handle(RegisterCommand request, CancellationToken cancellationToken)
             {
                 ApplicationUser user = new ApplicationUser();
-                RegisterCommandDto dto = new RegisterCommandDto();
+                RegisterCommandViewModel dto = new RegisterCommandViewModel();
                 user.UserName = request.regReq.Email;
                 user.Email = request.regReq.Email;
                 user.FirstName = request.regReq.FirstName;
