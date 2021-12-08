@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Client", "Hive\Client\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Shared", "Hive\Shared\Hive.Shared.csproj", "{288B9C1B-0FE8-4842-BF1C-ABC87951EC7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hive.Domain", "Domain\Hive.Domain.csproj", "{15D44536-91CB-4A80-A14D-4F2D360ED230}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{288B9C1B-0FE8-4842-BF1C-ABC87951EC7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{288B9C1B-0FE8-4842-BF1C-ABC87951EC7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{288B9C1B-0FE8-4842-BF1C-ABC87951EC7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15D44536-91CB-4A80-A14D-4F2D360ED230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15D44536-91CB-4A80-A14D-4F2D360ED230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15D44536-91CB-4A80-A14D-4F2D360ED230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15D44536-91CB-4A80-A14D-4F2D360ED230}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

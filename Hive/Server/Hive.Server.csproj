@@ -5,7 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Domain\**" />
+    <Content Remove="Domain\**" />
+    <EmbeddedResource Remove="Domain\**" />
+    <None Remove="Domain\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.5" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.5" />
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -27,13 +35,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain\Hive.Domain.csproj" />
     <ProjectReference Include="..\Client\Hive.Client.csproj" />
     <ProjectReference Include="..\Shared\Hive.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Application\Authentication\Queries\" />
-    <Folder Include="Application\WeatherForecasts\Commands\" />
+    <Folder Include="Application\Common\Interfaces\" />
+    <Folder Include="Application\Organizations\Commands\CreateOrganization\" />
   </ItemGroup>
 
 
