@@ -6,10 +6,8 @@ namespace Hive.Server.Application.Authentication.Commands.Login
     {
         public LoginCommandValidator()
         {
-            RuleFor(c=>c.LoginReq.UserName).NotEmpty();
-            RuleFor(c=>c.LoginReq.Password).NotEmpty();
-            RuleFor(c=>c.SignInManager).NotEmpty();
-            RuleFor(c=>c.UserManager).NotEmpty();
+            RuleFor(c => c.LoginReq.UserName).NotEmpty().WithMessage("Username cannot be empty");
+            RuleFor(c => c.LoginReq.Password).NotEmpty().WithMessage("Password cannot be empty");
         }
     }
 }

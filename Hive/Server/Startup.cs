@@ -1,6 +1,8 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using Hive.Domain;
+using Hive.Server.Application.Common.Behaviors;
+using Hive.Server.Application.Common.Middleware;
 using Hive.Server.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -43,8 +45,17 @@ namespace Hive.Server
                 };
             });
 
+            //MediatR
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
+            //AutoMapper
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            //Fluent Validation
+            //Add RequestValidationBehavior on every request
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+            //Add ExceptionHandlingMiddleware on every request
+            services.AddTransient<ExceptionHandlingMiddleware>();
             services.AddControllers().AddFluentValidation(s =>
             {
                 s.RegisterValidatorsFromAssemblyContaining<Startup>();
@@ -53,7 +64,6 @@ namespace Hive.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-
             services.AddSwaggerGen();
         }
 
@@ -77,6 +87,7 @@ namespace Hive.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseRouting();
             app.UseAuthentication();
