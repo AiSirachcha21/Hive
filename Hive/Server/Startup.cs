@@ -1,19 +1,15 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
-using Hive.Server.Application.Mappings;
-using Hive.Server.Domain;
+using Hive.Domain;
 using Hive.Server.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -48,10 +44,6 @@ namespace Hive.Server
             });
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
-
-            services.AddSingleton(new MapperConfiguration(
-                mc => mc.AddProfile(new MappingProfile())
-            ));
 
             services.AddControllers().AddFluentValidation(s =>
             {

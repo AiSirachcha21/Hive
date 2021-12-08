@@ -1,15 +1,11 @@
-﻿using Hive.Server.Application.Authentication.Commands.Login;
-using Hive.Server.Domain;
+﻿using Hive.Domain;
+using Hive.Server.Application.Authentication.Commands.Login;
 using Hive.Server.Infrastructure;
 using Hive.Shared;
-using Hive.Shared.Errors;
 using Hive.Shared.Login;
 using Hive.Shared.Registration;
 using MediatR;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;

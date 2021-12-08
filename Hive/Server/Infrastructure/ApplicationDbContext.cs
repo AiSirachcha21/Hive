@@ -1,4 +1,4 @@
-﻿using Hive.Server.Domain;
+﻿using Hive.Domain;
 using Hive.Shared;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

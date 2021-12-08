@@ -1,6 +1,6 @@
-﻿using Hive.Server.Application.Authentication.Commands.Login;
+﻿using Hive.Domain;
+using Hive.Server.Application.Authentication.Commands.Login;
 using Hive.Server.Application.Authentication.Commands.Register;
-using Hive.Server.Domain;
 using Hive.Shared.Login;
 using Hive.Shared.Registration;
 using Microsoft.AspNetCore.Authorization;

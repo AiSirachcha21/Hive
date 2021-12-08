@@ -1,9 +1,7 @@
-﻿using Hive.Server.Domain;
-using Hive.Server.Infrastructure;
+﻿using Hive.Domain;
 using Hive.Shared.Login;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
