@@ -23,6 +23,8 @@ namespace Hive.Server.Infrastructure
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+            builder.Entity<Organization>().HasIndex(o => o.Name).IsUnique();
+
             builder.Entity<OrganizationUser>()
                 .HasOne(u => u.Member)
                 .WithMany(u => u.OrganizationUsers)
