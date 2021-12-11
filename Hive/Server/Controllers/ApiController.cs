@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
 
 namespace Hive.Server.Controllers
 {
@@ -13,5 +14,6 @@ namespace Hive.Server.Controllers
 
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
         protected UserManager<ApplicationUser> ApplicationUser => _userManager ??= HttpContext.RequestServices.GetService<UserManager<ApplicationUser>>();
+        protected string UserId => User.FindFirst(ClaimTypes.NameIdentifier).Value;
     }
 }
