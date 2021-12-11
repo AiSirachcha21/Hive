@@ -5,6 +5,7 @@ using Hive.Shared.Organizations.QueryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Hive.Server.Controllers
@@ -14,19 +15,20 @@ namespace Hive.Server.Controllers
     [Authorize]
     public class OrganizationController : ApiController
     {
-        [HttpGet("{userId}")]
-        public async Task<ActionResult<IList<OrganzationViewModel>>> Get(string userId)
+        [HttpGet]
+        public async Task<ActionResult<IList<OrganzationViewModel>>> GetByUser()
         {
-            var result = await Mediator.Send(new GetOrganizationsQuery(userId));
-            if (result == null) return NoContent();
+            var result = await Mediator.Send(new GetOrganizationsQuery(UserId));
+            if (result == null || result.Count == 0) return NoContent();
 
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<CreateOrganizationViewModel>> Create([FromBody] CreateOrganizationCommand data)
+        public async Task<ActionResult<CreateOrganizationViewModel>> Create([FromBody] string organizationName)
         {
-            return Ok(await Mediator.Send(data));
+            var command = new CreateOrganizationCommand(orgName: organizationName, userId: UserId);
+            return Ok(await Mediator.Send(command));
         }
     }
 }
