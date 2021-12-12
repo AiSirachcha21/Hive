@@ -1,4 +1,5 @@
-﻿using Hive.Client.Services.Interfaces;
+﻿using Hive.Client.Services.Common;
+using Hive.Client.Services.Interfaces;
 using Hive.Shared.Login;
 using Hive.Shared.Registration;
 using System;
@@ -20,13 +21,13 @@ namespace Hive.Client.Services
 
         public async Task<CurrentUser> GetCurrentUserInfo()
         {
-            CurrentUser result = await _httpClient.GetFromJsonAsync<CurrentUser>("api/auth/getcurrentuserinfo");
+            CurrentUser result = await _httpClient.GetFromJsonAsync<CurrentUser>(ApiRoutes.GetCurrentUser);
             return result;
         }
 
         public async Task Login(LoginRequest request)
         {
-            var result = await _httpClient.PostAsJsonAsync("api/auth/login", request);
+            var result = await _httpClient.PostAsJsonAsync(ApiRoutes.Login, request);
             if (result.StatusCode == HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
 
             result.EnsureSuccessStatusCode();
@@ -34,13 +35,13 @@ namespace Hive.Client.Services
 
         public async Task Logout()
         {
-            var result = await _httpClient.PostAsync("api/auth/logout", null);
+            var result = await _httpClient.PostAsync(ApiRoutes.Logout, null);
             result.EnsureSuccessStatusCode();
         }
 
         public async Task Register(RegistrationRequest request)
         {
-            var result = await _httpClient.PostAsJsonAsync("api/auth/register", request);
+            var result = await _httpClient.PostAsJsonAsync(ApiRoutes.Register, request);
             if (result.StatusCode == HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
             result.EnsureSuccessStatusCode();
         }
