@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using Hive.Client.Services.Common
+@using Hive.Client.Shared.Constants
+@inherits LayoutComponentBase
 
 <style>
     .logo {
@@ -11,8 +13,10 @@
         <Authorized>
             <MudLayout>
                 <MudAppBar Color="@Color.Transparent" Elevation="1">
-                    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleDrawer())" />
-                    <img class="logo my-4" src="images/logo.svg" alt="Hive Logo" />
+                    <a href=@Routes.Index>
+
+                        <img class="logo my-4" src="images/logo.svg" alt="Hive Logo" />
+                    </a>
                     <MudSpacer />
                     <MudMenu Dense="true">
                         <ActivatorContent>
@@ -42,11 +46,3 @@
     </AuthorizeView>
 
 </div>
-
-@code {
-    string GenerateDisplayName(string name)
-    {
-        var splitName = name.Split(" ");
-        return splitName.First().First() + splitName.Last();
-    }
-}
