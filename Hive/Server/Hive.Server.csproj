@@ -43,6 +43,7 @@
   <ItemGroup>
     <Folder Include="Application\Authentication\Queries\" />
     <Folder Include="Application\Common\Interfaces\" />
+    <Folder Include="Application\Tickets\Commands\" />
   </ItemGroup>
 
 

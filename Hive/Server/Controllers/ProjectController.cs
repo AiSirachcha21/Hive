@@ -1,8 +1,8 @@
 ﻿using Hive.Domain;
 using Hive.Server.Application.Projects.Commands.CreateProject;
 using Hive.Server.Application.Projects.Queries.GetProject;
-using Hive.Server.Application.Projects.Queries.GetUserProject;
-using Hive.Server.Application.Projects.Queries.GetUsersByProjectId;
+using Hive.Server.Application.Projects.Queries.GetUserProjects;
+using Hive.Server.Application.Projects.Queries.GetProjectUsersByProjectId;
 using Hive.Shared.Projects.Commands;
 using Hive.Shared.Projects.Queries;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +35,7 @@ namespace Hive.Server.Controllers
         [Route("[action]")]
         public async Task<ActionResult<IList<ProjectDisplayViewModel>>> GetUserProjects(Guid organizationId)
         {
-            var result = await Mediator.Send(new GetUserProjectsCommand(organizationId, UserId));
+            var result = await Mediator.Send(new GetUserProjectsQuery(organizationId, UserId));
 
             if (result.Count == 0 || result == null)
                 return NoContent();

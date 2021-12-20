@@ -13,7 +13,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Hive.Server.Application.Projects.Queries.GetUsersByProjectId
+namespace Hive.Server.Application.Projects.Queries.GetProjectUsersByProjectId
 {
     public record GetUsersByProjectIdQuery(Guid projectId) : IRequest<List<ProjectUserViewModel>>;
 

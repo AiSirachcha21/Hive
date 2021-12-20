@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using Hive.Domain;
-using Hive.Server.Application.Projects.Queries.GetProjectStatisticsOverview;
-using Hive.Server.Application.Projects.Queries.GetUsersByProjectId;
+﻿using Hive.Server.Application.Projects.Queries.GetProjectStatisticsOverview;
+using Hive.Server.Application.Projects.Queries.GetProjectUsersByProjectId;
 using Hive.Server.Infrastructure;
 using Hive.Shared.Projects.Queries;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
