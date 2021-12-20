@@ -31,7 +31,7 @@ namespace Hive.Server.Application.Projects.Queries.GetProjectStatisticsOverview
             var ticketTimes = tickets.Select(t =>
             {
                 var createdDate = t.CreatedAt.Date;
-                var lastModifiedDate = t.LastModfied.HasValue ? t.LastModfied.Value.Date : t.CreatedAt;
+                var lastModifiedDate = t.LastModfied.Date;
                 return (createdDate - lastModifiedDate).TotalHours;
             });
 
