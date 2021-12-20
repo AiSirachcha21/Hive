@@ -20,6 +20,19 @@ namespace Hive.Server.Controllers
     public class ProjectController : ApiController
     {
         [HttpGet]
+        [Route("{projectId:Guid}")]
+        public async Task<ActionResult<ProjectViewModel>> Get(Guid projectId)
+        {
+            var result = await Mediator.Send(new GetProjectQuery(projectId));
+            if (result == null)
+            {
+                return NoContent();
+            }
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("[action]")]
         public async Task<ActionResult<IList<ProjectDisplayViewModel>>> GetUserProjects(Guid organizationId)
         {
             var result = await Mediator.Send(new GetUserProjectsCommand(organizationId, UserId));

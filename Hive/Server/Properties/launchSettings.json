@@ -20,6 +20,7 @@
       "commandName": "Project",
       "commandLineArgs": "watch",
       "launchBrowser": true,
+      "launchUrl": "https://localhost:5001/swagger/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
