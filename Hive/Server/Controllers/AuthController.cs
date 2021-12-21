@@ -28,24 +28,14 @@ namespace Hive.Server.Controllers
         {
             LoginResponse res = await Mediator.Send(new LoginCommand(request, _userManager, _signInManager));
             int errorCode = res.StatusCode;
-
-            IActionResult response;
-
-            switch (errorCode)
+            IActionResult response = errorCode switch
             {
-                case 400:
-                    response = BadRequest(res.Message);
-                    break;
-
-                case 200:
-                default:
-                    response = Ok(res.Message);
-                    break;
-            }
-
+                400 => BadRequest(res.Message),
+                _ => Ok(res.Message),
+            };
             return response;
         }
-    
+
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
         {

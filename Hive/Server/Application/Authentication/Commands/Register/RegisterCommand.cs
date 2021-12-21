@@ -16,15 +16,15 @@ namespace Hive.Server.Application.Authentication.Commands.Register
 {
     public record RegisterCommand : IRequest<RegisterCommandViewModel>
     {
-        private readonly RegistrationRequest regReq;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly RegistrationRequest _regReq;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public RegisterCommand(RegistrationRequest regReq, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            this.regReq = regReq;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _regReq = regReq;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterCommandViewModel>
@@ -40,14 +40,14 @@ namespace Hive.Server.Application.Authentication.Commands.Register
 
             public async Task<RegisterCommandViewModel> Handle(RegisterCommand request, CancellationToken cancellationToken)
             {
-                ApplicationUser user = new ApplicationUser();
-                RegisterCommandViewModel dto = new RegisterCommandViewModel();
-                user.UserName = request.regReq.Email;
-                user.Email = request.regReq.Email;
-                user.FirstName = request.regReq.FirstName;
-                user.LastName = request.regReq.LastName;
+                ApplicationUser user = new();
+                RegisterCommandViewModel dto = new();
+                user.UserName = request._regReq.Email;
+                user.Email = request._regReq.Email;
+                user.FirstName = request._regReq.FirstName;
+                user.LastName = request._regReq.LastName;
 
-                var result = await request.userManager.CreateAsync(user, request.regReq.Password);
+                var result = await request._userManager.CreateAsync(user, request._regReq.Password);
 
 
                 if (!result.Succeeded)
@@ -56,8 +56,8 @@ namespace Hive.Server.Application.Authentication.Commands.Register
                     return dto;
                 }
 
-                var addToRolesResult = await request.userManager.AddToRoleAsync(user, UserRoles.SystemAdmin);
-                var attachIdToClaimsResult = await request.userManager.AddClaimAsync(user, new Claim("id", user.Id));
+                var addToRolesResult = await request._userManager.AddToRoleAsync(user, UserRoles.SystemAdmin);
+                var attachIdToClaimsResult = await request._userManager.AddClaimAsync(user, new Claim("id", user.Id));
 
                 if (!addToRolesResult.Succeeded || !attachIdToClaimsResult.Succeeded)
                 {
@@ -65,10 +65,10 @@ namespace Hive.Server.Application.Authentication.Commands.Register
                     return dto;
                 }
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
 
-                LoginRequest loginRequest = new() { UserName = request.regReq.Email, Password = request.regReq.Password, RememberMe = false };
-                LoginResponse loginResult = await _mediator.Send(new LoginCommand(loginRequest, request.userManager, request.signInManager));
+                LoginRequest loginRequest = new() { UserName = request._regReq.Email, Password = request._regReq.Password, RememberMe = false };
+                LoginResponse loginResult = await _mediator.Send(new LoginCommand(loginRequest, request._userManager, request._signInManager), cancellationToken);
 
                 dto.Data = loginResult;
 

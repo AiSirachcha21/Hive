@@ -10,7 +10,7 @@ namespace Hive.Server.Application.Common.Mapping
 {
     public class TicketMappingProfile : Profile
     {
-        private const string TicketDateTimeFormat = "MMM dd, yyyy";
+        private const string _ticketDateTimeFormat = "MMM dd, yyyy";
 
         public TicketMappingProfile()
         {
@@ -19,7 +19,7 @@ namespace Hive.Server.Application.Common.Mapping
 
             CreateMap<Ticket, TicketViewModel>()
                 .ForMember(dto => dto.AssignedUserName, target => target.Ignore())
-                .ForMember(dto => dto.LastUpdated, target => target.MapFrom(t => t.LastModfied.ToString(TicketDateTimeFormat)));
+                .ForMember(dto => dto.LastUpdated, target => target.MapFrom(t => t.LastModfied.ToString(_ticketDateTimeFormat)));
 
             CreateMap<ApplicationUser, TicketUserViewModel>()
                 .ForMember(dto => dto.Name, target => target.MapFrom(t => $"{t.FirstName} {t.LastName.First()}"));

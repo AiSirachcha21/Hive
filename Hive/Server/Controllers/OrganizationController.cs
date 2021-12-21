@@ -5,7 +5,6 @@ using Hive.Shared.Organizations.QueryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Hive.Server.Controllers
@@ -27,7 +26,7 @@ namespace Hive.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateOrganizationViewModel>> Create([FromBody] string organizationName)
         {
-            var command = new CreateOrganizationCommand(orgName: organizationName, userId: UserId);
+            var command = new CreateOrganizationCommand(OrgName: organizationName, UserId: UserId);
             return Ok(await Mediator.Send(command));
         }
     }

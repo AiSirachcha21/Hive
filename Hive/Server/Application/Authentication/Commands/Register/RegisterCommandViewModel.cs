@@ -1,5 +1,4 @@
-﻿using Hive.Shared.Errors;
-using Hive.Shared.Login;
+﻿using Hive.Shared.Login;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 

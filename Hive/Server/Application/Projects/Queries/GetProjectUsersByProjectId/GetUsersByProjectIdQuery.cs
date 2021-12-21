@@ -6,7 +6,6 @@ using Hive.Shared;
 using Hive.Shared.Projects.Queries;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +14,17 @@ using System.Threading.Tasks;
 
 namespace Hive.Server.Application.Projects.Queries.GetProjectUsersByProjectId
 {
-    public record GetUsersByProjectIdQuery(Guid projectId) : IRequest<List<ProjectUserViewModel>>;
+    public record GetUsersByProjectIdQuery(Guid ProjectId) : IRequest<List<ProjectUserViewModel>>;
 
     public class GetUsersByProjectIdQueryHandler : IRequestHandler<GetUsersByProjectIdQuery, List<ProjectUserViewModel>>
     {
-        private readonly ApplicationDbContext context;
-        private readonly MapperConfiguration mapperConfiguration;
+        private readonly ApplicationDbContext _context;
+        private readonly MapperConfiguration _mapperConfiguration;
 
         public GetUsersByProjectIdQueryHandler(ApplicationDbContext context)
         {
-            this.context = context;
-            mapperConfiguration = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, ProjectUserViewModel>()
+            _context = context;
+            _mapperConfiguration = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, ProjectUserViewModel>()
             .ForMember(dto => dto.Id, target => target.MapFrom(t => t.Id))
             .ForMember(dto => dto.UserName, target => target.MapFrom(t => $"{t.FirstName} {t.LastName}"))
             .ForMember(dto => dto.Role, target => target.Ignore()));
@@ -33,15 +32,15 @@ namespace Hive.Server.Application.Projects.Queries.GetProjectUsersByProjectId
 
         public async Task<List<ProjectUserViewModel>> Handle(GetUsersByProjectIdQuery request, CancellationToken cancellationToken)
         {
-            List<string> projectUsers = await context.ProjectUsers
-                .Where(pu => pu.ProjectId == request.projectId)
+            List<string> projectUsers = await _context.ProjectUsers
+                .Where(pu => pu.ProjectId == request.ProjectId)
                 .Select(pu => pu.MemberId)
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
 
-            var users = await context.Users
+            var users = await _context.Users
                 .Where(u => projectUsers.Any(puId => u.Id == puId))
-                .ProjectTo<ProjectUserViewModel>(mapperConfiguration)
-                .ToListAsync();
+                .ProjectTo<ProjectUserViewModel>(_mapperConfiguration)
+                .ToListAsync(cancellationToken: cancellationToken);
 
             var conversionTasks = new List<Task<ProjectUserViewModel>>();
             var convertedUsers = new List<ProjectUserViewModel>();
@@ -61,8 +60,8 @@ namespace Hive.Server.Application.Projects.Queries.GetProjectUsersByProjectId
 
         private Task<ProjectUserViewModel> AddRolesToViewModelsAsync(ProjectUserViewModel projectUser)
         {
-            string roleId = context.UserRoles.SingleOrDefault(ur => ur.UserId == projectUser.Id).RoleId;
-            string role = context.Roles.SingleOrDefault(r => r.Id == roleId).Name;
+            string roleId = _context.UserRoles.SingleOrDefault(ur => ur.UserId == projectUser.Id).RoleId;
+            string role = _context.Roles.SingleOrDefault(r => r.Id == roleId).Name;
             string fullRoleName = GetFullRoleName(role);
 
             projectUser.Role = fullRoleName;
@@ -70,7 +69,7 @@ namespace Hive.Server.Application.Projects.Queries.GetProjectUsersByProjectId
             return Task.FromResult(projectUser);
         }
 
-        private string GetFullRoleName(string role) => role switch
+        private static string GetFullRoleName(string role) => role switch
         {
             UserRoles.SystemAdmin => UserRoles.SystemAdminFull,
             UserRoles.ProjectOwner => UserRoles.ProjectOwnerFull,

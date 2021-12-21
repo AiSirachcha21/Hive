@@ -1,15 +1,15 @@
-﻿using MediatR;
-using Hive.Shared.Projects.Queries;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-using Hive.Server.Infrastructure;
-using AutoMapper;
-using System.Linq;
-using System;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Hive.Domain;
+using Hive.Server.Infrastructure;
+using Hive.Shared.Projects.Queries;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Hive.Server.Application.Projects.Queries.GetUserProjects
 {
@@ -31,7 +31,7 @@ namespace Hive.Server.Application.Projects.Queries.GetUserProjects
             var projects = await _context.Projects
                 .Where(p => p.OrganizationId == request.OrganizationId && p.ProjectUsers.Any(pu => pu.MemberId == request.UserId))
                 .ProjectTo<ProjectDisplayViewModel>(_mapperConfiguration)
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
 
             return projects;
         }

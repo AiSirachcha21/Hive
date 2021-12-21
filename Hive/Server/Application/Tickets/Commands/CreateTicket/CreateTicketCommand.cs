@@ -25,8 +25,8 @@ namespace Hive.Server.Application.Tickets.Commands.CreateTicket
         {
             var ticket = _mapper.Map<Ticket>(request);
 
-            await _context.Tickets.AddAsync(ticket);
-            await _context.SaveChangesAsync();
+            await _context.Tickets.AddAsync(ticket, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

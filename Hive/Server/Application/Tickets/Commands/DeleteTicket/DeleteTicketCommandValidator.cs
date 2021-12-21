@@ -19,7 +19,7 @@ namespace Hive.Server.Application.Tickets.Commands.DeleteTicket
                 .MustAsync(BeValidTicket).WithMessage("Ticket doesn't exist");
         }
 
-        private async Task<bool> BeValidTicket(Guid id, CancellationToken cancellationToken) 
+        private async Task<bool> BeValidTicket(Guid id, CancellationToken cancellationToken)
             => await _context.Tickets.FindAsync(id) != null;
     }
 }

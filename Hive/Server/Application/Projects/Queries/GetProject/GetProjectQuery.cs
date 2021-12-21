@@ -10,25 +10,25 @@ using System.Threading.Tasks;
 
 namespace Hive.Server.Application.Projects.Queries.GetProject
 {
-    public record GetProjectQuery(Guid projectId) : IRequest<ProjectViewModel>;
+    public record GetProjectQuery(Guid ProjectId) : IRequest<ProjectViewModel>;
 
     public class GetProjectQueryHandler : IRequestHandler<GetProjectQuery, ProjectViewModel>
     {
-        private readonly ApplicationDbContext context;
-        private readonly IMediator mediator;
+        private readonly ApplicationDbContext _context;
+        private readonly IMediator _mediator;
 
         public GetProjectQueryHandler(ApplicationDbContext context, IMediator mediator)
         {
-            this.context = context;
-            this.mediator = mediator;
+            _context = context;
+            _mediator = mediator;
         }
 
         public async Task<ProjectViewModel> Handle(GetProjectQuery request, CancellationToken cancellationToken)
         {
-            var project = await context.Projects.FindAsync(request.projectId);
-            var organization = await context.Organizations.FindAsync(project.OrganizationId);
-            var members = await mediator.Send(new GetUsersByProjectIdQuery(request.projectId));
-            var projectStatistics = await mediator.Send(new GetProjectStatisticsOverviewQuery(request.projectId));
+            var project = await _context.Projects.FindAsync(request.ProjectId);
+            var organization = await _context.Organizations.FindAsync(project.OrganizationId);
+            var members = await _mediator.Send(new GetUsersByProjectIdQuery(request.ProjectId), cancellationToken);
+            var projectStatistics = await _mediator.Send(new GetProjectStatisticsOverviewQuery(request.ProjectId), cancellationToken);
 
             return new ProjectViewModel()
             {

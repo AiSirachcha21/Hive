@@ -14,11 +14,11 @@ namespace Hive.Server.Application.Organizations.Commands.CreateOrganization
         {
             _context = context;
 
-            RuleFor(c => c.orgName)
+            RuleFor(c => c.OrgName)
                 .NotEmpty().WithMessage("Organization Name is Compulsory")
                 .MustAsync(NotBeDuplicateOrgName).WithMessage("Organization Name already exists. Try making the name more unique");
 
-            RuleFor(c => c.userId)
+            RuleFor(c => c.UserId)
                 .NotEmpty()
                 .MustAsync(HaveValidUser).WithMessage("User does not exist");
         }

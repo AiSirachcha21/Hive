@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Hive.Domain;
 using Hive.Server.Infrastructure;
 using Hive.Shared.Tickets.Queries;
 using MediatR;
@@ -30,7 +29,7 @@ namespace Hive.Server.Application.Tickets.Queries.GetTicketsByProjectId
         {
             var tickets = await _context.Tickets.Where(t => t.ProjectId == request.ProjectId)
                 .ProjectTo<TicketViewModel>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
             return tickets;
         }
     }

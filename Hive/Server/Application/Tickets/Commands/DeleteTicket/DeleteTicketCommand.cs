@@ -22,7 +22,7 @@ namespace Hive.Server.Application.Tickets.Commands.DeleteTicket
         {
             Ticket ticket = await _context.Tickets.FindAsync(request.Id);
             _context.Tickets.Remove(ticket);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Hive.Domain;
+﻿using Hive.Domain;
 using Hive.Server.Infrastructure;
 using Hive.Shared.Organizations.CommandViewModels;
 using MediatR;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hive.Server.Application.Organizations.Commands.CreateOrganization
 {
-    public record CreateOrganizationCommand(string userId, string orgName) : IRequest<CreateOrganizationViewModel>;
+    public record CreateOrganizationCommand(string UserId, string OrgName) : IRequest<CreateOrganizationViewModel>;
 
     public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, CreateOrganizationViewModel>
     {
@@ -22,7 +21,7 @@ namespace Hive.Server.Application.Organizations.Commands.CreateOrganization
         {
             Guid newOrgId = Guid.NewGuid();
 
-            var sysAdmin = await _context.Users.FindAsync(request.userId);
+            var sysAdmin = await _context.Users.FindAsync(request.UserId);
             List<OrganizationUser> members = new();
 
             members.Add(new OrganizationUser
@@ -35,16 +34,16 @@ namespace Hive.Server.Application.Organizations.Commands.CreateOrganization
             Organization org = new()
             {
                 Id = newOrgId,
-                Name = request.orgName,
+                Name = request.OrgName,
                 Members = members,
                 Projects = new List<Project>(),
-                SystemAdminId = request.userId,
+                SystemAdminId = request.UserId,
             };
 
-            await _context.Organizations.AddAsync(org);
+            await _context.Organizations.AddAsync(org, cancellationToken);
 
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return new CreateOrganizationViewModel { Id = org.Id, Name = org.Name };
 
         }

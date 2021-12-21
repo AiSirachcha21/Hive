@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Hive.Domain;
 using Hive.Server.Infrastructure;
-using Hive.Shared.Tickets.Queries;
 using MediatR;
 using System;
 using System.Threading;
@@ -35,7 +34,7 @@ namespace Hive.Server.Application.Tickets.Commands.UpdateTicket
             newTicket.LastModfied = DateTime.Now;
 
             _context.Tickets.Update(newTicket);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

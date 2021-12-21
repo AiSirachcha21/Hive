@@ -3,7 +3,6 @@ using Hive.Server.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using HiveApplicationException = Hive.Domain.Errors.ApplicationException;
@@ -36,7 +35,7 @@ namespace Hive.Server.Application.Common.Middleware
         {
             int statusCode = GetStatusCode(e);
 
-            RequestValidationError response = new (GetTitle(e),statusCode,e.Message,GetErrors(e));
+            RequestValidationError response = new(GetTitle(e), statusCode, e.Message, GetErrors(e));
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;

@@ -44,8 +44,8 @@ namespace Hive.Server.Application.Projects.Commands.CreateProject
             project.ProjectUsers = projectUsers;
 
 
-            await _context.Projects.AddAsync(project);
-            await _context.SaveChangesAsync();
+            await _context.Projects.AddAsync(project, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<CreateProjectViewModel>(project);
         }

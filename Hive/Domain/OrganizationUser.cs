@@ -1,5 +1,4 @@
-﻿using Hive.Domain;
-using System;
+﻿using System;
 
 namespace Hive.Domain
 {

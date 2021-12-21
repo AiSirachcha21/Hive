@@ -1,8 +1,8 @@
 ﻿using Hive.Domain;
 using Hive.Server.Application.Projects.Commands.CreateProject;
 using Hive.Server.Application.Projects.Queries.GetProject;
-using Hive.Server.Application.Projects.Queries.GetUserProjects;
 using Hive.Server.Application.Projects.Queries.GetProjectUsersByProjectId;
+using Hive.Server.Application.Projects.Queries.GetUserProjects;
 using Hive.Shared.Projects.Commands;
 using Hive.Shared.Projects.Queries;
 using Microsoft.AspNetCore.Authorization;

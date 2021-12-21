@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Hive.Domain.Errors;
+﻿using Hive.Domain.Errors;
 
 namespace Hive.Server.Application.Common.Exceptions
 {
