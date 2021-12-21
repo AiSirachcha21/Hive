@@ -15,30 +15,21 @@ namespace Hive.Server.Application.Tickets.Queries.GetTicketsByProjectId
 {
     public record GetTicketsByProjectIdQuery(Guid ProjectId) : IRequest<List<TicketViewModel>>;
 
-    public class GetByProjectIdQueryHandler : IRequestHandler<GetTicketsByProjectIdQuery, List<TicketViewModel>>
+    public class GetTicketsByProjectIdQueryHandler : IRequestHandler<GetTicketsByProjectIdQuery, List<TicketViewModel>>
     {
         private readonly ApplicationDbContext context;
-        private readonly MapperConfiguration mapperConfiguration;
-        private const string TicketDateTimeFormat = "MMM dd, yyyy";
+        private readonly IMapper _mapper;
 
-        public GetByProjectIdQueryHandler(ApplicationDbContext context)
+        public GetTicketsByProjectIdQueryHandler(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
-            mapperConfiguration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Ticket, TicketViewModel>()
-                .ForMember(dto => dto.AssignedUserName, target => target.Ignore())
-                .ForMember(dto => dto.LastUpdated, target => target.MapFrom(t => t.LastModfied.ToString(TicketDateTimeFormat)));
-
-                cfg.CreateMap<ApplicationUser, TicketUserViewModel>()
-                .ForMember(dto => dto.Name, target => target.MapFrom(t => $"{t.FirstName} {t.LastName.First()}"));
-            });
+            _mapper = mapper;
         }
 
         public async Task<List<TicketViewModel>> Handle(GetTicketsByProjectIdQuery request, CancellationToken cancellationToken)
         {
             var tickets = await context.Tickets.Where(t => t.ProjectId == request.ProjectId)
-                .ProjectTo<TicketViewModel>(mapperConfiguration)
+                .ProjectTo<TicketViewModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
             return tickets;
         }
