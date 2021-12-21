@@ -22,42 +22,32 @@ namespace Hive.Server.Application.Projects.Commands.CreateProject
     public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, CreateProjectViewModel>
     {
         private readonly ApplicationDbContext _context;
-        private readonly MapperConfiguration _mapperConfiguration;
+        private readonly IMapper _mapper;
 
-        public CreateProjectCommandHandler(ApplicationDbContext context)
+        public CreateProjectCommandHandler(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
-            _mapperConfiguration = new MapperConfiguration(cfg => cfg.CreateMap<Project, CreateProjectViewModel>());
+            _mapper = mapper;
         }
 
         public async Task<CreateProjectViewModel> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
-            List<ProjectUser> projectUsers = new();
-            Guid projectId = Guid.NewGuid();
-
-            var project = new Project
+            Project project = _mapper.Map<CreateProjectCommand, Project>(request);
+            ProjectUser initialUser = new()
             {
-                Id = projectId,
-                Name = request.Name,
-                Description = request.Description,
-                OrganizationId = request.OrganizationId,
-                ProjectOwnerId = request.ProjectOwnerId,
-                ProjectUsers = projectUsers
+                Id = Guid.NewGuid(),
+                MemberId = request.UserId,
+                ProjectId = project.Id
             };
 
-            project.ProjectUsers.Add(
-                new()
-                {
-                    Id = Guid.NewGuid(),
-                    MemberId = request.UserId,
-                    ProjectId = projectId
-                });
+            List<ProjectUser> projectUsers = new() { initialUser };
+            project.ProjectUsers = projectUsers;
+
 
             await _context.Projects.AddAsync(project);
-
             await _context.SaveChangesAsync();
 
-            return new CreateProjectViewModel { Id = project.Id, Name = project.Name };
+            return _mapper.Map<CreateProjectViewModel>(project);
         }
     }
 }
