@@ -15,12 +15,12 @@ namespace Hive.Client.Services
     /// </summary>
     public class AuthStateProvider : AuthenticationStateProvider
     {
-        private readonly IAuthService api;
+        private readonly IAuthService _api;
         private CurrentUser _currentUser;
 
         public AuthStateProvider(IAuthService api)
         {
-            this.api = api;
+            _api = api;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -49,23 +49,23 @@ namespace Hive.Client.Services
         private async Task<CurrentUser> GetCurrentUser()
         {
             if (_currentUser != null && _currentUser.IsAuthenticated) return _currentUser;
-            _currentUser = await api.GetCurrentUserInfo();
+            _currentUser = await _api.GetCurrentUserInfo();
             return _currentUser;
         }
         public async Task Logout()
         {
-            await api.Logout();
+            await _api.Logout();
             _currentUser = null;
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
         public async Task Login(LoginRequest loginParameters)
         {
-            await api.Login(loginParameters);
+            await _api.Login(loginParameters);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
         public async Task Register(RegistrationRequest registerParameters)
         {
-            await api.Register(registerParameters);
+            await _api.Register(registerParameters);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
     }

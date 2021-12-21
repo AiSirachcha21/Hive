@@ -5,21 +5,21 @@ namespace Hive.Client.Services.Common
     public static class ApiRoutes
     {
         // Authentication
-        private static readonly string AuthBaseUrl = "api/auth";
-        public static readonly string GetCurrentUser = $"{AuthBaseUrl}/getcurrentuserinfo";
-        public static readonly string Login = $"{AuthBaseUrl}/login";
-        public static readonly string Register = $"{AuthBaseUrl}/register";
-        public static readonly string Logout = $"{AuthBaseUrl}/logout";
+        private const string _authBaseUrl = "api/auth";
+        public const string GetCurrentUser = $"{_authBaseUrl}/getcurrentuserinfo";
+        public const string Login = $"{_authBaseUrl}/login";
+        public const string Register = $"{_authBaseUrl}/register";
+        public const string Logout = $"{_authBaseUrl}/logout";
 
         // Organization
-        private static readonly string OrganizationBaseUrl = "api/Organization";
-        public static readonly string CreateOrganization = $"{OrganizationBaseUrl}";
-        public static readonly string GetOrganizations = $"{OrganizationBaseUrl}";
+        private const string _organizationBaseUrl = "api/Organization";
+        public const string CreateOrganization = $"{_organizationBaseUrl}";
+        public const string GetOrganizations = $"{_organizationBaseUrl}";
 
         // Project
-        private static readonly string ProjectBaseUrl = "api/Project";
-        public static string GetProject(Guid organizationId) => $"{ProjectBaseUrl}/{organizationId}";
-        public static readonly string CreateProject = $"{ProjectBaseUrl}";
+        private const string _projectBaseUrl = "api/Project";
+        public static string GetProject(Guid organizationId) => $"{_projectBaseUrl}/{organizationId}";
+        public const string CreateProject = $"{_projectBaseUrl}";
 
     }
 }

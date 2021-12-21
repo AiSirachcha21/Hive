@@ -1,18 +1,15 @@
-﻿using Hive.Client.Services;
-using Hive.Client.Services.Common;
+﻿using Hive.Client.Services.Common;
 using Hive.Client.Shared.Constants;
 using Hive.Client.Shared.Entities;
 using Hive.Shared.Organizations.QueryViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Extensions.Logging;
 using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Hive.Client.Shared
@@ -36,10 +33,6 @@ namespace Hive.Client.Shared
         public HttpClient Http { get; set; }
         private ISnackbar Snackbar { get; set; }
         public List<OrganzationViewModel> Organizations { get; set; } = new List<OrganzationViewModel>();
-
-        private Regex _organizationIndexRegex = new(@"(?im)^http[s]?://([A-Z]+):[\d]+/[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$");
-
-
 
         protected async Task ExpansionToggleClicked()
         {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Hive.Client.Shared.Constants
+﻿namespace Hive.Client.Shared.Constants
 {
     public static class Routes
     {

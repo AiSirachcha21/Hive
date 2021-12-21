@@ -1,14 +1,12 @@
 ﻿using Hive.Client.Services;
 using Hive.Shared.Registration;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using System.Net;
-using System;
 using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Hive.Client.Pages.Authentication
 {
@@ -37,7 +35,7 @@ namespace Hive.Client.Pages.Authentication
             }
             catch (Exception ex)
             {
-                Errors= JsonConvert.DeserializeObject<List<IdentityError>>(ex.Message).Select(e => e.Description).ToList();
+                Errors = JsonConvert.DeserializeObject<List<IdentityError>>(ex.Message).Select(e => e.Description).ToList();
             }
         }
     }
