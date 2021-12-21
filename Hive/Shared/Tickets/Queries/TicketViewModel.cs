@@ -14,7 +14,7 @@ namespace Hive.Shared.Tickets.Queries
         public string Description { get; set; }
         public string AssignedUserId { get; set; }
         public string AssignedUserName { get; set; }
-        public TicketStatus TicketStatus { get; set; }
+        public TicketStatus Status { get; set; }
         public string LastUpdated { get; set; }
     }
 }
