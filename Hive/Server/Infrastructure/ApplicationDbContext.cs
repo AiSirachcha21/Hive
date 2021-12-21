@@ -49,8 +49,6 @@ namespace Hive.Server.Infrastructure
                 .HasForeignKey(x => x.ProjectId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            //TODO: There is a issue where the Project Table is creating a ProjectOwnerId and ProjectOwnerId1 column in the DB. This needs to be fixed before proceeding
-
             base.OnModelCreating(builder);
 
             builder.SeedUserRoles();
