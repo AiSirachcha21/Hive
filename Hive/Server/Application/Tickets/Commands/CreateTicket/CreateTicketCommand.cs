@@ -12,27 +12,21 @@ namespace Hive.Server.Application.Tickets.Commands.CreateTicket
 
     public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, Unit>
     {
-        private readonly ApplicationDbContext context;
+        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CreateTicketCommandHandler(ApplicationDbContext context)
+        public CreateTicketCommandHandler(ApplicationDbContext context, IMapper mapper)
         {
-            this.context = context;
+            _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
         {
-            var ticket = new Ticket
-            {
-                Id = Guid.NewGuid(),
-                ProjectId = request.ProjectId,
-                Title = request.Title,
-                Description = request.Description,
-                AssignedUserId = request.AssignedUserId,
-                TicketStatus = TicketStatus.NotStarted,
-            };
+            var ticket = _mapper.Map<Ticket>(request);
 
-            await context.Tickets.AddAsync(ticket);
-            await context.SaveChangesAsync();
+            await _context.Tickets.AddAsync(ticket);
+            await _context.SaveChangesAsync();
 
             return Unit.Value;
         }

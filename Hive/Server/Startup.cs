@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation.AspNetCore;
 using Hive.Domain;
 using Hive.Server.Application.Common.Behaviors;
+using Hive.Server.Application.Common.Mapping;
 using Hive.Server.Application.Common.Middleware;
 using Hive.Server.Infrastructure;
 using MediatR;
@@ -50,6 +51,11 @@ namespace Hive.Server
 
             //AutoMapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            var mapperConfig = new MapperConfiguration(options =>
+            {
+                options.AddProfile(new TicketMappingProfile());
+            });
+            services.AddSingleton(mapperConfig.CreateMapper());
 
             //Fluent Validation
             //Add RequestValidationBehavior on every request
