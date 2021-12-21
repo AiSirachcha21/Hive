@@ -17,18 +17,18 @@ namespace Hive.Server.Application.Tickets.Queries.GetTicketsByProjectId
 
     public class GetTicketsByProjectIdQueryHandler : IRequestHandler<GetTicketsByProjectIdQuery, List<TicketViewModel>>
     {
-        private readonly ApplicationDbContext context;
+        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
         public GetTicketsByProjectIdQueryHandler(ApplicationDbContext context, IMapper mapper)
         {
-            this.context = context;
+            _context = context;
             _mapper = mapper;
         }
 
         public async Task<List<TicketViewModel>> Handle(GetTicketsByProjectIdQuery request, CancellationToken cancellationToken)
         {
-            var tickets = await context.Tickets.Where(t => t.ProjectId == request.ProjectId)
+            var tickets = await _context.Tickets.Where(t => t.ProjectId == request.ProjectId)
                 .ProjectTo<TicketViewModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
             return tickets;
