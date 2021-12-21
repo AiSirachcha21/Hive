@@ -54,6 +54,7 @@ namespace Hive.Server
             var mapperConfig = new MapperConfiguration(options =>
             {
                 options.AddProfile(new TicketMappingProfile());
+                options.AddProfile(new ProjectMappingProfile());
             });
             services.AddSingleton(mapperConfig.CreateMapper());
 
