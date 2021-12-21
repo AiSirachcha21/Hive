@@ -1,4 +1,5 @@
 ﻿using Hive.Server.Application.Tickets.Commands.CreateTicket;
+using Hive.Server.Application.Tickets.Commands.DeleteTicket;
 using Hive.Server.Application.Tickets.Commands.UpdateTicket;
 using Hive.Server.Application.Tickets.Queries.GetTicketsByProjectId;
 using Hive.Shared.Tickets.Queries;
@@ -44,6 +45,13 @@ namespace Hive.Server.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(DeleteTicketCommand command)
+        {
+            await Mediator.Send(command);
+            return Ok();
         }
     }
 }
