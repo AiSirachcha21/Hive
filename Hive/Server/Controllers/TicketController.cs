@@ -1,5 +1,5 @@
-﻿using Hive.Domain;
-using Hive.Server.Application.Tickets.Commands.CreateTicket;
+﻿using Hive.Server.Application.Tickets.Commands.CreateTicket;
+using Hive.Server.Application.Tickets.Commands.UpdateTicket;
 using Hive.Server.Application.Tickets.Queries.GetTicketsByProjectId;
 using Hive.Shared.Tickets.Queries;
 using MediatR;
@@ -19,6 +19,14 @@ namespace Hive.Server.Controllers
         [HttpPost]
         [Route("[action]")]
         public async Task<ActionResult<Unit>> Create([FromBody] CreateTicketCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpPut]
+        [Route("[action]")]
+        public async Task<ActionResult<Unit>> Update([FromBody] UpdateTicketCommand command)
         {
             var result = await Mediator.Send(command);
             return Ok(result);
