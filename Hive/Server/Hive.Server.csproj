@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Domain\Hive.Domain.csproj" />
+    <ProjectReference Include="..\Domain\Hive.Domain.csproj" />
     <ProjectReference Include="..\Client\Hive.Client.csproj" />
     <ProjectReference Include="..\Shared\Hive.Shared.csproj" />
   </ItemGroup>
