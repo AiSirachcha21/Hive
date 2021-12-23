@@ -29,25 +29,25 @@ namespace Hive.Server.Infrastructure
                 .HasOne(u => u.Member)
                 .WithMany(u => u.OrganizationUsers)
                 .HasForeignKey(u => u.MemberId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<OrganizationUser>()
                 .HasOne(x => x.Organization)
                 .WithMany(x => x.Members)
                 .HasForeignKey(x => x.OrganizationId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ProjectUser>()
                 .HasOne(x => x.Member)
                 .WithMany(x => x.ProjectUsers)
                 .HasForeignKey(x => x.MemberId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ProjectUser>()
                 .HasOne(x => x.Project)
                 .WithMany(x => x.ProjectUsers)
                 .HasForeignKey(x => x.ProjectId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(builder);
 
