@@ -15,7 +15,7 @@ namespace Hive.Server.Application.Users.Commands.RemoveRoleFromUser
             _context = context;
 
             RuleFor(c => c)
-                .MustAsync(BeAUserRole).WithMessage("User with Role already exists");
+                .MustAsync(BeAUserRole).WithMessage("User with Role does not exist");
         }
 
         private async Task<bool> BeAUserRole(RemoveRoleFromUserCommand command, CancellationToken cancellationToken)
