@@ -1,6 +1,7 @@
 ﻿using Hive.Domain;
 using Hive.Server.Application.Projects.Commands.CreateProject;
 using Hive.Server.Application.Projects.Commands.DeleteProject;
+using Hive.Server.Application.Projects.Commands.UpdateProject;
 using Hive.Server.Application.Projects.Queries.GetProject;
 using Hive.Server.Application.Projects.Queries.GetProjectUsersByProjectId;
 using Hive.Server.Application.Projects.Queries.GetUserProjects;
@@ -75,6 +76,13 @@ namespace Hive.Server.Controllers
         public async Task<ActionResult> Delete(Guid projectId)
         {
             var result = await Mediator.Send(new DeleteProjectCommand(projectId));
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(UpdateProjectCommand command)
+        {
+            var result = await Mediator.Send(command);
             return Ok(result);
         }
     }
