@@ -12,40 +12,25 @@ using System.Threading.Tasks;
 
 namespace Hive.Server.Application.Organizations.Queries.GetOrganizations
 {
-    public class GetOrganizationsQuery : IRequest<IList<OrganzationViewModel>>
+    public record GetOrganizationsQuery(string UserId) : IRequest<IList<OrganzationViewModel>>;
+
+    public class GetOrganizationsQueryHandler : IRequestHandler<GetOrganizationsQuery, IList<OrganzationViewModel>>
     {
-        public GetOrganizationsQuery(string userId)
+        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+
+        public GetOrganizationsQueryHandler(ApplicationDbContext context, IMapper mapper)
         {
-            UserId = userId;
+            _context = context;
+            _mapper = mapper;
         }
 
-        public string UserId { get; set; }
-
-        public class GetOrganizationsQueryHandler : IRequestHandler<GetOrganizationsQuery, IList<OrganzationViewModel>>
+        public async Task<IList<OrganzationViewModel>> Handle(GetOrganizationsQuery request, CancellationToken cancellationToken)
         {
-            private readonly ApplicationDbContext _context;
-            private readonly MapperConfiguration _mapperConfiguration;
-
-            public GetOrganizationsQueryHandler(ApplicationDbContext context)
-            {
-                _context = context;
-
-                _mapperConfiguration = new MapperConfiguration(cfg => cfg.CreateMap<Organization, OrganzationViewModel>()
-                    .ForMember(dto => dto.Id, x => x.MapFrom(p => p.Id))
-                    .ForMember(dto => dto.Name, x => x.MapFrom(p => p.Name)));
-            }
-
-            public async Task<IList<OrganzationViewModel>> Handle(GetOrganizationsQuery request, CancellationToken cancellationToken)
-            {
-                var orgs = await _context.Organizations
-                    .Where(o => o.SystemAdminId == request.UserId)
-                    .ProjectTo<OrganzationViewModel>(_mapperConfiguration)
-                    .ToListAsync(cancellationToken);
-
-                return orgs;
-            }
+            return await _context.Organizations
+                       .Where(o => o.SystemAdminId == request.UserId)
+                       .ProjectTo<OrganzationViewModel>(_mapper.ConfigurationProvider)
+                       .ToListAsync(cancellationToken);
         }
     }
-
-
 }

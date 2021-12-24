@@ -53,8 +53,12 @@ namespace Hive.Server
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             var mapperConfig = new MapperConfiguration(options =>
             {
-                options.AddProfile(new TicketMappingProfile());
-                options.AddProfile(new ProjectMappingProfile());
+                options.AddProfiles(new Profile[]
+                {
+                    new TicketMappingProfile(),
+                    new ProjectMappingProfile(),
+                    new OrganizationMappingProfile()
+                });
             });
             services.AddSingleton(mapperConfig.CreateMapper());
 
