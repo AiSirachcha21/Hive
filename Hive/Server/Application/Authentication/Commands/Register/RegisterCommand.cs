@@ -56,7 +56,7 @@ namespace Hive.Server.Application.Authentication.Commands.Register
                     return dto;
                 }
 
-                var addToRolesResult = await request._userManager.AddToRoleAsync(user, UserRoles.SystemAdmin);
+                var addToRolesResult = await request._userManager.AddToRoleAsync(user, UserRoles.Contributer);
                 var attachIdToClaimsResult = await request._userManager.AddClaimAsync(user, new Claim("id", user.Id));
 
                 if (!addToRolesResult.Succeeded || !attachIdToClaimsResult.Succeeded)

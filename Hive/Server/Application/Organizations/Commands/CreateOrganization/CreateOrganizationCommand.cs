@@ -1,7 +1,9 @@
 ﻿using Hive.Domain;
 using Hive.Server.Infrastructure;
+using Hive.Shared;
 using Hive.Shared.Organizations.CommandViewModels;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -14,8 +16,13 @@ namespace Hive.Server.Application.Organizations.Commands.CreateOrganization
     public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, CreateOrganizationViewModel>
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateOrganizationCommandHandler(ApplicationDbContext context) => _context = context;
+        public CreateOrganizationCommandHandler(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
 
         public async Task<CreateOrganizationViewModel> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken)
         {
@@ -40,8 +47,8 @@ namespace Hive.Server.Application.Organizations.Commands.CreateOrganization
                 SystemAdminId = request.UserId,
             };
 
+            await _userManager.AddToRoleAsync(sysAdmin, UserRoles.SystemAdmin);
             await _context.Organizations.AddAsync(org, cancellationToken);
-
 
             await _context.SaveChangesAsync(cancellationToken);
             return new CreateOrganizationViewModel { Id = org.Id, Name = org.Name };
