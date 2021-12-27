@@ -1,4 +1,6 @@
 ﻿using Hive.Domain;
+using Hive.Server.Application.Common.Middleware;
+using Hive.Server.Application.Projects.Commands.AddUserToProject;
 using Hive.Server.Application.Projects.Commands.CreateProject;
 using Hive.Server.Application.Projects.Commands.DeleteProject;
 using Hive.Server.Application.Projects.Commands.UpdateProject;
@@ -81,6 +83,14 @@ namespace Hive.Server.Controllers
 
         [HttpPut]
         public async Task<ActionResult> Update(UpdateProjectCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<ActionResult> AddUsers(AddUserToProjectCommand command)
         {
             var result = await Mediator.Send(command);
             return Ok(result);

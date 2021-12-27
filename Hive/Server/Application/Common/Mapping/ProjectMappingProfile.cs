@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Hive.Domain;
+using Hive.Server.Application.Projects.Commands.AddUserToProject;
 using Hive.Server.Application.Projects.Commands.CreateProject;
 using Hive.Server.Application.Projects.Commands.UpdateProject;
 using Hive.Shared.Projects.Commands;
@@ -23,6 +24,14 @@ namespace Hive.Server.Application.Common.Mapping
                 .ForMember(dto => dto.ProjectOwnerId, target => target.MapFrom(t => t.ProjectOwnerId))
                 .ReverseMap()
                 .ForAllOtherMembers(members => members.Ignore());
+
+            CreateMap<AddUserToProjectCommand, ProjectUser>()
+                .ForMember(dto => dto.Id, target => target.MapFrom(t => Guid.NewGuid()))
+                .ReverseMap();
+
+            CreateMap<string, ProjectUser>()
+                   .ConstructUsing(str => new ProjectUser { MemberId = str, Id = Guid.NewGuid() });
+
         }
     }
 }
