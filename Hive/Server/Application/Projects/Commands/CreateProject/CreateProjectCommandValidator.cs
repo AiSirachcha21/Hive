@@ -27,12 +27,10 @@ namespace Hive.Server.Application.Projects.Commands.CreateProject
             RuleFor(c => c.OrganizationId)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Organization ID is required").WithErrorCode(StatusCodes.Status400BadRequest.ToString())
-                .MustAsync(BeValidOrgId).WithMessage("Invalid Organization ID").WithErrorCode(StatusCodes.Status400BadRequest.ToString())
-                .DependentRules(() =>
-                {
-                    RuleFor(c => c.ProjectOwnerId)
-                        .MustAsync(BeValidOrganizationUser).WithMessage("User is not part of this organization");
-                });
+                .MustAsync(BeValidOrgId).WithMessage("Invalid Organization ID").WithErrorCode(StatusCodes.Status400BadRequest.ToString());
+
+            RuleFor(c => c.ProjectOwnerId)
+                .MustAsync(BeValidOrganizationUser).When(c => c.ProjectOwnerId != null).WithMessage("User is not part of this organization");
         }
 
         private async Task<bool> BeValidOrganizationUser(string projectOwnerId, CancellationToken cancellationToken)
