@@ -11,6 +11,7 @@ namespace Hive.Server.Application.Common.Behaviors
     /// <summary>
     /// Adds Fluent Validation to request pipeline
     /// </summary>
+    /// <see cref="https://code-maze.com/cqrs-mediatr-fluentvalidation/"/>
     /// <typeparam name="TRequest">Request Type</typeparam>
     /// <typeparam name="TResponse">Response Type</typeparam>
     public class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
