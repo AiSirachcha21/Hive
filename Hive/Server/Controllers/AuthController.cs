@@ -1,6 +1,7 @@
 ﻿using Hive.Domain;
 using Hive.Server.Application.Authentication.Commands.Login;
 using Hive.Server.Application.Authentication.Commands.Register;
+using Hive.Server.Application.Authentication.Queries.GetCurrentUser;
 using Hive.Shared.Login;
 using Hive.Shared.Registration;
 using Microsoft.AspNetCore.Authorization;
@@ -52,16 +53,7 @@ namespace Hive.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<CurrentUser> GetCurrentUserInfo()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            return new CurrentUser
-            {
-                IsAuthenticated = User.Identity.IsAuthenticated,
-                UserName = User.Identity.Name,
-                Claims = User.Claims.ToDictionary(c => c.Type, c => c.Value),
-                DisplayName = $"{user.FirstName} {user.LastName.First()}"
-            };
-        }
+        public async Task<CurrentUser> GetCurrentUserInfo() 
+            => await Mediator.Send(new GetCurrentUserQuery(User));
     }
 }

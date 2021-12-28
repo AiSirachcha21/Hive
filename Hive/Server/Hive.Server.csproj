@@ -42,7 +42,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Application\Authentication\Queries\" />
 		<Folder Include="Application\Common\Interfaces\" />
 		<Folder Include="Application\Users\Commands\AddUser\" />
 	</ItemGroup>
