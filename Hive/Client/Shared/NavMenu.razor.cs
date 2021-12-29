@@ -32,7 +32,7 @@ namespace Hive.Client.Shared
         [Inject]
         public HttpClient Http { get; set; }
         private ISnackbar Snackbar { get; set; }
-        public List<OrganzationViewModel> Organizations { get; set; } = new List<OrganzationViewModel>();
+        public List<OrganizationViewModel> Organizations { get; set; } = new List<OrganizationViewModel>();
 
         protected async Task ExpansionToggleClicked()
         {
@@ -48,7 +48,7 @@ namespace Hive.Client.Shared
         {
             try
             {
-                var result = await Http.GetFromJsonAsync<List<OrganzationViewModel>>(ApiRoutes.GetOrganizations);
+                var result = await Http.GetFromJsonAsync<List<OrganizationViewModel>>(ApiRoutes.GetOrganizations);
                 if (result != null)
                 {
                     Organizations.AddRange(result);
@@ -91,7 +91,7 @@ namespace Hive.Client.Shared
             //ActiveItemId = Regex.IsMatch(Navigation.Uri, pattern: _organizationIndexRegex.ToString())
             //            ? Guid.Parse(Navigation.Uri.Split('/').Last())
             //            : Organizations[0].Id;
-            OrganzationViewModel org = null;
+            OrganizationViewModel org = null;
             var uriIdentifier = Navigation.Uri.Split('/').Last();
 
             if (uriIdentifier == (Organizations.Where(o => o.Name == uriIdentifier).First().Name ?? null))

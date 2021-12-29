@@ -2,7 +2,7 @@
 
 namespace Hive.Shared.Organizations.QueryViewModels
 {
-    public class OrganzationViewModel
+    public class OrganizationViewModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

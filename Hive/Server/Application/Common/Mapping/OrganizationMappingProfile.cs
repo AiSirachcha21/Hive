@@ -9,7 +9,7 @@ namespace Hive.Server.Application.Common.Mapping
     {
         public OrganizationMappingProfile()
         {
-            CreateMap<Organization, OrganzationViewModel>();
+            CreateMap<Organization, OrganizationViewModel>();
         }
     }
 }

@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Hive.Server.Application.Organizations.Queries.GetOrganizations
 {
-    public record GetOrganizationsQuery(string UserId) : IRequest<IList<OrganzationViewModel>>;
+    public record GetOrganizationsQuery(string UserId) : IRequest<IList<OrganizationViewModel>>;
 
-    public class GetOrganizationsQueryHandler : IRequestHandler<GetOrganizationsQuery, IList<OrganzationViewModel>>
+    public class GetOrganizationsQueryHandler : IRequestHandler<GetOrganizationsQuery, IList<OrganizationViewModel>>
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -25,11 +25,11 @@ namespace Hive.Server.Application.Organizations.Queries.GetOrganizations
             _mapper = mapper;
         }
 
-        public async Task<IList<OrganzationViewModel>> Handle(GetOrganizationsQuery request, CancellationToken cancellationToken)
+        public async Task<IList<OrganizationViewModel>> Handle(GetOrganizationsQuery request, CancellationToken cancellationToken)
         {
             return await _context.Organizations
                        .Where(o => o.SystemAdminId == request.UserId)
-                       .ProjectTo<OrganzationViewModel>(_mapper.ConfigurationProvider)
+                       .ProjectTo<OrganizationViewModel>(_mapper.ConfigurationProvider)
                        .ToListAsync(cancellationToken);
         }
     }

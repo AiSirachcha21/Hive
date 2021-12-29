@@ -15,7 +15,7 @@ namespace Hive.Server.Controllers
     public class OrganizationController : ApiController
     {
         [HttpGet]
-        public async Task<ActionResult<IList<OrganzationViewModel>>> GetByUser()
+        public async Task<ActionResult<IList<OrganizationViewModel>>> GetByUser()
         {
             var result = await Mediator.Send(new GetOrganizationsQuery(UserId));
             if (result == null || result.Count == 0) return NoContent();
