@@ -33,7 +33,7 @@ namespace Hive.Client.Shared
         string GenerateDisplayName(string name)
         {
             var splitName = name.Split(" ");
-            return splitName.First().First() + splitName.Last();
+            return splitName.First().First().ToString().ToUpper() + splitName.Last().ToUpper();
         }
 
     }

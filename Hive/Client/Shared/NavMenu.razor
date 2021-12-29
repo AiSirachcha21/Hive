@@ -1,4 +1,8 @@
 ﻿@using Hive.Client.Shared.Constants
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+
 <style>
     .Nav-Menu-Top {
         height: 80%;
@@ -11,25 +15,23 @@
         justify-content: flex-end;
     }
 
-    .mud-nav-link.active {
-        background: #F2994A;
+    .nav-item {
+        display: block;
+        width: 100%;
+        padding: .5rem .75rem;
+        transition: all ease-in-out 0.3s;
+        text-decoration: none;
+        font-size: 1.0125rem;
+        color: @HiveColors.Grey;
+        text-overflow: ellipsis;
     }
 
-    .mud-button.org-navlink {
-        justify-content: flex-start;
-        padding-left: 2rem;
-        font-weight: 600;
-        font-size: 1rem;
-    }
-
-        .mud-button.org-navlink[data-active],
-        .mud-button.org-navlink[data-active]:hover {
-            background-color: @HiveColors.Orange;
-            color: @HiveColors.White;
+        .nav-item:hover {
+            background-color: @Colors.Orange.Lighten5;
         }
 
-        .mud-button.org-navlink:hover {
-            background-color: @Colors.Orange.Lighten5;
+        .nav-item.active {
+            color: @Colors.Orange.Darken1;
         }
 </style>
 
@@ -40,22 +42,23 @@
                    Elevation="2"
                    Variant="DrawerVariant.Mini"
                    Class="d-flex flex-col justify-between">
-            <MudNavMenu>
-                @foreach (var org in Organizations)
-                {
-                    <MudButton DisableElevation="true"
-                           Color="@(Color.Surface)"
-                           Style="text-transform:capitalize"
-                           FullWidth="true"
-                           Class="org-navlink"
-                           data-active="@(org.Id == ActiveItemId)"
-                           OnClick=@(()=>NavigateToOrganizationPage(org.Name))>
-                        @org.Name
-                    </MudButton>
-                }
 
-
-            </MudNavMenu>
+            @if (!OrganizationState.Value.IsLoading)
+            {
+                <MudNavMenu>
+                    @foreach (var org in OrganizationState.Value.Organizations)
+                    {
+                        <NavLink href="@Routes.IndexOfOrganization(org.Name)" class="nav-item d-flex align-center">
+                            <MudAvatar Size="Size.Small" Rounded="true" Class="mr-2" Color="@Color.Primary">@org.Name.First().ToString().ToUpper()</MudAvatar>
+                            @org.Name
+                        </NavLink>
+                    }
+                </MudNavMenu>
+            }
+            else
+            {
+                <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
+            }
             <MudSpacer />
             <MudNavMenu>
                 <MudNavLink Icon="@Icons.Filled.Add"

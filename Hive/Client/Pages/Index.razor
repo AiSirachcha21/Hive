@@ -1,6 +1,8 @@
 ﻿@page "/"
 @page "/{OrgName}"
 
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
 <AuthorizeView>
     <Authorized>
         <h1>@(ActiveNavigationItem?.Name ?? "Hello")</h1>
