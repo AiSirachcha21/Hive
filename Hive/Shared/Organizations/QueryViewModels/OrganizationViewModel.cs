@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hive.Shared.Organizations.QueryViewModels
 {
@@ -6,5 +7,7 @@ namespace Hive.Shared.Organizations.QueryViewModels
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public List<OrganizationEmployeeViewModel> Employees { get; set; }
+        public int ProjectCount { get; set; }
     }
 }
