@@ -1,9 +1,94 @@
 ﻿@page "/"
-@page "/{OrgName}"
+@page "/organizations"
+@using Hive.Client.Components.OrganizationListCard
+@using Hive.Client.Shared.Constants
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<style>
+    .text-bold {
+        font-weight: 700;
+    }
+
+    .banner {
+        height: 12.5vh;
+        background: @Colors.Grey.Lighten4;
+        display: flex;
+        align-items: center;
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+    }
+
+    .org-item-viewIcon {
+        transition: all ease-in-out 0.1s;
+        transform: translateX(0);
+    }
+
+    .org-item:hover {
+        cursor: pointer;
+    }
+
+        .org-item:hover .org-item-viewIcon {
+            transform: translateX(4px);
+        }
+</style>
 
 <AuthorizeView>
     <Authorized>
-        <h1>@(ActiveNavigationItem?.Name ?? "Hello")</h1>
+        <div class="banner">
+            <MudAvatar Color="@Color.Secondary" Rounded="true" Class="mr-4">
+                <MudIcon Icon="@Icons.Filled.Business" />
+            </MudAvatar>
+            <h1>Organizations</h1>
+        </div>
+        <div class="mb-8" style="width:100%;display:flex;">
+            <MudTextField @bind-Value="@_searchText"
+                          Label="Find an organization"
+                          AdornmentIcon="@Icons.Outlined.Search"
+                          Adornment="Adornment.Start"
+                          Variant="Variant.Outlined"
+                          Margin="Margin.Normal"
+                          DebounceInterval="500"
+                          Clearable="true" />
+            <MudSpacer />
+            <MudButton StartIcon="@Icons.Outlined.Add"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Size="Size.Small"
+                       Class="ma-4">
+                Add Organization
+            </MudButton>
+        </div>
+        @if (OrganizationStateIsLoading)
+        {
+            <MudGrid xs="12" Spacing="2">
+                @for (var i = 0; i < 4; i++)
+                {
+                    <MudItem lg="3" Style="width:25%;">
+                        <OrganizationListCardSkeleton />
+                    </MudItem>
+                }
+            </MudGrid>
+        }
+        else if (!OrganizationStateIsLoading && Organizations.Count == 0)
+        {
+            <MudContainer Class="d-flex flex-column justify-center align-center" Style="min-height:30vh;">
+                <MudText Typo="Typo.h2">@(!string.IsNullOrEmpty(_searchText) ? "No organizations matching your search" : "There aren't any organizations")</MudText>
+                <MudText Typo="Typo.h3">Add one to see it here</MudText>
+            </MudContainer>
+        }
+        else
+        {
+            <MudGrid xs="12" Spacing="2">
+                @foreach (var org in Organizations)
+                {
+                    <MudItem xs="12" sm="6" md="4" lg="3" Class="mb-4 org-item">
+                        <OrganizationListCard Organization="org" />
+                    </MudItem>
+                }
+            </MudGrid>
+        }
     </Authorized>
 </AuthorizeView>
 

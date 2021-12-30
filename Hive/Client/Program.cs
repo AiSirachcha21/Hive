@@ -1,6 +1,7 @@
+using Fluxor;
 using Hive.Client.Services;
 using Hive.Client.Services.Interfaces;
-using Hive.Client.Shared.Entities;
+using Hive.Client.Services.Organizations;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +23,6 @@ namespace Hive.Client
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthStateProvider>();
-            builder.Services.AddSingleton<ActiveNavigationItem>();
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<AuthStateProvider>());
             builder.Services.AddScoped<IAuthService, AuthService>();
 
@@ -34,7 +34,14 @@ namespace Hive.Client
                 config.SnackbarConfiguration.HideTransitionDuration = 200;
             });
 
+            builder.Services.AddFluxor(options =>
+            {
+                options.ScanAssemblies(typeof(Program).Assembly);
+                options.UseReduxDevTools();
+            });
+
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 
             await builder.Build().RunAsync();
         }
