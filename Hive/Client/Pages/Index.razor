@@ -1,5 +1,6 @@
 ﻿@page "/"
 @page "/organizations"
+@using Hive.Client.Components.OrganizationListCard
 @using Hive.Client.Shared.Constants
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
@@ -18,29 +19,6 @@
         margin-bottom: 1rem;
         border-radius: 8px;
     }
-
-    .org-item-card {
-        background: #FB8C29;
-        background: -webkit-linear-gradient(right, #FB8C29, #FD9437);
-        background: -moz-linear-gradient(right, #FB8C29, #FD9437);
-        background: linear-gradient(to left, #FB8C29, #FD9437);
-        color: white;
-        border-radius: 12px;
-        transition: all ease-in-out 0.3s;
-    }
-
-        .org-item-card:hover {
-            background: #F2892C;
-            background: -webkit-linear-gradient(right, #F2892C, #FD9437);
-            background: -moz-linear-gradient(right, #F2892C, #FD9437);
-            background: linear-gradient(to left, #F2892C, #FD9437);
-        }
-
-        .org-item-card .org-item-cardStats {
-            background: white;
-            border-radius: 12px;
-            color: @HiveColors.Grey;
-        }
 
     .org-item-viewIcon {
         transition: all ease-in-out 0.1s;
@@ -64,8 +42,6 @@
             </MudAvatar>
             <h1>Organizations</h1>
         </div>
-
-
         <div class="mb-8" style="width:100%;display:flex;">
             <MudTextField @bind-Value="@_searchText"
                           Label="Find an organization"
@@ -90,19 +66,7 @@
                 @for (var i = 0; i < 4; i++)
                 {
                     <MudItem lg="3" Style="width:25%;">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderContent>
-                                    <MudSkeleton Width="25%" />
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="75px" />
-                            </MudCardContent>
-                            <MudCardActions>
-                                <MudSkeleton Width="75%" />
-                            </MudCardActions>
-                        </MudCard>
+                        <OrganizationListCardSkeleton />
                     </MudItem>
                 }
             </MudGrid>
@@ -120,47 +84,7 @@
                 @foreach (var org in Organizations)
                 {
                     <MudItem xs="12" sm="6" md="4" lg="3" Class="mb-4 org-item">
-                        <MudCard Class="org-item-card">
-                            <MudGrid>
-                                <MudItem xs="10">
-                                    <MudCardHeader>
-                                        <CardHeaderContent>
-                                            <MudText Typo="Typo.caption">Company</MudText>
-                                            <MudText Typo="Typo.h6" Class="text-bold">@org.Name</MudText>
-                                        </CardHeaderContent>
-                                    </MudCardHeader>
-                                    <MudCardContent Class=@(org.Employees.Count > 1 ? " " : "d-flex flex-wrap ")>
-                                        @{
-                                            string orgItemCardStatClasses = "my-2 mr-4 d-flex flex-column justify-center";
-                                            string iconStatClasses = "d-flex align-center";
-                                        }
-                                        <div class="@orgItemCardStatClasses">
-                                            <MudText Typo="Typo.h2">
-                                                <div class="@iconStatClasses">
-                                                    <MudIcon Icon="@Icons.Filled.Book" Class="mr-2" />
-                                                    @org.ProjectCount
-                                                </div>
-                                            </MudText>
-                                            <MudText>Projects</MudText>
-                                        </div>
-                                        <div class="@orgItemCardStatClasses">
-                                            <MudText Typo="Typo.h2">
-                                                <div class="@iconStatClasses">
-                                                    <MudIcon Icon="@Icons.Filled.People" Class="mr-2" />
-                                                    @org.Employees.Count
-                                                </div>
-
-                                            </MudText>
-                                            <MudText>Employees</MudText>
-                                        </div>
-                                    </MudCardContent>
-                                </MudItem>
-                                <MudItem xs="2" Class="d-flex align-center pa-2">
-                                    <MudIcon Icon="@Icons.Outlined.ChevronRight" Class="org-item-viewIcon" />
-                                </MudItem>
-                            </MudGrid>
-
-                        </MudCard>
+                        <OrganizationListCard Organization="org" />
                     </MudItem>
                 }
             </MudGrid>
