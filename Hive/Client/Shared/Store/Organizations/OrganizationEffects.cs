@@ -16,7 +16,7 @@ namespace Hive.Client.Shared.Store.Organizations.Effects
         }
 
         [EffectMethod]
-        public async Task HandleFetchOrganizationsAction(FetchDataAction action, IDispatcher dispatcher)
+        public async Task HandleFetchOrganizationsAction(GetOrganizationsAction action, IDispatcher dispatcher)
         {
             var orgs = await _organizationService.GetOrganizationsAsync();
             dispatcher.Dispatch(new GetOrganizationsResult(orgs));

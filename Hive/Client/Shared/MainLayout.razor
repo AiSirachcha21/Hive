@@ -6,23 +6,43 @@
     .logo {
         width: 6.0625rem;
     }
+
+    .nav-link-container, .nav-link {
+        height: 100%;
+    }
+
+    .nav-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .nav-link.active {
+            color: @HiveColors.Orange;
+            border-bottom: solid 2px @HiveColors.Orange;
+        }
+
 </style>
 
 <div class="page">
     <AuthorizeView>
         <Authorized>
             <MudLayout>
-                <MudAppBar Color="@Color.Transparent" Elevation="1">
-                    <a href=@Routes.Index>
-
-                        <img class="logo my-4" src="images/logo.svg" alt="Hive Logo" />
+                <MudAppBar Elevation="0" Dense="true" Style="border-bottom:solid 1px #cdcdcd">
+                    <a href=@Routes.Index class="mr-4">
+                        <img class="logo" src="images/logo.svg" alt="Hive Logo" />
                     </a>
+                    <div class="nav-link-container">
+                        <NavLink href="/" class="nav-link">Organizations</NavLink>
+                    </div>
                     <MudSpacer />
-                    <MudMenu Dense="true">
+                    <MudMenu Dense="true" AnchorOrigin="Origin.BottomRight" Direction="Direction.Bottom">
                         <ActivatorContent>
                             <div class="d-flex align-center">
-                                <MudAvatar Class="mr-2" Color="@Color.Primary">@GenerateDisplayName(context.User.Identity.Name)</MudAvatar>
-                                <MudText>@context.User.Identity.Name</MudText>
+                                <MudButton>
+                                    <MudIcon Icon="@Icons.Outlined.Person" />
+                                    <MudIcon Icon="@Icons.Outlined.ArrowDropDown" />
+                                </MudButton>
                             </div>
                         </ActivatorContent>
                         <ChildContent>
@@ -30,7 +50,6 @@
                         </ChildContent>
                     </MudMenu>
                 </MudAppBar>
-                <NavMenu DrawerOpen="@DrawerOpen" />
                 <MudMainContent Class="px-6">
                     <div class="pt-4">
                         @Body

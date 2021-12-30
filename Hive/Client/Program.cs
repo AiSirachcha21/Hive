@@ -2,7 +2,6 @@ using Fluxor;
 using Hive.Client.Services;
 using Hive.Client.Services.Interfaces;
 using Hive.Client.Services.Organizations;
-using Hive.Client.Shared.Entities;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +23,6 @@ namespace Hive.Client
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<AuthStateProvider>();
-            builder.Services.AddSingleton<ActiveNavigationItem>();
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<AuthStateProvider>());
             builder.Services.AddScoped<IAuthService, AuthService>();
 

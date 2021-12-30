@@ -1,12 +1,14 @@
 ﻿using Fluxor;
 using Hive.Client.Shared.Store.Organizations.ActionResults;
 using Hive.Client.Shared.Store.Organizations.Actions;
+using System;
+using System.Linq;
 
 namespace Hive.Client.Shared.Store.Organizations
 {
     public static class OrganizationReducers
     {
-        [ReducerMethod(typeof(FetchDataAction))]
+        [ReducerMethod(typeof(GetOrganizationsAction))]
         public static OrganizationState FetchOrganizationData(OrganizationState state)
         {
             return state with
