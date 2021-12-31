@@ -1,0 +1,65 @@
+﻿@using Fluxor
+@using Hive.Client.Services.Organizations
+@using Hive.Client.Shared.Store.Organizations.Actions
+
+@inject IOrganizationService OrganizationService;
+@inject ISnackbar Snackbar;
+@inject IDispatcher Dispatcher;
+
+<MudForm @ref="@_addOrganizationForm">
+    <MudDialog>
+        <TitleContent>
+            <MudText>Add Organization</MudText>
+            <MudText Typo="Typo.caption">This is the name your organization will be identified by.</MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudTextField @ref="@_nameField"
+                          Required="true"
+                          T="string"
+                          Label="Organization Name"
+                          RequiredError="Name is required." />
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="@Cancel">Cancel</MudButton>
+            <MudButton Color="Color.Primary"
+                       OnClick="Submit"
+                       Disabled="_isLoading">
+                @if (_isLoading)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                    <MudText Class="ms-2">Creating</MudText>
+                }
+                else
+                {
+                    <MudText Class="ms-2">Ok</MudText>
+                }
+            </MudButton>
+        </DialogActions>
+
+    </MudDialog>
+</MudForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Action OnSubmitComplete { get; set; }
+    MudTextField<string> _nameField;
+    MudForm _addOrganizationForm;
+    bool _isLoading;
+
+    async void Submit()
+    {
+        _isLoading = true;
+        await _addOrganizationForm.Validate();
+        if (_addOrganizationForm.IsValid)
+        {
+            var successful = await OrganizationService.AddOrganizationAsync(_nameField.Value);
+            if (successful) Snackbar.Add($"Successfully added {_nameField.Value}", Severity.Success);
+
+            MudDialog.Close(DialogResult.Ok(true));
+            OnSubmitComplete.Invoke();
+        }
+        _isLoading = false;
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

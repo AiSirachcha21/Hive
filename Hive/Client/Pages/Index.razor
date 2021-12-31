@@ -32,6 +32,16 @@
         .org-item:hover .org-item-viewIcon {
             transform: translateX(4px);
         }
+
+    .toolbar {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .organizationCardSkeleton-Container {
+        width: 25%;
+    }
 </style>
 
 <AuthorizeView>
@@ -42,21 +52,44 @@
             </MudAvatar>
             <h1>Organizations</h1>
         </div>
-        <div class="mb-8" style="width:100%;display:flex;">
+        <div class="mb-8 toolbar">
             <MudTextField @bind-Value="@_searchText"
                           Label="Find an organization"
                           AdornmentIcon="@Icons.Outlined.Search"
                           Adornment="Adornment.Start"
                           Variant="Variant.Outlined"
-                          Margin="Margin.Normal"
+                          Margin="Margin.Dense"
                           DebounceInterval="500"
                           Clearable="true" />
-            <MudSpacer />
+            <MudToolBar>
+                @{
+                    bool isListView = _gridViewModel == OrganizationListViewMode.List;
+                    bool isGridView = _gridViewModel == OrganizationListViewMode.Grid;
+                    Variant listVariant = isListView ? Variant.Filled : Variant.Text;
+                    Variant gridVariant = isGridView ? Variant.Filled : Variant.Text;
+                    string listIcon = isListView ? Icons.Filled.FormatListBulleted : Icons.Outlined.FormatListBulleted;
+                    string gridIcon = isGridView ? Icons.Filled.GridView : Icons.Outlined.GridView;
+                }
+                <MudIconButton Variant="@listVariant"
+                               Icon="@listIcon"
+                               DisableElevation="true"
+                               OnClick="()=>ToggleGridListView(OrganizationListViewMode.List)"
+                               Color="!isGridView ? Color.Primary : Color.Default"
+                               DisableRipple="true" />
+                <MudIconButton Variant="@gridVariant"
+                               Icon="@gridIcon"
+                               DisableElevation="true"
+                               OnClick="()=>ToggleGridListView(OrganizationListViewMode.Grid)"
+                               Color="isGridView ? Color.Primary : Color.Default"
+                               DisableRipple="true" />
+            </MudToolBar>
             <MudButton StartIcon="@Icons.Outlined.Add"
                        Variant="Variant.Filled"
+                       DisableElevation="true"
                        Color="Color.Primary"
-                       Size="Size.Small"
-                       Class="ma-4">
+                       Size="Size.Medium"
+                       Class="ml-4"
+                       OnClick="@ToggleAddOrganizationDialogAsync">
                 Add Organization
             </MudButton>
         </div>
@@ -65,7 +98,7 @@
             <MudGrid xs="12" Spacing="2">
                 @for (var i = 0; i < 4; i++)
                 {
-                    <MudItem lg="3" Style="width:25%;">
+                    <MudItem lg="3" Class="organizationCardSkeleton-Container">
                         <OrganizationListCardSkeleton />
                     </MudItem>
                 }
@@ -74,7 +107,11 @@
         else if (!OrganizationStateIsLoading && Organizations.Count == 0)
         {
             <MudContainer Class="d-flex flex-column justify-center align-center" Style="min-height:30vh;">
-                <MudText Typo="Typo.h2">@(!string.IsNullOrEmpty(_searchText) ? "No organizations matching your search" : "There aren't any organizations")</MudText>
+                <MudText Typo="Typo.h2">
+                    @(!string.IsNullOrEmpty(_searchText)
+                ? "No organizations matching your search"
+                : "There aren't any organizations")
+                </MudText>
                 <MudText Typo="Typo.h3">Add one to see it here</MudText>
             </MudContainer>
         }
