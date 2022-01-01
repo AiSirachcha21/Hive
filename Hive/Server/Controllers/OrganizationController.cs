@@ -1,9 +1,12 @@
 ﻿using Hive.Server.Application.Organizations.Commands.CreateOrganization;
+using Hive.Server.Application.Organizations.Commands.DeleteOrganization;
 using Hive.Server.Application.Organizations.Queries.GetOrganizations;
+using Hive.Shared;
 using Hive.Shared.Organizations.CommandViewModels;
 using Hive.Shared.Organizations.QueryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,7 +14,7 @@ namespace Hive.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = UserRoles.SystemAdmin)]
     public class OrganizationController : ApiController
     {
         [HttpGet]
@@ -28,6 +31,15 @@ namespace Hive.Server.Controllers
         {
             var command = new CreateOrganizationCommand(OrgName: organizationName, UserId: UserId);
             return Ok(await Mediator.Send(command));
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var command = new DeleteOrganizationCommand(id);
+            await Mediator.Send(command);
+
+            return Ok();
         }
     }
 }
