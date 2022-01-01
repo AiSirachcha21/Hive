@@ -1,74 +1,81 @@
-﻿@using Hive.Client.Shared.Constants
-@using Hive.Shared.Organizations.QueryViewModels
-
-<style>
+﻿<style>
     .org-item-card {
-        background: #FB8C29;
-        background: -webkit-linear-gradient(right, #FB8C29, #FD9437);
-        background: -moz-linear-gradient(right, #FB8C29, #FD9437);
-        background: linear-gradient(to left, #FB8C29, #FD9437);
-        color: white;
         border-radius: 12px;
         transition: all ease-in-out 0.3s;
+        cursor: default;
     }
 
-        .org-item-card:hover {
-            background: #F2892C;
-            background: -webkit-linear-gradient(right, #F2892C, #FD9437);
-            background: -moz-linear-gradient(right, #F2892C, #FD9437);
-            background: linear-gradient(to left, #F2892C, #FD9437);
+        .org-item-card .heading-font {
+            font-weight: 800;
+            font-size: 22px;
+            font-family: "Nunito", sans-serif;
         }
 
-        .org-item-card .org-item-cardStats {
-            background: white;
-            border-radius: 12px;
-            color: @HiveColors.Grey;
+        .org-item-card .stat-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: .5rem 1rem .5rem 0;
+        }
+
+        .org-item-card .stat {
+            display: flex;
+            align-items: center;
         }
 
 </style>
 
 <MudCard Class="org-item-card">
-    <MudGrid>
-        <MudItem xs="10">
-            <MudCardHeader>
-                <CardHeaderContent>
-                    <MudText Typo="Typo.caption">Company</MudText>
-                    <MudText Typo="Typo.h6" Class="text-bold">@Organization.Name</MudText>
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent Class=@(Organization.Employees.Count > 1 ? " " : "d-flex flex-wrap ")>
-                @{
-                    string orgItemCardStatClasses = "my-2 mr-4 d-flex flex-column justify-center";
-                    string iconStatClasses = "d-flex align-center";
-                }
-                <div class="@orgItemCardStatClasses">
-                    <MudText Typo="Typo.h2">
-                        <div class="@iconStatClasses">
-                            <MudIcon Icon="@Icons.Filled.Book" Class="mr-2" />
-                            @Organization.ProjectCount
-                        </div>
-                    </MudText>
-                    <MudText>Projects</MudText>
+    <MudCardHeader Class="d-flex align-items">
+        <CardHeaderAvatar>
+            <MudAvatar>@Organization.Name.First()</MudAvatar>
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudText Typo="Typo.caption">Company</MudText>
+            <MudText Typo="Typo.h3" Class="heading-font">@Organization.Name</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <MudMenu Icon="@Icons.Filled.Settings"
+                     AnchorOrigin="Origin.BottomRight"
+                     TransformOrigin="Origin.TopRight"
+                     Disabled="DisableInteraction">
+                <MudMenuItem>
+                    <div class="d-flex align-center flex-no-wrap">
+                        <MudIcon Icon="@Icons.Filled.Edit" Class="mr-2" />
+                        <MudText>Edit</MudText>
+                    </div>
+                </MudMenuItem>
+                <MudMenuItem OnClick="()=>OnDelete(Organization)">
+                    <div class="d-flex align-center flex-no-wrap">
+                        <MudIcon Icon="@Icons.Filled.Delete" Class="mr-2" Color="Color.Error" />
+                        <MudText Color="Color.Error">Delete</MudText>
+                    </div>
+                </MudMenuItem>
+            </MudMenu>
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudCardContent Class="d-flex flex-wrap">
+        <div class="stat-container">
+            <MudText Typo="Typo.h2">
+                <div class="stat">
+                    <MudIcon Icon="@Icons.Filled.Book" Class="mr-2" />
+                    @Organization.ProjectCount
                 </div>
-                <div class="@orgItemCardStatClasses">
-                    <MudText Typo="Typo.h2">
-                        <div class="@iconStatClasses">
-                            <MudIcon Icon="@Icons.Filled.People" Class="mr-2" />
-                            @Organization.Employees.Count
-                        </div>
-
-                    </MudText>
-                    <MudText>Employees</MudText>
+            </MudText>
+            <MudText>Projects</MudText>
+        </div>
+        <div class="stat-container">
+            <MudText Typo="Typo.h2">
+                <div class="stat">
+                    <MudIcon Icon="@Icons.Filled.People" Class="mr-2" />
+                    @Organization.Employees.Count
                 </div>
-            </MudCardContent>
-        </MudItem>
-        <MudItem xs="2" Class="d-flex align-center pa-2">
-            <MudIcon Icon="@Icons.Outlined.ChevronRight" Class="org-item-viewIcon" />
-        </MudItem>
-    </MudGrid>
+            </MudText>
+            <MudText>Employees</MudText>
+        </div>
+    </MudCardContent>
+    <MudCardActions Class="d-flex justify-end">
+        <MudButton Variant="Variant.Text" EndIcon="@Icons.Outlined.ChevronRight">View Company</MudButton>
+    </MudCardActions>
 </MudCard>
 
-@code {
-    [Parameter]
-    public OrganizationViewModel Organization { get; set; }
-}

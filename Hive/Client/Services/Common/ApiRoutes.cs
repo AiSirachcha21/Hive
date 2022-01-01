@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hive.Client.Services.Common
 {
@@ -15,6 +16,7 @@ namespace Hive.Client.Services.Common
         private const string _organizationBaseUrl = "api/Organization";
         public const string CreateOrganization = $"{_organizationBaseUrl}";
         public const string GetOrganizations = $"{_organizationBaseUrl}";
+        public static string DeleteOrganization(Guid organizationId) => $"{_organizationBaseUrl}?id={organizationId}";
 
         // Project
         private const string _projectBaseUrl = "api/Project";

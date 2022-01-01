@@ -24,14 +24,12 @@ namespace Hive.Client.Pages
         [Inject] IDispatcher Dispatcher { get; set; }
         [Inject] IState<OrganizationState> OrganizationState { get; set; }
 
-        string _searchText;
-        OrganizationListViewMode _gridViewModel = OrganizationListViewMode.Grid;
-
-
         IList<OrganizationViewModel> Organizations =>
             _searchText == null
             ? OrganizationState.Value.Organizations
             : OrganizationState.Value.Organizations.Where(org => org.Name.Contains(_searchText)).ToList();
+        OrganizationListViewMode _gridViewModel = OrganizationListViewMode.Grid;
+        string _searchText;
         bool OrganizationStateIsLoading => OrganizationState.Value.IsLoading;
 
         protected override void OnInitialized()

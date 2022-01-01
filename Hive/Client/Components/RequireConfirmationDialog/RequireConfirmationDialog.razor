@@ -1,0 +1,22 @@
+﻿@using Hive.Client.Shared.Constants
+@namespace Hive.Client.Components.RequireConfirmationDialog
+
+<MudDialog>
+    <DialogContent>
+        <div class="mb-4">@DialogContent</div>
+        <div>
+            <p>Please enter <em><strong>@ConfirmationPhrase</strong></em> in the text field below to confirm.</p>
+            <MudTextField @bind-Value="_confirmationTextFieldValue" Variant="Variant.Outlined" DebounceInterval="100" />
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="OnCancel">Cancel</MudButton>
+        <MudButton Disabled="_confirmationTextFieldValue != ConfirmationPhrase"
+                   Variant="Variant.Filled"
+                   Color="@(IsDelete ? Color.Error : Color.Primary)"
+                   OnClick="OnSubmit">@ConfirmButtonText</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+

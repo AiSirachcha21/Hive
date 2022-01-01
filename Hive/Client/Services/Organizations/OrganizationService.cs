@@ -1,5 +1,6 @@
 ﻿using Hive.Client.Services.Common;
 using Hive.Shared.Organizations.QueryViewModels;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -11,6 +12,7 @@ namespace Hive.Client.Services.Organizations
     {
         Task<List<OrganizationViewModel>> GetOrganizationsAsync();
         Task<bool> AddOrganizationAsync(string name);
+        Task<bool> DeleteOrganizatinoAsync(Guid organizationId);
     }
 
     public class OrganizationService : IOrganizationService
@@ -23,13 +25,19 @@ namespace Hive.Client.Services.Organizations
         }
         public async Task<List<OrganizationViewModel>> GetOrganizationsAsync()
         {
-            var result = await _http.GetFromJsonAsync<List<OrganizationViewModel>>(ApiRoutes.GetOrganizations);
+            List<OrganizationViewModel> result = await _http.GetFromJsonAsync<List<OrganizationViewModel>>(ApiRoutes.GetOrganizations);
             return result;
         }
         public async Task<bool> AddOrganizationAsync(string name)
         {
-            var content = JsonContent.Create(name);
-            var result = await _http.PostAsync(ApiRoutes.CreateOrganization, content);
+            JsonContent content = JsonContent.Create(name);
+            HttpResponseMessage result = await _http.PostAsync(ApiRoutes.CreateOrganization, content);
+
+            return result.IsSuccessStatusCode;
+        }
+        public async Task<bool> DeleteOrganizatinoAsync(Guid organizationId)
+        {
+            HttpResponseMessage result = await _http.DeleteAsync(ApiRoutes.DeleteOrganization(organizationId));
 
             return result.IsSuccessStatusCode;
         }
