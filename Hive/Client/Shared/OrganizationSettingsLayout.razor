@@ -1,18 +1,11 @@
 ﻿@using Hive.Client.Components.ApplicationAppBar
-@using Hive.Client.Services.Common
 @inherits LayoutComponentBase
-
-<style>
-    .logo {
-        width: 6.0625rem;
-    }
-</style>
 
 <div class="page">
     <AuthorizeView>
         <Authorized>
             <MudLayout>
-                <ApplicationAppBar />
+                <ApplicationAppBar/>
                 <MudMainContent Class="px-6">
                     <div class="pt-4">
                         @Body
@@ -28,3 +21,7 @@
     </AuthorizeView>
 
 </div>
+
+@code {
+
+}

@@ -1,0 +1,51 @@
+﻿<style>
+    .nav-link-container {
+        height: 100%;
+    }
+
+        .nav-link-container .nav-link {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .nav-link-container .nav-link.active {
+                color: @HiveColors.Orange;
+                border-bottom: solid 2px @HiveColors.Orange;
+            }
+</style>
+
+<MudAppBar Elevation="0" Dense="true" Style="border-bottom:solid 1px #cdcdcd">
+    <a href=@Routes.Index class="mr-4">
+        <img class="logo" src="images/logo.svg" alt="Hive Logo" />
+    </a>
+    <div class="nav-link-container">
+        <NavLink href="/" class="nav-link">Organizations</NavLink>
+    </div>
+    <MudSpacer />
+    <MudMenu Dense="true" AnchorOrigin="Origin.BottomRight" Direction="Direction.Bottom">
+        <ActivatorContent>
+            <div class="d-flex align-center">
+                <MudButton>
+                    <MudIcon Icon="@Icons.Outlined.Person" />
+                    <MudIcon Icon="@Icons.Outlined.ArrowDropDown" />
+                </MudButton>
+            </div>
+        </ActivatorContent>
+        <ChildContent>
+            <MudMenuItem OnClick="@Logout">Sign Out</MudMenuItem>
+        </ChildContent>
+    </MudMenu>
+</MudAppBar>
+
+@code {
+    [Inject] AuthStateProvider AuthProvider { get; set; }
+    [Inject] NavigationManager Navigation { get; set; }
+
+    async Task Logout()
+    {
+        await AuthProvider.Logout();
+        Navigation.NavigateTo("/login");
+    }
+}

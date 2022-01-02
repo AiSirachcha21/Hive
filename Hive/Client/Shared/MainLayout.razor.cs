@@ -21,11 +21,7 @@ namespace Hive.Client.Shared
                 Navigation.NavigateTo("/login");
             }
         }
-        async Task Logout()
-        {
-            await AuthProvider.Logout();
-            Navigation.NavigateTo("/login");
-        }
+        
 
     }
 }
