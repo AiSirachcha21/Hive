@@ -33,7 +33,7 @@ namespace Hive.Client.Components.OrganizationListCard
             DialogResult dialogResult = await dialog.Result;
             if (!dialogResult.Cancelled && (bool)dialogResult.Data)
             {
-                Dispatcher.Dispatch(new DeleteOrganizationAction(organization.Id, Snackbar));
+                Dispatcher.Dispatch(new DeleteOrganizationAction(organization.Id));
             }
         }
     }
