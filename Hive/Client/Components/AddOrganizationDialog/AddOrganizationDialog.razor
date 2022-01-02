@@ -3,7 +3,6 @@
 @using Hive.Client.Shared.Store.Organizations.Actions
 
 @inject IOrganizationService OrganizationService;
-@inject ISnackbar Snackbar;
 @inject IDispatcher Dispatcher;
 
 <MudForm @ref="@_addOrganizationForm">
@@ -52,8 +51,7 @@
         await _addOrganizationForm.Validate();
         if (_addOrganizationForm.IsValid)
         {
-            var successful = await OrganizationService.AddOrganizationAsync(_nameField.Value);
-            if (successful) Snackbar.Add($"Successfully added {_nameField.Value}", Severity.Success);
+            Dispatcher.Dispatch(new CreateOrganizationAction(_nameField.Value));
 
             MudDialog.Close(DialogResult.Ok(true));
             OnSubmitComplete.Invoke();

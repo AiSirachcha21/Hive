@@ -9,10 +9,12 @@ namespace Hive.Client.Shared.Store.Organizations.Effects
     public class OrganizationEffects
     {
         private readonly IOrganizationService _organizationService;
+        private readonly ISnackbar _snackbar;
 
-        public OrganizationEffects(IOrganizationService organizationService)
+        public OrganizationEffects(IOrganizationService organizationService, ISnackbar snackbar)
         {
             _organizationService = organizationService;
+            _snackbar = snackbar;
         }
 
         [EffectMethod(typeof(GetOrganizationsAction))]
@@ -25,12 +27,25 @@ namespace Hive.Client.Shared.Store.Organizations.Effects
         [EffectMethod]
         public async Task DeleteOrganizationEffect(DeleteOrganizationAction action, IDispatcher dispatcher)
         {
-            var deleteResultSuccessful = await _organizationService.DeleteOrganizatinoAsync(action.OrganizationId);
+            bool deleteResultSuccessful = await _organizationService.DeleteOrganizatinoAsync(action.OrganizationId);
             if (deleteResultSuccessful)
             {
-                action.Snackbar.Add($"Successfully deleted", Severity.Success);
+                _snackbar.Add($"Successfully deleted", Severity.Success);
                 dispatcher.Dispatch(new GetOrganizationsAction());
             }
+            else _snackbar.Add($"Failed to delete organization.", Severity.Error);
+        }
+
+        [EffectMethod]
+        public async Task CreateOrganizationEffect(CreateOrganizationAction action, IDispatcher dispatcher)
+        {
+            bool created = await _organizationService.AddOrganizationAsync(action.Name);
+            if (created)
+            {
+                _snackbar.Add($"Successfully added {action.Name}", Severity.Success);
+                dispatcher.Dispatch(new GetOrganizationsAction());
+            }
+            else _snackbar.Add($"Failed to add {action.Name}", Severity.Error);
         }
     }
 }
