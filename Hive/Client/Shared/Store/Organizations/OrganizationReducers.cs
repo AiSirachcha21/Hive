@@ -1,8 +1,5 @@
 ﻿using Fluxor;
-using Hive.Client.Shared.Store.Organizations.ActionResults;
 using Hive.Client.Shared.Store.Organizations.Actions;
-using System;
-using System.Linq;
 
 namespace Hive.Client.Shared.Store.Organizations
 {
@@ -19,7 +16,7 @@ namespace Hive.Client.Shared.Store.Organizations
         }
 
         [ReducerMethod]
-        public static OrganizationState ReduceGetOrganizationsResultAction(OrganizationState state, GetOrganizationsResult action) => state with
+        public static OrganizationState ReduceGetOrganizationsResultAction(OrganizationState state, SetOrganizationsAction action) => state with
         {
             IsLoading = false,
             Organizations = action.Organizations

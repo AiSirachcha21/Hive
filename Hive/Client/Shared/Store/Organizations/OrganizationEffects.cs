@@ -1,7 +1,7 @@
 ﻿using Fluxor;
 using Hive.Client.Services.Organizations;
-using Hive.Client.Shared.Store.Organizations.ActionResults;
 using Hive.Client.Shared.Store.Organizations.Actions;
+using MudBlazor;
 using System.Threading.Tasks;
 
 namespace Hive.Client.Shared.Store.Organizations.Effects
@@ -15,11 +15,22 @@ namespace Hive.Client.Shared.Store.Organizations.Effects
             _organizationService = organizationService;
         }
 
-        [EffectMethod]
-        public async Task HandleFetchOrganizationsAction(GetOrganizationsAction action, IDispatcher dispatcher)
+        [EffectMethod(typeof(GetOrganizationsAction))]
+        public async Task HandleFetchOrganizationsAction(IDispatcher dispatcher)
         {
             var orgs = await _organizationService.GetOrganizationsAsync();
-            dispatcher.Dispatch(new GetOrganizationsResult(orgs));
+            dispatcher.Dispatch(new SetOrganizationsAction(orgs));
+        }
+
+        [EffectMethod]
+        public async Task DeleteOrganizationEffect(DeleteOrganizationAction action, IDispatcher dispatcher)
+        {
+            var deleteResultSuccessful = await _organizationService.DeleteOrganizatinoAsync(action.OrganizationId);
+            if (deleteResultSuccessful)
+            {
+                action.Snackbar.Add($"Successfully deleted", Severity.Success);
+                dispatcher.Dispatch(new GetOrganizationsAction());
+            }
         }
     }
 }
