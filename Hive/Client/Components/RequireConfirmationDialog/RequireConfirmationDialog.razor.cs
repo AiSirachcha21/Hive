@@ -14,9 +14,8 @@ namespace Hive.Client.Components.RequireConfirmationDialog
         [Parameter] public string ConfirmationPhrase { get; set; } = null;
 
         string _confirmationTextFieldValue;
-        bool _isSubmitDisabled = true;
 
-        void OnSubmit() => MudDialog.Close(DialogResult.Ok<bool>(true));
+        void OnSubmit() => MudDialog.Close(DialogResult.Ok(true));
         void OnCancel() => MudDialog.Cancel();
     }
 }

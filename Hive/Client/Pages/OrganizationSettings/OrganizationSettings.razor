@@ -1,0 +1,20 @@
+﻿@page "/organizations/settings/{organizationId:guid}/{*pageRoute}"
+@using Hive.Client.Pages.OrganizationSettings.SubPages
+@using Hive.Client.Shared.Store.Organizations
+@using Hive.Shared.Organizations.QueryViewModels
+@layout OrganizationSettingsLayout
+
+<div>
+    @if (PageRoute == OverviewSubpageName)
+    {
+        <OverviewSubPage />
+    }
+    else if (PageRoute == UsersSubpageName)
+    {
+        @// TODO: Create State in OrganizationState to hold info about current Org
+        <UsersSubPage />
+    }
+
+</div>
+
+

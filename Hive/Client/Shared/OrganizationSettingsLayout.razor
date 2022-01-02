@@ -1,11 +1,20 @@
 ﻿@using Hive.Client.Components.ApplicationAppBar
-@inherits LayoutComponentBase
+@using Hive.Client.Shared.Store.Organizations
+@using Hive.Shared.Organizations.QueryViewModels
+@inherits Fluxor.Blazor.Web.Components.FluxorLayout;
 
 <div class="page">
     <AuthorizeView>
         <Authorized>
             <MudLayout>
-                <ApplicationAppBar/>
+                <ApplicationAppBar />
+                <MudDrawer ClipMode="DrawerClipMode.Always" Open="true">
+                    <MudNavMenu>
+                        <MudDivider />
+                        <MudNavLink Href="@(Routes.OrganizationSettingsOverview(OrganizationId))">Overview</MudNavLink>
+                        <MudNavLink Href="@(Routes.OrganizationSettingsUsers(OrganizationId))">Users</MudNavLink>
+                    </MudNavMenu>
+                </MudDrawer>
                 <MudMainContent Class="px-6">
                     <div class="pt-4">
                         @Body
@@ -23,5 +32,16 @@
 </div>
 
 @code {
+    public Guid OrganizationId { get; set; }
 
+    protected override void OnParametersSet()
+    {
+        object routeParam = null;
+        if ((this.Body.Target as RouteView)?.RouteData.RouteValues?.TryGetValue("organizationId", out routeParam) == true)
+        {
+            Guid organizationId = Guid.Empty;
+            Guid.TryParse(routeParam.ToString(), out organizationId);
+            OrganizationId = organizationId;
+        }
+    }
 }

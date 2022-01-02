@@ -35,23 +35,24 @@
             <MudText Typo="Typo.h3" Class="heading-font">@Organization.Name</MudText>
         </CardHeaderContent>
         <CardHeaderActions>
-            <MudMenu Icon="@Icons.Filled.Settings"
-                     AnchorOrigin="Origin.BottomRight"
-                     TransformOrigin="Origin.TopRight"
-                     Disabled="DisableInteraction">
+            <MudIconButton Icon="@Icons.Filled.Settings" Link=@(Routes.OrganizationSettingsOverview(Organization.Id)) />
+            @*<MudMenu Icon="@Icons.Filled.Settings"
+                AnchorOrigin="Origin.BottomRight"
+                TransformOrigin="Origin.TopRight"
+                Disabled="DisableInteraction">
                 <MudMenuItem>
-                    <div class="d-flex align-center flex-no-wrap">
-                        <MudIcon Icon="@Icons.Filled.Edit" Class="mr-2" />
-                        <MudText>Edit</MudText>
-                    </div>
+                <div class="d-flex align-center flex-no-wrap">
+                <MudIcon Icon="@Icons.Filled.Edit" Class="mr-2" />
+                <MudText>Edit</MudText>
+                </div>
                 </MudMenuItem>
                 <MudMenuItem OnClick="()=>OnDelete(Organization)">
-                    <div class="d-flex align-center flex-no-wrap">
-                        <MudIcon Icon="@Icons.Filled.Delete" Class="mr-2" Color="Color.Error" />
-                        <MudText Color="Color.Error">Delete</MudText>
-                    </div>
+                <div class="d-flex align-center flex-no-wrap">
+                <MudIcon Icon="@Icons.Filled.Delete" Class="mr-2" Color="Color.Error" />
+                <MudText Color="Color.Error">Delete</MudText>
+                </div>
                 </MudMenuItem>
-            </MudMenu>
+                </MudMenu>*@
         </CardHeaderActions>
     </MudCardHeader>
     <MudCardContent Class="d-flex flex-wrap">
