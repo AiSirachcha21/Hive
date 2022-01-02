@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Hive.Domain;
-using Hive.Server.Application.Common.Exceptions;
 using Hive.Server.Application.Users.Commands.AddRoleToUser;
 using Hive.Server.Application.Users.Commands.RemoveRoleFromUser;
 using Hive.Server.Infrastructure;

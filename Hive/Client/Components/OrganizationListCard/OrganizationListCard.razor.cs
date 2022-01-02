@@ -1,12 +1,12 @@
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using MudBlazor;
 using Fluxor;
 using Hive.Client.Components.ParamConstants;
 using Hive.Client.Shared.Store.Organizations.Actions;
 using Hive.Shared.Organizations.QueryViewModels;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using MudBlazor;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Hive.Client.Components.OrganizationListCard
 {
@@ -16,7 +16,6 @@ namespace Hive.Client.Components.OrganizationListCard
         [Parameter] public bool DisableInteraction { get; set; } = false;
         [CascadingParameter] Task<AuthenticationState> AuthenticationState { get; set; }
         [Inject] IDispatcher Dispatcher { get; set; }
-        [Inject] ISnackbar Snackbar { get; set; }
         [Inject] IDialogService DialogService { get; set; }
 
         async void OnDelete(OrganizationViewModel organization)

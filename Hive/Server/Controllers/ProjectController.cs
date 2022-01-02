@@ -1,5 +1,4 @@
 ﻿using Hive.Domain;
-using Hive.Server.Application.Common.Middleware;
 using Hive.Server.Application.Projects.Commands.AddUserToProject;
 using Hive.Server.Application.Projects.Commands.CreateProject;
 using Hive.Server.Application.Projects.Commands.DeleteProject;

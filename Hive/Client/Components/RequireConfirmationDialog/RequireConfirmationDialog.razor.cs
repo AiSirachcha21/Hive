@@ -1,6 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using System;
 
 namespace Hive.Client.Components.RequireConfirmationDialog
 {

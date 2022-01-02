@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Hive.Domain;
-using Hive.Server.Application.Common.Exceptions;
 using Hive.Server.Infrastructure;
 using MediatR;
 using System;

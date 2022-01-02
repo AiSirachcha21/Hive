@@ -7,7 +7,6 @@ using Hive.Shared.Registration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hive.Server.Controllers
@@ -53,7 +52,7 @@ namespace Hive.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<CurrentUser> GetCurrentUserInfo() 
+        public async Task<CurrentUser> GetCurrentUserInfo()
             => await Mediator.Send(new GetCurrentUserQuery(User));
     }
 }

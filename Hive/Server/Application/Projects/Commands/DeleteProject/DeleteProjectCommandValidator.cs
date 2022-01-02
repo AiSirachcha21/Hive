@@ -20,7 +20,7 @@ namespace Hive.Server.Application.Projects.Commands.DeleteProject
                 .MustAsync(BeValidProject).WithMessage("Project does not exist");
         }
 
-        private async Task<bool> BeValidProject(Guid projectId, CancellationToken cancellationToken) 
+        private async Task<bool> BeValidProject(Guid projectId, CancellationToken cancellationToken)
             => await _context.Projects.AnyAsync(p => p.Id == projectId);
     }
 }

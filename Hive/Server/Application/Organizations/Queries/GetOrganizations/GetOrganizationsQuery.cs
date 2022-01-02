@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Hive.Domain;
 using Hive.Server.Infrastructure;
 using Hive.Shared.Organizations.QueryViewModels;
 using MediatR;
