@@ -1,5 +1,6 @@
 ﻿using Fluxor;
 using Hive.Client.Shared.Store.Organizations.Actions;
+using System.Linq;
 
 namespace Hive.Client.Shared.Store.Organizations
 {
@@ -21,5 +22,20 @@ namespace Hive.Client.Shared.Store.Organizations
             IsLoading = false,
             Organizations = action.Organizations
         };
+
+        [ReducerMethod]
+        public static OrganizationState UpdateViewedOrganization(OrganizationState state, UpdateViewedOrganizationAction action)
+        {
+            if (state.Organizations.Count > 0)
+            {
+                var org = state.Organizations.FirstOrDefault(o => o.Id == action.OrganizationId);
+                return state with
+                {
+                    ViewingOrganization = org
+                };
+            }
+
+            return state;
+        }
     }
 }

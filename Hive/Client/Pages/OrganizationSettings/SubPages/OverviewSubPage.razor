@@ -1,4 +1,76 @@
-﻿<h3>OverviewSubPage</h3>
+﻿<style>
+    .section-item-label {
+        font-family: "Quicksand", sans-serif;
+        font-weight: 500;
+    }
+
+    .section-item-heading {
+        font-weight: 700;
+    }
+
+    .projects-container {
+        width: clamp(60%,80%,100%);
+    }
+
+    .project-card-heading {
+        font-weight: 700;
+    }
+</style>
+
+<MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">About</MudText>
+<MudGrid Spacing="2">
+    <MudItem xs="12" md="4" Class="d-flex align-center">
+        <MudText Class="section-item-label" GutterBottom="false">name</MudText>
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudTextField @bind-Value="_organizationName" Variant="Variant.Outlined" Margin="Margin.Dense" />
+    </MudItem>
+    <MudItem xs="12" md="4" Class="d-flex align-center">
+        <MudText Class="section-item-label" GutterBottom="false">created on</MudText>
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudText Class="section-item-label" GutterBottom="false">24/03/2020</MudText>
+    </MudItem>
+</MudGrid>
+<MudDivider Class="my-4" />
+<MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">System Admin Information</MudText>
+<MudGrid>
+    <MudItem xs="12" md="4" Class="d-flex align-top">
+        <MudText Class="section-item-label" GutterBottom="false">owner</MudText>
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudText Class="section-item-label" GutterBottom="false">Ryan Kuruppu</MudText>
+        <MudText GutterBottom="false">ryan@123.com</MudText>
+    </MudItem>
+</MudGrid>
+<MudDivider Class="my-4" />
+<MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">Projects</MudText>
+<div Class="projects-container">
+    @foreach (var item in new Array[5])
+    {
+        <MudCard Outlined="true" Class="d-flex justify-between">
+            <MudCardContent Class="d-flex align-center" Style="flex:1">
+                <MudAvatar Class="mr-4">L</MudAvatar>
+                <div>
+                    <MudText Class="project-card-heading">LAVIN</MudText>
+                    <MudText>Lorem Ipsum et set dolor, Ipsum et set dolor</MudText>
+                </div>
+            </MudCardContent>
+            <MudCardActions Class="px-4">
+                <MudIconButton Icon="@Icons.Outlined.Settings" />
+            </MudCardActions>
+        </MudCard>
+    }
+</div>
+
 
 @code {
+    string _initialOrgName = "Ascentic";
+    string _organizationName;
+
+    protected override void OnInitialized()
+    {
+        _organizationName = _initialOrgName;
+        base.OnInitialized();
+    }
 }

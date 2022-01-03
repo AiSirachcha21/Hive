@@ -19,7 +19,7 @@
 </Router>
 
 @code {
-    static readonly string[] HeadingFonts = { "Montserrat", "Arial", "sans-serif" };
+    static readonly string[] HeadingFonts = { "Quicksand", "Arial", "sans-serif" };
     static readonly string[] DefaultFonts = { "Nunito", "sans-serif" };
 
     readonly MudTheme _appTheme = new()
@@ -32,7 +32,8 @@
                 PrimaryContrastText = new MudColor(HiveColors.White),
                 TextPrimary = new MudColor(HiveColors.Grey),
                 DrawerBackground = new MudColor(HiveColors.White),
-                AppbarBackground = new MudColor(HiveColors.White)
+                AppbarBackground = new MudColor(HiveColors.White),
+                AppbarText = new MudColor(HiveColors.Grey),
             },
             Typography = new Typography()
             {
@@ -52,11 +53,11 @@
                 {
                     FontFamily = HeadingFonts,
                     FontWeight = 700,
-                    FontSize = "32px"
+                    FontSize = "32px",
                 },
                 H2 = new H2()
                 {
-                    FontFamily = DefaultFonts,
+                    FontFamily = HeadingFonts,
                     FontWeight = 600,
                     FontSize = "24px"
                 },

@@ -4,14 +4,24 @@
 @using Hive.Shared.Organizations.QueryViewModels
 @layout OrganizationSettingsLayout
 
+<style>
+    .font-bold {
+        font-weight: 700;
+        color: @_theme.Palette.TextPrimary;
+    }
+</style>
+
 <div>
-    @if (PageRoute == OverviewSubpageName)
+    <div class="py-8">
+        <MudText Typo="Typo.h2" Class="font-bold">Organization Settings</MudText>
+    </div>
+    <MudDivider Class="mb-4" />
+    @if (PageRoute == _overviewSubpageName)
     {
         <OverviewSubPage />
     }
-    else if (PageRoute == UsersSubpageName)
+    else if (PageRoute == _usersSubpageName)
     {
-        @// TODO: Create State in OrganizationState to hold info about current Org
         <UsersSubPage />
     }
 
