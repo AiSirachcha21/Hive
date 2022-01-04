@@ -44,6 +44,8 @@ else
                       Clearable="IsNameEdited()"
                       AdornmentIcon="@(IsSavable() ? Icons.Filled.Save : null)"
                       Adornment="Adornment.End"
+                      OnAdornmentClick="UpdateOrganizationName"
+                      Disabled="IsDataLoading"
                       OnClearButtonClick="ResetName" />
         </MudItem>
         <MudItem xs="12" md="2" Class="d-flex align-center">

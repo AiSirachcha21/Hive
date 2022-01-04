@@ -15,6 +15,7 @@ namespace Hive.Client.Services.Organizations
         Task<bool> DeleteOrganizatinoAsync(Guid organizationId);
         Task<OrganizationSettingsOverviewViewModel> GetOrganizationSettingsOverviewAsync(Guid organizationId);
         Task<bool> DoesEditedOrganizationNameExist(string name);
+        Task<bool> UpdateOrganizationAsync(UpdateOrganizationRequestViewModel data);
     }
 
     public class OrganizationService : IOrganizationService
@@ -53,6 +54,14 @@ namespace Hive.Client.Services.Organizations
         public async Task<bool> DoesEditedOrganizationNameExist(string name)
         {
             return await _http.GetFromJsonAsync<bool>(ApiRoutes.CheckForDuplicateOrganization(name));
+        }
+
+        public async Task<bool> UpdateOrganizationAsync(UpdateOrganizationRequestViewModel data)
+        {
+            JsonContent content = JsonContent.Create(data);
+            var result = await _http.PutAsync(ApiRoutes.UpdateOrganization, content);
+
+            return result.IsSuccessStatusCode;
         }
     }
 }
