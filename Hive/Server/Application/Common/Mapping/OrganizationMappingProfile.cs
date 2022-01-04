@@ -9,11 +9,13 @@ namespace Hive.Server.Application.Common.Mapping
         public OrganizationMappingProfile()
         {
             CreateMap<Organization, OrganizationViewModel>();
-            CreateMap<ApplicationUser, OrganizationEmployeeViewModel>();
             CreateMap<Organization, OrganizationSettingsOverviewViewModel>()
                 .ForMember(o => o.OrganizationId, target => target.MapFrom(t => t.Id));
 
             CreateMap<UpdateOrganizationRequestViewModel, Organization>();
+
+            CreateMap<ApplicationUser, OrganizationEmployeeViewModel>();
+            CreateMap<ApplicationUser, OrganizationUserViewModel>();
         }
     }
 }

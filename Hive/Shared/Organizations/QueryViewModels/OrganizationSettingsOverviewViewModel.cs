@@ -11,5 +11,6 @@ namespace Hive.Shared.Organizations.QueryViewModels
         public string OwnerName { get; set; }
         public string OwnerEmail { get; set; }
         public List<ProjectDisplayViewModel> Projects { get; set; }
+        public List<OrganizationUserViewModel> Members { get; set; }
     }
 }
