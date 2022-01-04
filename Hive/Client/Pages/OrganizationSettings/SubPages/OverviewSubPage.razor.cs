@@ -47,8 +47,10 @@ namespace Hive.Client.Pages.OrganizationSettings.SubPages
             _isCheckingUniqueOrgName = false;
         }
 
+        string GetUpdateNameFieldErrorText() => string.IsNullOrEmpty(_organizationName) ? "The organization name cannot be empty" : "The organization name is not unique.";
         void ResetName() => _organizationName = OrganizationSettingsVm.Name;
         bool IsNameEdited() => _organizationName != OrganizationSettingsVm.Name;
+        bool IsNameFieldEmpty => string.IsNullOrEmpty(_organizationName);
         bool IsSavable() => IsNameEdited() && _isUniqueOrgName && !string.IsNullOrEmpty(_organizationName);
     }
 }
