@@ -14,6 +14,7 @@
 <div>
     <div class="py-8">
         <MudText Typo="Typo.h2" Class="font-bold">Organization Settings</MudText>
+        <MudText Typo="Typo.subtitle1" Color="Color.Primary">@(char.ToUpper(PageRoute.First()) + PageRoute.Substring(1))</MudText>
     </div>
     <MudDivider Class="mb-4" />
     <CascadingValue Value="OrganizationId" TValue="Guid">
