@@ -1,5 +1,30 @@
-﻿<h3>UsersSubPage</h3>
+﻿@using Hive.Client.Shared.Store.OrganizationSettings
 
-@code {
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
+@if (IsLoading)
+{
+    <MudProgressCircular Indeterminate="true" />
 }
+else
+{
+    <MudTable Items="@Users" Loading="IsLoading">
+        <HeaderContent>
+            <MudTh>First Name</MudTh>
+            <MudTh>Last Name</MudTh>
+            <MudTh>Email</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
+            <MudTd DataLabel="LastName">@context.LastName</MudTd>
+            <MudTd DataLabel="Email">@context.Email</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}
+
+
+
+
