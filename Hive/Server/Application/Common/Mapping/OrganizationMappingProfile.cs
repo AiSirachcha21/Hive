@@ -12,6 +12,8 @@ namespace Hive.Server.Application.Common.Mapping
             CreateMap<ApplicationUser, OrganizationEmployeeViewModel>();
             CreateMap<Organization, OrganizationSettingsOverviewViewModel>()
                 .ForMember(o => o.OrganizationId, target => target.MapFrom(t => t.Id));
+
+            CreateMap<UpdateOrganizationRequestViewModel, Organization>();
         }
     }
 }
