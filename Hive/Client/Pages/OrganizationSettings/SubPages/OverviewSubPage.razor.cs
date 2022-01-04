@@ -3,25 +3,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Hive.Client.Services.Organizations;
 using Hive.Shared.Organizations.QueryViewModels;
+using Fluxor;
+using Hive.Client.Shared.Store.OrganizationSettings;
 
 namespace Hive.Client.Pages.OrganizationSettings.SubPages
 {
     public partial class OverviewSubPage
     {
         [Inject] IOrganizationService OrganizationService { get; set; }
+        [Inject] IState<OrganizationSettingsState> OrganizationSettingsState { get; set; }
+        [Inject] IDispatcher Dispatcher { get; set; }
         [CascadingParameter] Guid OrganizationId { get; set; }
 
-        OrganizationSettingsOverviewViewModel _organizationSettingsVm;
         string _organizationName;
-        bool _isDataLoading = true;
+        bool IsDataLoading => OrganizationSettingsState.Value.IsLoading;
+        OrganizationSettingsOverviewViewModel OrganizationSettingsVm => OrganizationSettingsState.Value.SettingsPageData;
+
         bool _isCheckingUniqueOrgName = false;
         bool _isUniqueOrgName = true;
-        protected async override Task OnInitializedAsync()
+
+        protected override void OnInitialized()
         {
-            _isDataLoading = _isDataLoading == true;
-            _organizationSettingsVm = await OrganizationService.GetOrganizationSettingsOverviewAsync(OrganizationId);
-            _organizationName = _organizationSettingsVm.Name;
-            _isDataLoading = false;
+            Dispatcher.Dispatch(new FetchOrganizationSettingsPageDataAction(OrganizationId));
+            OrganizationSettingsState.StateChanged += OrganizationSettingsState_StateChanged;
+            base.OnInitialized();
+        }
+
+        private void OrganizationSettingsState_StateChanged(object sender, OrganizationSettingsState e)
+        {
+            _organizationName = e.SettingsPageData.Name;
         }
 
         async Task CheckDuplicateName()
@@ -37,8 +47,8 @@ namespace Hive.Client.Pages.OrganizationSettings.SubPages
             _isCheckingUniqueOrgName = false;
         }
 
-        void ResetName() => _organizationName = _organizationSettingsVm.Name;
-        bool IsNameEdited() => _organizationName != _organizationSettingsVm.Name;
+        void ResetName() => _organizationName = OrganizationSettingsVm.Name;
+        bool IsNameEdited() => _organizationName != OrganizationSettingsVm.Name;
         bool IsSavable() => IsNameEdited() && _isUniqueOrgName && !string.IsNullOrEmpty(_organizationName);
     }
 }

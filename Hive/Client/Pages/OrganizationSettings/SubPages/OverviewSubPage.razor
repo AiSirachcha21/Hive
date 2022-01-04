@@ -1,5 +1,7 @@
 ﻿@using Hive.Client.Services.Organizations
 @using Hive.Shared.Organizations.QueryViewModels
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
 <style>
     .section-item-label {
         font-family: "Quicksand", sans-serif;
@@ -19,7 +21,7 @@
     }
 </style>
 
-@if (_isDataLoading)
+@if (IsDataLoading)
 {
     <div class="d-flex flex-column align-center justify-center my-auto" style="height:60vh">
         <MudProgressCircular Indeterminate="true" Color="Color.Primary" Class="mb-4" />
@@ -67,18 +69,18 @@ else
             <MudText Class="section-item-label" GutterBottom="false">owner</MudText>
         </MudItem>
         <MudItem xs="12" md="6">
-            <MudText Class="section-item-label" GutterBottom="false">@_organizationSettingsVm.OwnerName</MudText>
-            <MudText>@_organizationSettingsVm.OwnerEmail</MudText>
+            <MudText Class="section-item-label" GutterBottom="false">@OrganizationSettingsVm.OwnerName</MudText>
+            <MudText>@OrganizationSettingsVm.OwnerEmail</MudText>
         </MudItem>
     </MudGrid>
     <MudDivider Class="my-4" />
     <MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">Projects</MudText>
     <div Class="projects-container">
-        @if (!_organizationSettingsVm.Projects.Any() || _organizationSettingsVm.Projects == null)
+        @if (!OrganizationSettingsVm.Projects.Any() || OrganizationSettingsVm.Projects == null)
         {
-            <MudText>@_organizationSettingsVm.Name does not have any projects.</MudText>
+            <MudText>@OrganizationSettingsVm.Name does not have any projects.</MudText>
         }
-        @foreach (var project in _organizationSettingsVm.Projects)
+        @foreach (var project in OrganizationSettingsVm.Projects)
         {
             <MudCard Outlined="true" Class="d-flex justify-between">
                 <MudCardContent Class="d-flex align-center" Style="flex:1">
