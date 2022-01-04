@@ -1,5 +1,6 @@
 ﻿using Hive.Server.Application.Organizations.Commands.CreateOrganization;
 using Hive.Server.Application.Organizations.Commands.DeleteOrganization;
+using Hive.Server.Application.Organizations.Queries.CheckForDuplicateOrganziationName;
 using Hive.Server.Application.Organizations.Queries.GetOrganizations;
 using Hive.Server.Application.Organizations.Queries.GetOrganizationSettingsData;
 using Hive.Shared;
@@ -53,5 +54,9 @@ namespace Hive.Server.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<bool>> CheckDuplicate(string name)
+            => await Mediator.Send(new CheckForDuplicateOrganizationNameCommand(name));
     }
 }
