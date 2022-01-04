@@ -59,7 +59,11 @@
         </div>
     </MudCardContent>
     <MudCardActions Class="d-flex justify-end">
-        <MudButton Variant="Variant.Text" EndIcon="@Icons.Outlined.ChevronRight">View Company</MudButton>
+        <MudButton Variant="Variant.Text"
+                   EndIcon="@Icons.Outlined.ChevronRight"
+                   Link="@Routes.OrganizationPage(Organization.Id)">
+            View Company
+        </MudButton>
     </MudCardActions>
 </MudCard>
 
