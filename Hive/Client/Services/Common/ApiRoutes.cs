@@ -17,6 +17,7 @@ namespace Hive.Client.Services.Common
         public const string GetOrganizations = $"{_organizationBaseUrl}";
         public static string DeleteOrganization(Guid organizationId) => $"{_organizationBaseUrl}?id={organizationId}";
         public static string GetOrganizationSettingsView(Guid organizationId) => $"{_organizationBaseUrl}/GetOrganizationSettingsModel?organizationId={organizationId}";
+        public static string CheckForDuplicateOrganization(string name) => $"{_organizationBaseUrl}/CheckDuplicate?name={name}";
 
         // Project
         private const string _projectBaseUrl = "api/Project";

@@ -38,21 +38,25 @@ else
                       Variant="Variant.Outlined"
                       Margin="Margin.Dense"
                       DebounceInterval="200"
-                      OnDebounceIntervalElapsed="CheckDuplicateName" />
+                      OnDebounceIntervalElapsed="CheckDuplicateName"
+                      Clearable="IsNameEdited()"
+                      AdornmentIcon="@(IsSavable() ? Icons.Filled.Save : null)"
+                      Adornment="Adornment.End"
+                      OnClearButtonClick="ResetName" />
         </MudItem>
         <MudItem xs="12" md="2" Class="d-flex align-center">
-            @if (_organizationName == _organizationSettingsVm.Name && _isUniqueOrgName)
+            @if ((!IsNameEdited() || _isUniqueOrgName) && !string.IsNullOrEmpty(_organizationName) && !_isCheckingUniqueOrgName)
             {
                 <MudIcon Icon="@Icons.Filled.CheckCircle" Color="Color.Success" />
             }
+            else
+            {
+                <MudIcon Icon="@Icons.Filled.Error" Color="Color.Error" />
+            }
+
             @if (_isCheckingUniqueOrgName)
             {
                 <MudProgressCircular Size="@Size.Small" Color="Color.Info" Indeterminate="true" />
-            }
-            @if (_organizationName != _organizationSettingsVm.Name)
-            {
-                <MudIconButton Icon="@Icons.Filled.Save" Color="Color.Primary" />
-                <MudIconButton Icon="@Icons.Filled.Undo" OnClick="ResetName" />
             }
         </MudItem>
     </MudGrid>
@@ -64,12 +68,16 @@ else
         </MudItem>
         <MudItem xs="12" md="6">
             <MudText Class="section-item-label" GutterBottom="false">@_organizationSettingsVm.OwnerName</MudText>
-            <MudText GutterBottom="false">@_organizationSettingsVm.OwnerEmail</MudText>
+            <MudText>@_organizationSettingsVm.OwnerEmail</MudText>
         </MudItem>
     </MudGrid>
     <MudDivider Class="my-4" />
     <MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">Projects</MudText>
     <div Class="projects-container">
+        @if (!_organizationSettingsVm.Projects.Any() || _organizationSettingsVm.Projects == null)
+        {
+            <MudText>@_organizationSettingsVm.Name does not have any projects.</MudText>
+        }
         @foreach (var project in _organizationSettingsVm.Projects)
         {
             <MudCard Outlined="true" Class="d-flex justify-between">
@@ -92,8 +100,8 @@ else
 @code {
     [Inject] IOrganizationService OrganizationService { get; set; }
     [CascadingParameter] Guid OrganizationId { get; set; }
-    string _organizationName;
     OrganizationSettingsOverviewViewModel _organizationSettingsVm;
+    string _organizationName;
     bool _isDataLoading = true;
     bool _isCheckingUniqueOrgName = false;
     bool _isUniqueOrgName = true;
@@ -108,17 +116,18 @@ else
 
     async Task CheckDuplicateName()
     {
-        if (_organizationName == _organizationSettingsVm.Name)
+        if (!IsNameEdited())
         {
+            _isUniqueOrgName = true;
             return;
         }
+
         _isCheckingUniqueOrgName = true;
-        await Task.Delay(1200);
+        _isUniqueOrgName = !(await OrganizationService.DoesEditedOrganizationNameExist(_organizationName));
         _isCheckingUniqueOrgName = false;
     }
 
-    void ResetName()
-    {
-        _organizationName = _organizationSettingsVm.Name;
-    }
+    void ResetName() => _organizationName = _organizationSettingsVm.Name;
+    bool IsNameEdited() => _organizationName != _organizationSettingsVm.Name;
+    bool IsSavable() => IsNameEdited() && _isUniqueOrgName && !string.IsNullOrEmpty(_organizationName);
 }
