@@ -13,6 +13,7 @@ namespace Hive.Client.Services.Organizations
         Task<List<OrganizationViewModel>> GetOrganizationsAsync();
         Task<bool> AddOrganizationAsync(string name);
         Task<bool> DeleteOrganizatinoAsync(Guid organizationId);
+        Task<OrganizationSettingsOverviewViewModel> GetOrganizationSettingsOverviewAsync(Guid organizationId);
     }
 
     public class OrganizationService : IOrganizationService
@@ -40,6 +41,12 @@ namespace Hive.Client.Services.Organizations
             HttpResponseMessage result = await _http.DeleteAsync(ApiRoutes.DeleteOrganization(organizationId));
 
             return result.IsSuccessStatusCode;
+        }
+
+        public async Task<OrganizationSettingsOverviewViewModel> GetOrganizationSettingsOverviewAsync(Guid organizationId)
+        {
+            OrganizationSettingsOverviewViewModel result = await _http.GetFromJsonAsync<OrganizationSettingsOverviewViewModel>(ApiRoutes.GetOrganizationSettingsView(organizationId));
+            return result ?? null;
         }
     }
 }

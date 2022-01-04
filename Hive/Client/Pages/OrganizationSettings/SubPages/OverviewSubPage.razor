@@ -1,4 +1,6 @@
-﻿<style>
+﻿@using Hive.Client.Services.Organizations
+@using Hive.Shared.Organizations.QueryViewModels
+<style>
     .section-item-label {
         font-family: "Quicksand", sans-serif;
         font-weight: 500;
@@ -17,60 +19,106 @@
     }
 </style>
 
-<MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">About</MudText>
-<MudGrid Spacing="2">
-    <MudItem xs="12" md="4" Class="d-flex align-center">
-        <MudText Class="section-item-label" GutterBottom="false">name</MudText>
-    </MudItem>
-    <MudItem xs="12" md="6">
-        <MudTextField @bind-Value="_organizationName" Variant="Variant.Outlined" Margin="Margin.Dense" />
-    </MudItem>
-    <MudItem xs="12" md="4" Class="d-flex align-center">
-        <MudText Class="section-item-label" GutterBottom="false">created on</MudText>
-    </MudItem>
-    <MudItem xs="12" md="6">
-        <MudText Class="section-item-label" GutterBottom="false">24/03/2020</MudText>
-    </MudItem>
-</MudGrid>
-<MudDivider Class="my-4" />
-<MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">System Admin Information</MudText>
-<MudGrid>
-    <MudItem xs="12" md="4" Class="d-flex align-top">
-        <MudText Class="section-item-label" GutterBottom="false">owner</MudText>
-    </MudItem>
-    <MudItem xs="12" md="6">
-        <MudText Class="section-item-label" GutterBottom="false">Ryan Kuruppu</MudText>
-        <MudText GutterBottom="false">ryan@123.com</MudText>
-    </MudItem>
-</MudGrid>
-<MudDivider Class="my-4" />
-<MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">Projects</MudText>
-<div Class="projects-container">
-    @foreach (var item in new Array[5])
-    {
-        <MudCard Outlined="true" Class="d-flex justify-between">
-            <MudCardContent Class="d-flex align-center" Style="flex:1">
-                <MudAvatar Class="mr-4">L</MudAvatar>
-                <div>
-                    <MudText Class="project-card-heading">LAVIN</MudText>
-                    <MudText>Lorem Ipsum et set dolor, Ipsum et set dolor</MudText>
-                </div>
-            </MudCardContent>
-            <MudCardActions Class="px-4">
-                <MudIconButton Icon="@Icons.Outlined.Settings" />
-            </MudCardActions>
-        </MudCard>
-    }
-</div>
-
-
+@if (_isDataLoading)
+{
+    <div class="d-flex flex-column align-center justify-center my-auto" style="height:60vh">
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+        <MudText>Getting Some Data...</MudText>
+    </div>
+}
+else
+{
+    <MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">About</MudText>
+    <MudGrid Spacing="2">
+        <MudItem xs="12" md="4" Class="d-flex align-center">
+            <MudText Class="section-item-label" GutterBottom="false">name</MudText>
+        </MudItem>
+        <MudItem xs="12" md="6" Class="d-flex align-center">
+            <MudTextField @bind-Value="_organizationName"
+                      Variant="Variant.Outlined"
+                      Margin="Margin.Dense"
+                      DebounceInterval="200"
+                      OnDebounceIntervalElapsed="CheckDuplicateName" />
+        </MudItem>
+        <MudItem xs="12" md="2" Class="d-flex align-center">
+            @if (_organizationName == _organizationSettingsVm.Name && _isUniqueOrgName)
+            {
+                <MudIcon Icon="@Icons.Filled.CheckCircle" Color="Color.Success" />
+            }
+            @if (_isCheckingUniqueOrgName)
+            {
+                <MudProgressCircular Size="@Size.Small" Color="Color.Info" Indeterminate="true" />
+            }
+            @if (_organizationName != _organizationSettingsVm.Name)
+            {
+                <MudIconButton Icon="@Icons.Filled.Save" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Filled.Undo" OnClick="ResetName" />
+            }
+        </MudItem>
+    </MudGrid>
+    <MudDivider Class="my-4" />
+    <MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">System Admin Information</MudText>
+    <MudGrid>
+        <MudItem xs="12" md="4" Class="d-flex align-top">
+            <MudText Class="section-item-label" GutterBottom="false">owner</MudText>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudText Class="section-item-label" GutterBottom="false">@_organizationSettingsVm.OwnerName</MudText>
+            <MudText GutterBottom="false">@_organizationSettingsVm.OwnerEmail</MudText>
+        </MudItem>
+    </MudGrid>
+    <MudDivider Class="my-4" />
+    <MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">Projects</MudText>
+    <div Class="projects-container">
+        @foreach (var project in _organizationSettingsVm.Projects)
+        {
+            <MudCard Outlined="true" Class="d-flex justify-between">
+                <MudCardContent Class="d-flex align-center" Style="flex:1">
+                    <MudAvatar Class="mr-4">@project.Name.First()</MudAvatar>
+                    <div>
+                        <MudText Class="project-card-heading">@project.Name</MudText>
+                        <MudHidden IsHidden="@string.IsNullOrEmpty(project.Description)">
+                            <MudText>@project.Description</MudText>
+                        </MudHidden>
+                    </div>
+                </MudCardContent>
+                <MudCardActions Class="px-4">
+                    <MudIconButton Icon="@Icons.Outlined.Settings" />
+                </MudCardActions>
+            </MudCard>
+        }
+    </div>
+}
 @code {
-    string _initialOrgName = "Ascentic";
+    [Inject] IOrganizationService OrganizationService { get; set; }
+    [CascadingParameter] Guid OrganizationId { get; set; }
     string _organizationName;
+    OrganizationSettingsOverviewViewModel _organizationSettingsVm;
+    bool _isDataLoading = true;
+    bool _isCheckingUniqueOrgName = false;
+    bool _isUniqueOrgName = true;
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        _organizationName = _initialOrgName;
-        base.OnInitialized();
+        _isDataLoading = _isDataLoading == true;
+        _organizationSettingsVm = await OrganizationService.GetOrganizationSettingsOverviewAsync(OrganizationId);
+        _organizationName = _organizationSettingsVm.Name;
+        _isDataLoading = false;
+    }
+
+    async Task CheckDuplicateName()
+    {
+        if (_organizationName == _organizationSettingsVm.Name)
+        {
+            return;
+        }
+        _isCheckingUniqueOrgName = true;
+        await Task.Delay(1200);
+        _isCheckingUniqueOrgName = false;
+    }
+
+    void ResetName()
+    {
+        _organizationName = _organizationSettingsVm.Name;
     }
 }

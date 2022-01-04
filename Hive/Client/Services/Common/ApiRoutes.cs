@@ -16,6 +16,7 @@ namespace Hive.Client.Services.Common
         public const string CreateOrganization = $"{_organizationBaseUrl}";
         public const string GetOrganizations = $"{_organizationBaseUrl}";
         public static string DeleteOrganization(Guid organizationId) => $"{_organizationBaseUrl}?id={organizationId}";
+        public static string GetOrganizationSettingsView(Guid organizationId) => $"{_organizationBaseUrl}/GetOrganizationSettingsModel?organizationId={organizationId}";
 
         // Project
         private const string _projectBaseUrl = "api/Project";
