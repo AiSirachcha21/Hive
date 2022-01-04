@@ -4,6 +4,7 @@ using Hive.Server.Application.Projects.Commands.AddUserToProject;
 using Hive.Server.Application.Projects.Commands.CreateProject;
 using Hive.Server.Application.Projects.Commands.UpdateProject;
 using Hive.Shared.Projects.Commands;
+using Hive.Shared.Projects.Queries;
 using System;
 
 namespace Hive.Server.Application.Common.Mapping
@@ -31,6 +32,8 @@ namespace Hive.Server.Application.Common.Mapping
 
             CreateMap<string, ProjectUser>()
                    .ConstructUsing(str => new ProjectUser { MemberId = str, Id = Guid.NewGuid() });
+
+            CreateMap<Project, ProjectDisplayViewModel>();
 
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Hive.Server.Application.Organizations.Commands.CreateOrganization;
 using Hive.Server.Application.Organizations.Commands.DeleteOrganization;
 using Hive.Server.Application.Organizations.Queries.GetOrganizations;
+using Hive.Server.Application.Organizations.Queries.GetOrganizationSettingsData;
 using Hive.Shared;
 using Hive.Shared.Organizations.CommandViewModels;
 using Hive.Shared.Organizations.QueryViewModels;
@@ -40,6 +41,17 @@ namespace Hive.Server.Controllers
             await Mediator.Send(command);
 
             return Ok();
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<OrganizationSettingsOverviewViewModel>> GetOrganizationSettingsModel(Guid organizationId)
+        {
+            var result = await Mediator.Send(new GetOrganizationSettingsOverviewQuery(organizationId));
+            if (result == null)
+            {
+                return NoContent();
+            }
+            return Ok(result);
         }
     }
 }
