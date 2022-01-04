@@ -36,23 +36,6 @@
         </CardHeaderContent>
         <CardHeaderActions>
             <MudIconButton Icon="@Icons.Filled.Settings" Link=@(Routes.OrganizationSettingsOverview(Organization.Id)) />
-            @*<MudMenu Icon="@Icons.Filled.Settings"
-                AnchorOrigin="Origin.BottomRight"
-                TransformOrigin="Origin.TopRight"
-                Disabled="DisableInteraction">
-                <MudMenuItem>
-                <div class="d-flex align-center flex-no-wrap">
-                <MudIcon Icon="@Icons.Filled.Edit" Class="mr-2" />
-                <MudText>Edit</MudText>
-                </div>
-                </MudMenuItem>
-                <MudMenuItem OnClick="()=>OnDelete(Organization)">
-                <div class="d-flex align-center flex-no-wrap">
-                <MudIcon Icon="@Icons.Filled.Delete" Class="mr-2" Color="Color.Error" />
-                <MudText Color="Color.Error">Delete</MudText>
-                </div>
-                </MudMenuItem>
-                </MudMenu>*@
         </CardHeaderActions>
     </MudCardHeader>
     <MudCardContent Class="d-flex flex-wrap">
