@@ -10,8 +10,8 @@ namespace Hive.Shared.Projects.Queries
         public string OrganizationName { get; set; }
         public char NameInitial { get; set; }
         public string Description { get; set; }
-        public dynamic ProjectStatistics { get; set; }
+        public ProjectStatisticsOverviewViewModel ProjectStatistics { get; set; }
         public List<ProjectUserViewModel> Members { get; set; }
-
+        public DateTime CreatedAt { get; set; }
     }
 }
