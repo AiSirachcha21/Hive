@@ -10,7 +10,7 @@ namespace Hive.Client.Services.Projects
 {
     public interface IProjectService
     {
-        Task<List<ProjectDisplayViewModel>> GetUserProjectsAsync(Guid organizationId);
+        Task<List<ProjectViewModel>> GetUserProjectsAsync(Guid organizationId);
     }
 
     public class ProjectService : IProjectService
@@ -27,9 +27,9 @@ namespace Hive.Client.Services.Projects
         /// </summary>
         /// <param name="organizationId"></param>
         /// <returns>List of Projects</returns>
-        public async Task<List<ProjectDisplayViewModel>> GetUserProjectsAsync(Guid organizationId)
+        public async Task<List<ProjectViewModel>> GetUserProjectsAsync(Guid organizationId)
         {
-            return await _http.GetFromJsonAsync<List<ProjectDisplayViewModel>>(ApiRoutes.GetUserProjects(organizationId));
+            return await _http.GetFromJsonAsync<List<ProjectViewModel>>(ApiRoutes.GetUserProjects(organizationId));
         }
     }
 }

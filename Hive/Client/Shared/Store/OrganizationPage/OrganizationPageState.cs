@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace Hive.Client.Shared.Store.OrganizationPage
 {
-    public record OrganizationPageState(bool IsLoading, List<ProjectDisplayViewModel> Projects, Guid CurrentOrganization);
+    public record OrganizationPageState(bool IsLoading, List<ProjectViewModel> Projects, Guid CurrentOrganization);
 
     public class OrganizationPageFeatureState : Feature<OrganizationPageState>
     {
         public override string GetName() => nameof(OrganizationPageState);
 
-        protected override OrganizationPageState GetInitialState() => new(false, new List<ProjectDisplayViewModel>(), Guid.Empty);
+        protected override OrganizationPageState GetInitialState() => new(false, new List<ProjectViewModel>(), Guid.Empty);
     }
 }

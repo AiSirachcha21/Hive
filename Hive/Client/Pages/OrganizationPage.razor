@@ -1,0 +1,37 @@
+﻿@page "/organization/{organizationId:guid}"
+@using Hive.Client.Components.OrganizationProjectCard
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<style>
+    .breadcrumb-container {
+        flex: 1;
+        background-color: @Colors.Grey.Lighten4;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+    }
+</style>
+
+@if (OrganizationPageState.Value.IsLoading)
+{
+    <div class="d-flex align-center justify-center" style="height:75vh">
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        <MudText>Loading Project...</MudText>
+    </div>
+}
+else
+{
+    <div class="breadcrumb-container">
+        <MudBreadcrumbs Items="_breadcrumbItems" Separator="/" />
+    </div>
+    <MudText Typo="Typo.h1" Class="mb-4 mx-2">@CurrentOrg.Name</MudText>
+    <MudGrid>
+        @foreach (var project in Projects)
+        {
+            <MudItem md="3">
+                <OrganizationProjectCard Project="project" />
+            </MudItem>
+        }
+    </MudGrid>
+
+}
