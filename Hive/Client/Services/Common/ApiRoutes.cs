@@ -24,6 +24,7 @@ namespace Hive.Client.Services.Common
         private const string _projectBaseUrl = "api/Project";
         public static string GetProject(Guid organizationId) => $"{_projectBaseUrl}/{organizationId}";
         public const string CreateProject = $"{_projectBaseUrl}";
+        public static string GetUserProjects(Guid organizationId) => $"{_projectBaseUrl}/GetUserProjects?organizationId={organizationId}";
 
     }
 }
