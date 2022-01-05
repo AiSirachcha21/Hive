@@ -108,4 +108,21 @@ else
             </MudCard>
         }
     </div>
+    <MudDivider Class="my-4" />
+    <MudText Typo="Typo.h3" GutterBottom="true" Class="mb-4 section-item-heading">Danger Zone</MudText>
+    <MudGrid Spacing="2">
+        <MudItem xs="12" md="4" Class="d-flex flex-column justify-center">
+            <MudText Typo="Typo.subtitle1" Style="font-weight:600;">Delete Project</MudText>
+            <MudText Typo="Typo.caption">This will remove and permanantly delete all data in this organization. Everything go *poof*</MudText>
+        </MudItem>
+        <div class="d-flex align-center">
+            <MudButton DisableElevation="true"
+                   Color="Color.Error"
+                   Variant="Variant.Filled"
+                   Style="height:50%;"
+                   OnClick="()=>OnDelete(_organizationName, OrganizationSettingsState.Value.SettingsPageData.OrganizationId)">Delete Permanantly</MudButton>
+        </div>
+    </MudGrid>
+    <MudDivider Class="my-4" />
+
 }
