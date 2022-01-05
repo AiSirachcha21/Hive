@@ -9,16 +9,18 @@ namespace Hive.Client.Shared.Constants
         public const string Login = "/login";
         public const string Register = "/register";
         public const string CreateProject = "/project/create";
+        public const string UserOrganizations = "/organizations";
+        private const string _userOrganization = "/organization";
         public static string OrganizationSettingsOverview(Guid organizationId)
-            => $"/organizations/settings/{organizationId}/overview";
+            => $"{UserOrganizations}/settings/{organizationId}/overview";
 
         public static string OrganizationSettingsUsers(Guid organizationId)
-            => $"/organizations/settings/{organizationId}/users";
+            => $"{UserOrganizations}/settings/{organizationId}/users";
 
         public static string OrganizationPage(Guid organizationId)
-            => $"/organization/{organizationId}";
+            => $"{_userOrganization}/{organizationId}";
 
         public static string ProjectPage(Guid projectId)
-           => $"/organization/project/{projectId}";
+           => $"{_userOrganization}/project/{projectId}";
     }
 }

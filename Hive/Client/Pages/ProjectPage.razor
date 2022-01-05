@@ -1,0 +1,34 @@
+﻿@page "/organization/project/{projectId:guid}"
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<style>
+    .breadcrumb-container {
+        flex: 1;
+        background-color: @Colors.Grey.Lighten4;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+    }
+</style>
+
+
+@if (ProjectState.Value.IsLoading)
+{
+    <div class="d-flex align-center justify-center" style="height:75vh;width:75%;">
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        <MudText>Loading Project...</MudText>
+    </div>
+}
+else
+{
+    List<BreadcrumbItem> breadcrumbItems = new()
+                {
+                    new BreadcrumbItem("Organizations", Routes.UserOrganizations),
+                    new BreadcrumbItem("Projects", Routes.OrganizationPage(Project.OrganizationId)),
+                    new BreadcrumbItem(Project.Name, null, true),
+                };
+    <div class="breadcrumb-container">
+        <MudBreadcrumbs Items="breadcrumbItems" Separator="/" />
+    </div>
+    <h2>@Project.Name</h2>
+}

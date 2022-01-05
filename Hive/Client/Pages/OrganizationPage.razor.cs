@@ -41,7 +41,10 @@ namespace Hive.Client.Pages
             {
                 Dispatcher.Dispatch(new GetOrganizationsAction());
             }
-            Dispatcher.Dispatch(new FetchOrganizationPageAction(OrganizationId));
+            if (!OrganizationPageState.Value.Projects.Any())
+            {
+                Dispatcher.Dispatch(new FetchOrganizationPageAction(OrganizationId));
+            }
             base.OnInitialized();
         }
     }
