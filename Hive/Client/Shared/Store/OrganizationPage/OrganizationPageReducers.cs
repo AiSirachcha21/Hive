@@ -4,13 +4,7 @@ namespace Hive.Client.Shared.Store.OrganizationPage
 {
     public class OrganizationPageReducers
     {
-        [ReducerMethod]
-        public static OrganizationPageState SetCurrentOrganizationId(OrganizationPageState state, SetCurrentOrganizationIdAction action) => state with
-        {
-            CurrentOrganization = action.OrganizationId,
-        };
-
-        [ReducerMethod(typeof(FetchOrganizationProjectsAction))]
+        [ReducerMethod(typeof(FetchOrganizationPageAction))]
         public static OrganizationPageState FetchOrganizationProjects(OrganizationPageState state)
         {
             return state with

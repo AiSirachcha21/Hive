@@ -37,9 +37,11 @@ namespace Hive.Client.Pages
                 new BreadcrumbItem("Organizations","/organizations"),
                 new BreadcrumbItem("Projects",Routes.OrganizationPage(OrganizationId), true),
             };
-            Dispatcher.Dispatch(new GetOrganizationsAction());
-            Dispatcher.Dispatch(new SetCurrentOrganizationIdAction(OrganizationId));
-            Dispatcher.Dispatch(new FetchOrganizationProjectsAction(OrganizationId));
+            if (!OrganizationState.Value.Organizations.Any())
+            {
+                Dispatcher.Dispatch(new GetOrganizationsAction());
+            }
+            Dispatcher.Dispatch(new FetchOrganizationPageAction(OrganizationId));
             base.OnInitialized();
         }
     }

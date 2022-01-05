@@ -13,7 +13,7 @@ namespace Hive.Client.Shared.Store.OrganizationPage
             _projectService = projectService;
         }
         [EffectMethod]
-        public async Task FetchOrganizationProjects(FetchOrganizationProjectsAction action, IDispatcher dispatcher)
+        public async Task FetchOrganizationProjects(FetchOrganizationPageAction action, IDispatcher dispatcher)
         {
             var result = await _projectService.GetUserProjectsAsync(action.OrganizationId);
             dispatcher.Dispatch(new SetOrganizationProjectsAction(result));

@@ -12,7 +12,7 @@
     }
 </style>
 
-@if (OrganizationPageState.Value.IsLoading)
+@if (IsLoading)
 {
     <div class="d-flex align-center justify-center" style="height:75vh">
         <MudProgressLinear Indeterminate="true" Color="Color.Primary" />

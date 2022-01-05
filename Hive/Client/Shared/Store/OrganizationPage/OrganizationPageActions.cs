@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace Hive.Client.Shared.Store.OrganizationPage
 {
-    public record SetCurrentOrganizationIdAction(Guid OrganizationId);
-    public record FetchOrganizationProjectsAction(Guid OrganizationId);
+    public record FetchOrganizationPageAction(Guid OrganizationId);
     public record SetOrganizationProjectsAction(List<ProjectViewModel> Projects);
 }

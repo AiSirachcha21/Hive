@@ -2,16 +2,27 @@
 
 <style>
     /* opc = OrganizationProjectCard */
+    .opc-header:hover .opc-nav-link {
+        text-decoration: underline;
+    }
+
     .opc-text-bold {
         font-weight: 700;
+    }
+
+    .opc-nav-link {
+        text-decoration: none;
+        color: @HiveColors.Grey
     }
 </style>
 
 <MudCard>
     <MudCardContent>
-        <div class="d-flex justify-between align-center">
+        <div class="d-flex justify-between align-center opc-header">
             <div style="flex:1">
-                <MudText Typo="Typo.h3" Class="opc-text-bold">@Project.Name</MudText>
+                <NavLink href=@Routes.ProjectPage(Project.Id) class="opc-nav-link">
+                    <MudText Typo="Typo.h3" Class="opc-text-bold">@Project.Name</MudText>
+                </NavLink>
                 <MudText Typo="Typo.caption">@RemainingTickets Tickets Remaining</MudText>
             </div>
             <MudMenu Icon="@Icons.Filled.MoreVert">
