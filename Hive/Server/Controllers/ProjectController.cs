@@ -36,7 +36,7 @@ namespace Hive.Server.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<IList<ProjectDisplayViewModel>>> GetUserProjects(Guid organizationId)
+        public async Task<ActionResult<IList<ProjectViewModel>>> GetUserProjects(Guid organizationId)
         {
             var result = await Mediator.Send(new GetUserProjectsQuery(organizationId, UserId));
 
