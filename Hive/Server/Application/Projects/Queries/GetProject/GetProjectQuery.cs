@@ -37,8 +37,10 @@ namespace Hive.Server.Application.Projects.Queries.GetProject
                 NameInitial = project.Name.First(),
                 Description = project.Description,
                 OrganizationName = organization.Name,
+                OrganizationId = organization.Id,
                 Members = members,
-                ProjectStatistics = projectStatistics
+                ProjectStatistics = projectStatistics,
+                CreatedAt = project.CreatedAt
             };
 
         }

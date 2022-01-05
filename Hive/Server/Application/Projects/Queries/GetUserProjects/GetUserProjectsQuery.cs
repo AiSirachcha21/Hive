@@ -61,6 +61,7 @@ namespace Hive.Server.Application.Projects.Queries.GetUserProjects
                 NameInitial = project.Name.First(),
                 Description = project.Description,
                 OrganizationName = organization.Name,
+                OrganizationId = organization.Id,
                 Members = members,
                 ProjectStatistics = projectStatistics,
                 CreatedAt = project.CreatedAt

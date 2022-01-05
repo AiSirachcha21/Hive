@@ -7,6 +7,7 @@ namespace Hive.Shared.Projects.Queries
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public Guid OrganizationId { get; set; }
         public string OrganizationName { get; set; }
         public char NameInitial { get; set; }
         public string Description { get; set; }
