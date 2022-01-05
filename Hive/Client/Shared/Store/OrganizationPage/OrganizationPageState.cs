@@ -3,7 +3,7 @@ using Hive.Shared.Projects.Queries;
 using System;
 using System.Collections.Generic;
 
-namespace Hive.Client.Shared.Store.Organization
+namespace Hive.Client.Shared.Store.OrganizationPage
 {
     public record OrganizationPageState(bool IsLoading, List<ProjectDisplayViewModel> Projects, Guid CurrentOrganization);
 
