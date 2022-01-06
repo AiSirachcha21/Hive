@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Hive.Domain;
 using Hive.Server.Infrastructure;
+using Hive.Shared.Tickets.Queries;
 using MediatR;
 using System;
 using System.Threading;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Hive.Server.Application.Tickets.Commands.CreateTicket
 {
-    public record CreateTicketCommand(string Title, string Description, string AssignedUserId, Guid ProjectId) : IRequest<Unit>;
+    public record CreateTicketCommand(string Title, string Description, string AssignedUserId, Guid ProjectId) : IRequest<TicketViewModel>;
 
-    public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, Unit>
+    public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, TicketViewModel>
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -21,14 +22,25 @@ namespace Hive.Server.Application.Tickets.Commands.CreateTicket
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
+        public async Task<TicketViewModel> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
         {
             var ticket = _mapper.Map<Ticket>(request);
 
             await _context.Tickets.AddAsync(ticket, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            var ticketOwner = ticket.AssignedUserId == null ? null : await _context.Users.FindAsync(ticket.AssignedUserId);
+
+            return new TicketViewModel
+            {
+                AssignedUserId = ticket.AssignedUserId,
+                AssignedUserName = ticketOwner != null ? $"{ticketOwner.FirstName} {ticketOwner.LastName}" : null,
+                Description = ticket.Description,
+                Id = ticket.Id,
+                LastUpdated = ticket.LastModfied.ToShortDateString(),
+                Status = ticket.TicketStatus,
+                Title = ticket.Title
+            };
         }
     }
 }
