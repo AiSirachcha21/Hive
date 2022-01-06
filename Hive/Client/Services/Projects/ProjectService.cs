@@ -53,9 +53,12 @@ namespace Hive.Client.Services.Projects
             return result.IsSuccessStatusCode;
         }
 
-        public Task<bool> AddUserToProjectAsync(List<string> userIds, Guid projectid)
+        public async Task<bool> AddUserToProjectAsync(List<string> userIds, Guid projectId)
         {
-            throw new NotImplementedException();
+            JsonContent content = JsonContent.Create(new { userIds = userIds, projectId = projectId });
+            var result = await _http.PostAsync(ApiRoutes.AddUsersToProject, content);
+
+            return result.IsSuccessStatusCode;
         }
     }
 }

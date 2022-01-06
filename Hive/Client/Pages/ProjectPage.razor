@@ -56,7 +56,9 @@ else
         </MudItem>
         <MudItem lg="5">
             <CascadingValue Value="Project.OrganizationId">
-                <ProjectTeamListCard Users="Project.Members" />
+                <CascadingValue Value="ProjectId">
+                    <ProjectTeamListCard Users="Project.Members" />
+                </CascadingValue>
             </CascadingValue>
         </MudItem>
     </MudGrid>

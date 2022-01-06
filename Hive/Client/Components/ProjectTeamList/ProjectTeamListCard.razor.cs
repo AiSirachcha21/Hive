@@ -25,6 +25,7 @@ using Hive.Client.Services.Organizations;
 using Hive.Domain;
 using Hive.Client.Shared.Store.OrganizationSettings;
 using Hive.Client.Services.Projects;
+using Hive.Client.Shared.Store.Project;
 
 namespace Hive.Client.Components.ProjectTeamList
 {
@@ -34,8 +35,11 @@ namespace Hive.Client.Components.ProjectTeamList
         public List<ProjectUserViewModel> Users { get; set; }
         [CascadingParameter]
         public Guid OrganizationId { get; set; }
+        [CascadingParameter]
+        public Guid ProjectId { get; set; }
         [Inject] IOrganizationService OrganizationService { get; set; }
         [Inject] IProjectService ProjectService { get; set; }
+        [Inject] public IDispatcher Dispatcher { get; set; }
 
         UserViewModel _searchedUser;
 
@@ -47,11 +51,11 @@ namespace Hive.Client.Components.ProjectTeamList
 
         async Task AddUserToProject()
         {
-            var data = await ProjectService.;
+            var data = await ProjectService.AddUserToProjectAsync(new List<string>() { _searchedUser.Id }, ProjectId);
             if (data)
             {
-                Dispatcher.Dispatch(new FetchOrganizationSettingsPageDataAction(OrganizationId));
-                _searchedUserId = null;
+                Dispatcher.Dispatch(new FetchProjectAction(ProjectId));
+                _searchedUser = null;
             }
         }
     }

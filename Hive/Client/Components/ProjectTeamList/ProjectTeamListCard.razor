@@ -8,7 +8,7 @@
             <MudText Typo="Typo.caption">Overview</MudText>
         </div>
         <div>
-            <div class="d-flex">
+            <div class="d-flex" style="gap:4px;">
                 <MudAutocomplete T="UserViewModel"
                                  ResetValueOnEmptyText="true"
                                  Label="User Network Search"
@@ -16,9 +16,9 @@
                                  SearchFunc="GetNetworkUsers"
                                  Variant="Variant.Outlined"
                                  ToStringFunc="@((e)=>$"{e.FirstName} {e.LastName}")" />
-                <MudButton Variant="Variant.Filled"
-                           DisableElevation="true"
-                           Color="Color.Primary"
+                <MudButton DisableElevation="true"
+                           StartIcon="@Icons.Filled.PersonAdd"
+                           Size="Size.Small"
                            OnClick="AddUserToProject">Add User</MudButton>
             </div>
 
