@@ -32,18 +32,23 @@ namespace Hive.Server.Application.Organizations.Queries.GetOrganizations
                        .ProjectTo<OrganizationViewModel>(_mapper.ConfigurationProvider)
                        .ToListAsync(cancellationToken);
 
-            foreach (OrganizationViewModel org in orgs)
+            var index = 0;
+
+            while (index != orgs.Count)
             {
-                Guid orgId = org.Id;
+                Guid orgId = orgs[index].Id;
                 int projectCount = _context.Projects.Where(p => p.OrganizationId == orgId).Count();
-                List<string> orgUsers = await _context.OrganizationUsers.Where(p => p.OrganizationId != orgId).Select(o => o.MemberId).ToListAsync(cancellationToken);
-                List<OrganizationEmployeeViewModel> orgFullUsers = await _context.Users.Where(u => orgUsers.Any(id => id == u.Id))
+                List<string> orgUsers = await _context.OrganizationUsers.Where(p => p.OrganizationId == orgId).Select(o => o.MemberId).ToListAsync(cancellationToken);
+                List<OrganizationEmployeeViewModel> orgFullUsers = await _context
+                    .Users.Where(u => orgUsers.Any(id => id == u.Id))
                     .ProjectTo<OrganizationEmployeeViewModel>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                org.Employees = orgFullUsers;
-                org.ProjectCount = projectCount;
+                orgs[index].Employees = orgFullUsers;
+                orgs[index].ProjectCount = projectCount;
+                index++;
             }
+
             return orgs;
         }
     }
