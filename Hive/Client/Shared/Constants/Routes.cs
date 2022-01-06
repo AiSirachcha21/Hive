@@ -22,5 +22,8 @@ namespace Hive.Client.Shared.Constants
 
         public static string ProjectPage(Guid projectId)
            => $"{_userOrganization}/project/{projectId}";
+
+        public static string ProjectBoard(Guid projectId)
+            => $"{ProjectPage(projectId)}/board";
     }
 }

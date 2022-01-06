@@ -1,4 +1,7 @@
 ﻿@page "/organization/project/{projectId:guid}"
+@using Hive.Client.Components.ProjectBoardOverviewCard
+@using Hive.Client.Components.ProjectTasksCard
+@using Hive.Client.Components.ProjectTeamList
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
@@ -8,6 +11,15 @@
         background-color: @Colors.Grey.Lighten4;
         border-radius: 12px;
         margin-bottom: 1rem;
+    }
+
+    .project-body {
+        height: 75vh;
+    }
+
+    .card-bg {
+        /*background-color: @Colors.Orange.Lighten5;*/
+        border-radius: 8px;
     }
 </style>
 
@@ -30,5 +42,20 @@ else
     <div class="breadcrumb-container">
         <MudBreadcrumbs Items="breadcrumbItems" Separator="/" />
     </div>
-    <h2>@Project.Name</h2>
+    //Main Content
+    <div class="mx-2 my-8">
+        <MudText Typo="Typo.caption">Project</MudText>
+        <MudText Typo="Typo.h1">@Project.Name</MudText>
+    </div>
+    <MudGrid Class="project-body">
+        <MudItem lg="3">
+            <ProjectBoardOverviewCard ProjectId="@ProjectId" />
+        </MudItem>
+        <MudItem lg="4">
+            <ProjectTasksCard />
+        </MudItem>
+        <MudItem lg="5">
+            <ProjectTeamListCard Users="Project.Members" />
+        </MudItem>
+    </MudGrid>
 }

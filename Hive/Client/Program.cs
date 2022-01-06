@@ -3,6 +3,7 @@ using Hive.Client.Services;
 using Hive.Client.Services.Interfaces;
 using Hive.Client.Services.Organizations;
 using Hive.Client.Services.Projects;
+using Hive.Client.Services.Tickets;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,7 @@ namespace Hive.Client
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IOrganizationService, OrganizationService>();
             builder.Services.AddScoped<IProjectService, ProjectService>();
+            builder.Services.AddScoped<ITicketService, TicketService>();
 
             builder.Services.AddMudServices(config =>
             {
@@ -44,7 +46,7 @@ namespace Hive.Client
             });
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            
+
 
             await builder.Build().RunAsync();
         }

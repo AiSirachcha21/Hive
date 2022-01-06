@@ -1,0 +1,68 @@
+﻿@using Hive.Client.Services.Projects
+@using Hive.Client.Services.Tickets
+@using Hive.Shared.Tickets.Queries
+@using Hive.Domain
+
+<MudCard Outlined="true" Class="card-bg">
+    <MudCardContent>
+        <div class="mb-4">
+            <MudText Typo="Typo.h2">Board</MudText>
+            <MudText Typo="Typo.caption">Overview</MudText>
+        </div>
+
+        @if (isLoading)
+        {
+            <div class="d-flex justify-center align-center" style="flex:1;height:100%;">
+                <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+            </div>
+        }
+        else
+        {
+            @if (_tickets.Any())
+            {
+                <MudGrid>
+                    <MudItem md="6">
+                        <MudText Typo="Typo.h2">@_tickets.Where(t => t.Status == TicketStatus.NotStarted).Count()</MudText>
+                        <MudText>New</MudText>
+                    </MudItem>
+                    <MudItem md="6">
+                        <MudText Typo="Typo.h2">@_tickets.Where(t => t.Status == TicketStatus.Active).Count()</MudText>
+                        <MudText>In Progress</MudText>
+                    </MudItem>
+
+                    <MudItem md="6">
+                        <MudText Typo="Typo.h2">@_tickets.Where(t => t.Status == TicketStatus.Testing).Count()</MudText>
+                        <MudText>Testing</MudText>
+                    </MudItem>
+
+                    <MudItem md="6">
+                        <MudText Typo="Typo.h2">@_tickets.Where(t => t.Status == TicketStatus.Completed).Count()</MudText>
+                        <MudText>Completed</MudText>
+                    </MudItem>
+                </MudGrid>
+            }
+            else
+            {
+                <MudText>No Tickets have been created yet</MudText>
+            }
+        }
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" FullWidth="true" Color="Color.Primary" Link="@BoardLink">View Board</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter] public Guid ProjectId { get; set; }
+    [Inject] ITicketService TicketService { get; set; }
+    List<TicketViewModel> _tickets = new(0);
+    bool isLoading = false;
+    string BoardLink => Routes.ProjectBoard(ProjectId);
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        _tickets = await TicketService.GetTicketsByProjectIdAsync(ProjectId);
+        isLoading = false;
+    }
+}

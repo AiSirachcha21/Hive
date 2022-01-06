@@ -1,0 +1,32 @@
+﻿@using Hive.Shared.Projects.Queries
+<MudCard Outlined="true" Class="class=bg">
+    <MudCardContent>
+        <div class="mb-4">
+            <MudText Typo="Typo.h2">Team</MudText>
+            <MudText Typo="Typo.caption">Overview</MudText>
+        </div>
+        <div>
+            @foreach (var user in Users)
+            {
+                <MudPaper Elevation="0" Class="d-flex flex-no-wrap pa-4" Style="width:100%">
+                    <div class="d-flex align-center" style="flex:1;">
+                        <MudAvatar Class="mr-4" Color="Color.Primary">@user.UserName.First().ToString().ToUpper()</MudAvatar>
+                        <div>
+                            <MudText Typo="Typo.subtitle1">@user.UserName</MudText>
+                            <MudText Typo="Typo.subtitle2">@user.Email</MudText>
+                        </div>
+                    </div>
+                    <div class="d-flex align-center">
+                        <MudText>@user.Role</MudText>
+                    </div>
+                </MudPaper>
+                <MudDivider />
+            }
+        </div>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    [Parameter] public List<ProjectUserViewModel> Users { get; set; }
+
+}
