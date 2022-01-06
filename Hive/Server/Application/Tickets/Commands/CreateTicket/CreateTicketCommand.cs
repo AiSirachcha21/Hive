@@ -24,7 +24,17 @@ namespace Hive.Server.Application.Tickets.Commands.CreateTicket
 
         public async Task<TicketViewModel> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
         {
-            var ticket = _mapper.Map<Ticket>(request);
+            var ticket = new Ticket
+            {
+                Id = Guid.NewGuid(),
+                AssignedUserId = request.AssignedUserId,
+                CreatedAt = DateTime.UtcNow,
+                Description = request.Description,
+                ProjectId = request.ProjectId,
+                TicketStatus = TicketStatus.NotStarted,
+                Title = request.Title,
+                LastModfied = DateTime.UtcNow,
+            };
 
             await _context.Tickets.AddAsync(ticket, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);

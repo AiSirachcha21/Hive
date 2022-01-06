@@ -32,11 +32,21 @@ namespace Hive.Client.Components.AddTicketDialog
 
         async void Submit()
         {
-            var newTicket = await TicketService.AddTicketAsync(RequestContext);
-            Snackbar.Add("Success!", Severity.Success);
-            MudDialog.Close(DialogResult.Ok(newTicket));
+            if (IsContextAcceptible())
+            {
+                var newTicket = await TicketService.AddTicketAsync(RequestContext);
+                Snackbar.Add("Success!", Severity.Success);
+                MudDialog.Close(DialogResult.Ok(newTicket));
+            }
         }
 
         void CancelAsync() => MudDialog.Cancel();
+
+        bool IsContextAcceptible()
+        {
+            return RequestContext.ProjectId != Guid.Empty &&
+                !string.IsNullOrEmpty(RequestContext.Title) &&
+                !string.IsNullOrWhiteSpace(RequestContext.Title);
+        }
     }
 }

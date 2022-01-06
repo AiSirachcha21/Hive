@@ -8,7 +8,7 @@ namespace Hive.Shared.Tickets.Commands
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
-        public string AssigneeUserId { get; set; }
+        public string AssignedUserId { get; set; }
         [Required]
         public Guid ProjectId { get; set; }
     }

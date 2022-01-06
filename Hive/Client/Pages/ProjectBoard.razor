@@ -96,7 +96,7 @@ else
 {
     <MudText Typo="Typo.h1" class="mx-2">Tasks</MudText>
     <div class="board-container">
-        @foreach (var col in Columns)
+        @foreach (var col in _columns)
         {
             <div class="board-column">
                 <div class="header">
@@ -113,7 +113,7 @@ else
                 <div class="ticket-list">
                     @foreach (var ticket in Tickets.Where(t => t.Status == col.Item2).ToList())
                     {
-                        <MudPaper Outlined="true" Class="mr-4 pa-4 kanban-item">
+                        <MudPaper Outlined="true" Class="mr-4 pa-4 kanban-item" @onclick="()=>OpenEditTicketDialog(ticket)">
                             <MudText Typo="Typo.subtitle1" Class="mb-4">@ticket.Title</MudText>
                             <div class="mb-4">
                                 <div class="d-flex" style="gap:8px">

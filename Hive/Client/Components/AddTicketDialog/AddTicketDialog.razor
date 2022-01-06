@@ -3,18 +3,22 @@
     <DataAnnotationsValidator />
     <MudDialog>
         <DialogContent>
-            <MudTextField id="title" @bind-Value="RequestContext.Title" For=@(()=>RequestContext.Title) Label="Title" />
-            <MudTextField id=" description" @bind-Value="RequestContext.Description" For=@(()=>RequestContext.Description) Label="Description" />
-            <MudSelect T="string" @bind-Value="RequestContext.AssigneeUserId" For=@(()=>RequestContext.AssigneeUserId) Label="Assigned User">
+            <MudTextField id="title" @bind-Value="RequestContext.Title" DebounceInterval="200" For=@(()=>RequestContext.Title) Label="Title" />
+            <MudTextField id="description" @bind-Value="RequestContext.Description" For=@(()=>RequestContext.Description) Label="Description" />
+            <MudSelect T="string"
+                       @bind-Value="RequestContext.AssignedUserId"
+                       For=@(()=>RequestContext.AssignedUserId)
+                       Label="Assigned User">
                 @foreach (var user in Users)
                 {
                     <MudSelectItem Value="user.Id">@user.UserName</MudSelectItem>
                 }
+                <MudSelectItem Value="string.Empty">Unassigned</MudSelectItem>
             </MudSelect>
         </DialogContent>
         <DialogActions>
             <MudButton OnClick="CancelAsync">Cancel</MudButton>
-            <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+            <MudButton Color="Color.Primary" OnClick="Submit" Disabled="!IsContextAcceptible()">Create</MudButton>
         </DialogActions>
     </MudDialog>
 </EditForm>

@@ -1,0 +1,79 @@
+﻿@using Hive.Domain
+<EditForm Model="RequestContext" OnValidSubmit="OnSubmitAsync">
+    <DataAnnotationsValidator />
+    <MudDialog>
+        <TitleContent>
+            <div class="mb-8">
+                <MudText Typo="Typo.h1">Edit Ticket</MudText>
+                <MudText Typo="Typo.caption" Style="flex:1">Updated on @Ticket.LastUpdated</MudText>
+            </div>
+
+
+            <MudTextField @bind-Value="RequestContext.Title"
+                          Label="Title"
+                          For=@(()=>RequestContext.Title)
+                          Variant="Variant.Outlined"
+                          Margin="Margin.Dense" />
+            <div class="d-flex my-4" style="gap:8px">
+                <MudSelect @bind-Value="RequestContext.AssignedUserId"
+                           T="string"
+                           Label="Assigned User"
+                           For=@(()=>RequestContext.AssignedUserId)
+                           Variant="Variant.Outlined"
+                           Margin="Margin.Dense">
+                    @foreach (var member in Members)
+                    {
+                        <MudSelectItem Value="member.Id">@member.UserName</MudSelectItem>
+                    }
+                    <MudSelectItem Value="string.Empty">Unassigned</MudSelectItem>
+                </MudSelect>
+                <MudSelect T="TicketStatus"
+                           Label="Ticket Status"
+                           @bind-Value="RequestContext.Status"
+                           Variant="Variant.Outlined"
+                           For=@(()=>RequestContext.Status)
+                           Margin="Margin.Dense">
+                    <MudSelectItem Value="@TicketStatus.NotStarted">New</MudSelectItem>
+                    <MudSelectItem Value="@TicketStatus.Active">In Progress</MudSelectItem>
+                    <MudSelectItem Value="@TicketStatus.Testing">Testing</MudSelectItem>
+                    <MudSelectItem Value="@TicketStatus.Completed">Completed</MudSelectItem>
+                </MudSelect>
+            </div>
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem md="12">
+                    <MudText Typo="Typo.h3">Description</MudText>
+                    <MudTextField Lines="10" @bind-Value="RequestContext.Description" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem md="12">
+                    <div class="d-flex align-center" style="width:100%">
+                        <div>
+                            <MudButton OnClick="OnCancel">Cancel</MudButton>
+                            <MudButton Color="Color.Success"
+                                       OnClick="OnSubmitAsync"
+                                       DisableElevation="true"
+                                       Disabled="IsModelAndContextEqual()"
+                                       Variant="Variant.Filled">Save</MudButton>
+                        </div>
+                    </div>
+                </MudItem>
+            </MudGrid>
+            <MudDivider Class="my-4" />
+            <MudText Typo="Typo.h2" Class="mb-4">Danger Zone</MudText>
+            <MudGrid>
+                <MudItem md="8">
+                    <MudText Typo="Typo.h3">Delete Ticket</MudText>
+                    <MudText Typo="Typo.body2">This will remove the ticket from the board permanently.</MudText>
+                </MudItem>
+                <MudItem md="4">
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Error"
+                               DisableElevation="true"
+                               FullWidth="true"
+                               OnClick="OnDelete">Delete</MudButton>
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+    </MudDialog>
+</EditForm>
