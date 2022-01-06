@@ -1,0 +1,46 @@
+﻿<EditForm Model="RequestContext">
+    <MudDialog>
+        <TitleContent>
+            <MudText>Add Project</MudText>
+            <MudText Typo="Typo.caption">Creating a project will allow you to access and manage boards in the application.</MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudTextField @bind-Value="RequestContext.Name"
+                          Required="true"
+                          T="string"
+                          Label="Name"
+                          RequiredError="Name is required."
+                          Placeholder="Acme Inc."
+                          Variant=Variant.Outlined
+                          DebounceInterval="500" />
+            <MudSelect @bind-Value="RequestContext.ProjectOwnerId"
+                       T="string"
+                       Label="Assigned User"
+                       For=@(()=>RequestContext.ProjectOwnerId)
+                       Variant="Variant.Outlined"
+                       Margin="Margin.Dense"
+                       Class="mb-4">
+                @foreach (var emp in Employees)
+                {
+                    <MudSelectItem Value="emp.Id">@($"{emp.FirstName} {emp.LastName}")</MudSelectItem>
+                }
+                <MudSelectItem Value="string.Empty">Unassigned</MudSelectItem>
+            </MudSelect>
+            <MudTextField @bind-Value="RequestContext.Description"
+                          T="string"
+                          Label="Description"
+                          Lines="10"
+                          Variant=Variant.Outlined />
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="OnCancel">Cancel</MudButton>
+            <MudButton Color="Color.Primary"
+                       OnClick="OnSubmit"
+                       Disabled="!IsSubmittable()">
+                Ok
+            </MudButton>
+        </DialogActions>
+
+    </MudDialog>
+</EditForm>
+

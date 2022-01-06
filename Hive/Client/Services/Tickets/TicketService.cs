@@ -42,7 +42,7 @@ namespace Hive.Client.Services.Tickets
         public async Task<List<TicketViewModel>> GetTicketsByProjectIdAsync(Guid projectId)
         {
             var result = await _http.GetAsync(ApiRoutes.GetTicketsByProjectId(projectId));
-            if (!result.IsSuccessStatusCode)
+            if (result.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 return new List<TicketViewModel>();
             }

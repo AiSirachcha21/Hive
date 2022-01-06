@@ -54,14 +54,15 @@ namespace Hive.Server.Application.Projects.Commands.CreateProject
 
             /// Call AddToRoleCommand OR SaveChangesAsync call. If the first is called then the SaveChanges call doesn't need to be made
             /// since it's being called during the Mediator call.
-            if (!string.IsNullOrEmpty(request.ProjectOwnerId))
-            {
-                AddRoleToUserCommand command = new(request.ProjectOwnerId, UserRoles.ProjectOwner);
-                bool addToRoleResult = await _mediator.Send(command);
+            /// TODO: Code is currently causing issue since dictionary is being used to sort through claims. Alternative needs to be found.
+            //if (!string.IsNullOrEmpty(request.ProjectOwnerId))
+            //{
+            //    AddRoleToUserCommand command = new(request.ProjectOwnerId, UserRoles.ProjectOwner);
+            //    bool addToRoleResult = await _mediator.Send(command);
 
-                if (!addToRoleResult) throw new ValidationException(new string[] { "Failed to create user role" });
-            }
-            else await _context.SaveChangesAsync(cancellationToken);
+            //    if (!addToRoleResult) throw new ValidationException(new string[] { "Failed to create user role" });
+            //}
+            await _context.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<CreateProjectViewModel>(project);
         }

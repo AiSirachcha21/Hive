@@ -1,4 +1,5 @@
 ﻿using Hive.Client.Services.Common;
+using Hive.Shared.Projects.Commands;
 using Hive.Shared.Projects.Queries;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Hive.Client.Services.Projects
     {
         Task<List<ProjectViewModel>> GetUserProjectsAsync(Guid organizationId);
         Task<ProjectViewModel> GetProjectByIdAsync(Guid id);
+        Task<bool> CreateProjectAsync(CreateProjectRequestModel data);
     }
 
     public class ProjectService : IProjectService
@@ -41,6 +43,13 @@ namespace Hive.Client.Services.Projects
         public async Task<ProjectViewModel> GetProjectByIdAsync(Guid id)
         {
             return await _http.GetFromJsonAsync<ProjectViewModel>(ApiRoutes.GetProject(id));
+        }
+
+        public async Task<bool> CreateProjectAsync(CreateProjectRequestModel data)
+        {
+            JsonContent content = JsonContent.Create(data);
+            var result = await _http.PostAsync(ApiRoutes.CreateProject, content);
+            return result.IsSuccessStatusCode;
         }
     }
 }

@@ -50,9 +50,8 @@ namespace Hive.Server.Controllers
         [Authorize(Roles = "SystemAdmin")]
         public async Task<ActionResult<CreateProjectViewModel>> CreateProject(CreateProjectRequestModel request)
         {
-            var (organizationId, name, description, projectOwnerId) = request;
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            CreateProjectCommand command = new(organizationId, name, description, projectOwnerId, userId);
+            CreateProjectCommand command = new(request.OrganizationId, request.Name, request.Description, request.ProjectOwnerId, userId);
 
             var result = await Mediator.Send(command);
             if (result == null) return NoContent();
