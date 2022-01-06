@@ -1,12 +1,15 @@
-﻿using Hive.Server.Application.Organizations.Commands.CreateOrganization;
+﻿using Hive.Server.Application.Organizations.Commands.AddUserToOrganization;
+using Hive.Server.Application.Organizations.Commands.CreateOrganization;
 using Hive.Server.Application.Organizations.Commands.DeleteOrganization;
 using Hive.Server.Application.Organizations.Commands.UpdateOrganization;
 using Hive.Server.Application.Organizations.Queries.CheckForDuplicateOrganziationName;
+using Hive.Server.Application.Organizations.Queries.GetAvailableUserPool;
 using Hive.Server.Application.Organizations.Queries.GetOrganizations;
 using Hive.Server.Application.Organizations.Queries.GetOrganizationSettingsData;
 using Hive.Shared;
 using Hive.Shared.Organizations.CommandViewModels;
 using Hive.Shared.Organizations.QueryViewModels;
+using Hive.Shared.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -65,6 +68,20 @@ namespace Hive.Server.Controllers
         {
             await Mediator.Send(new UpdateOrganizationCommand(data));
             return Ok();
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddUserToOrganization(AddUserToOrganizationCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<UserViewModel>>> GetUserPool(Guid organizationId)
+        {
+            var result = await Mediator.Send(new GetAvailableUserPoolQuery(organizationId));
+            return Ok(result);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using Hive.Client.Shared.Store.OrganizationSettings
+@using Hive.Shared.Users
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
@@ -8,6 +9,16 @@
 }
 else
 {
+    <MudToolBar Dense="true" Class="mb-8">
+        <MudAutocomplete T="UserViewModel"
+                     ResetValueOnEmptyText="true"
+                     Label="User Network Search"
+                     @bind-Value="_searchedUserId"
+                     SearchFunc="GetNetworkUsers"
+                     Variant="Variant.Outlined"
+                     ToStringFunc="@((e)=>$"{e.FirstName} {e.LastName}")" />
+        <MudButton StartIcon="@Icons.Filled.PersonAdd" OnClick="OnAddUser">Add User</MudButton>
+    </MudToolBar>
     <MudTable Items="@Users" Loading="IsLoading">
         <HeaderContent>
             <MudTh>First Name</MudTh>

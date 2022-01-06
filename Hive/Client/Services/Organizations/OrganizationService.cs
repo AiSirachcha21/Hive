@@ -1,5 +1,6 @@
 ﻿using Hive.Client.Services.Common;
 using Hive.Shared.Organizations.QueryViewModels;
+using Hive.Shared.Users;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -16,6 +17,8 @@ namespace Hive.Client.Services.Organizations
         Task<OrganizationSettingsOverviewViewModel> GetOrganizationSettingsOverviewAsync(Guid organizationId);
         Task<bool> DoesEditedOrganizationNameExist(string name);
         Task<bool> UpdateOrganizationAsync(UpdateOrganizationRequestViewModel data);
+        Task<List<UserViewModel>> GetUserPool(Guid organizationId);
+        Task<bool> AddToOrganizationAsync(Guid organizationId, string userId);
     }
 
     public class OrganizationService : IOrganizationService
@@ -62,6 +65,25 @@ namespace Hive.Client.Services.Organizations
             var result = await _http.PutAsync(ApiRoutes.UpdateOrganization, content);
 
             return result.IsSuccessStatusCode;
+        }
+
+        public async Task<List<UserViewModel>> GetUserPool(Guid organizationId)
+        {
+            var result = await _http.GetAsync(ApiRoutes.GetUserPool(organizationId));
+            if (result.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return new List<UserViewModel>();
+            }
+
+            return await result.Content.ReadFromJsonAsync<List<UserViewModel>>();
+        }
+
+        public async Task<bool> AddToOrganizationAsync(Guid organizationId, string userId)
+        {
+            JsonContent content = JsonContent.Create(new { userId = userId, organizationId = organizationId });
+            var result = await _http.PostAsync(ApiRoutes.AddToOrganization, content);
+
+            return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
     }
 }

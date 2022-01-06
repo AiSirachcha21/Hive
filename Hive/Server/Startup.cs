@@ -57,7 +57,8 @@ namespace Hive.Server
                 {
                     new TicketMappingProfile(),
                     new ProjectMappingProfile(),
-                    new OrganizationMappingProfile()
+                    new OrganizationMappingProfile(),
+                    new UserMappingProfile(),
                 });
             });
             services.AddSingleton(mapperConfig.CreateMapper());
