@@ -48,9 +48,9 @@ namespace Hive.Server.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(DeleteTicketCommand command)
+        public async Task<IActionResult> Delete(Guid ticketId)
         {
-            await Mediator.Send(command);
+            await Mediator.Send(new DeleteTicketCommand(ticketId));
             return Ok();
         }
     }
