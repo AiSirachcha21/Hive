@@ -6,6 +6,7 @@ using Hive.Server.Application.Organizations.Queries.CheckForDuplicateOrganziatio
 using Hive.Server.Application.Organizations.Queries.GetAvailableUserPool;
 using Hive.Server.Application.Organizations.Queries.GetOrganizations;
 using Hive.Server.Application.Organizations.Queries.GetOrganizationSettingsData;
+using Hive.Server.Application.Organizations.Queries.GetOrganizationUsers;
 using Hive.Shared;
 using Hive.Shared.Organizations.CommandViewModels;
 using Hive.Shared.Organizations.QueryViewModels;
@@ -81,6 +82,13 @@ namespace Hive.Server.Controllers
         public async Task<ActionResult<List<UserViewModel>>> GetUserPool(Guid organizationId)
         {
             var result = await Mediator.Send(new GetAvailableUserPoolQuery(organizationId));
+            return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<UserViewModel>>> GetOrganizationUsers(Guid organizationId)
+        {
+            var result = await Mediator.Send(new GetOrganizationUsersQuery(organizationId));
             return Ok(result);
         }
     }

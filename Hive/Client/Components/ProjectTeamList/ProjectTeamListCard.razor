@@ -1,4 +1,6 @@
 ﻿@using Hive.Shared.Projects.Queries
+@using Hive.Shared.Users
+
 <MudCard Outlined="true" Class="class=bg">
     <MudCardContent>
         <div class="mb-4">
@@ -6,6 +8,20 @@
             <MudText Typo="Typo.caption">Overview</MudText>
         </div>
         <div>
+            <div class="d-flex">
+                <MudAutocomplete T="UserViewModel"
+                                 ResetValueOnEmptyText="true"
+                                 Label="User Network Search"
+                                 @bind-Value="_searchedUser"
+                                 SearchFunc="GetNetworkUsers"
+                                 Variant="Variant.Outlined"
+                                 ToStringFunc="@((e)=>$"{e.FirstName} {e.LastName}")" />
+                <MudButton Variant="Variant.Filled"
+                           DisableElevation="true"
+                           Color="Color.Primary"
+                           OnClick="AddUserToProject">Add User</MudButton>
+            </div>
+
             @foreach (var user in Users)
             {
                 <MudPaper Elevation="0" Class="d-flex flex-no-wrap pa-4" Style="width:100%">
@@ -26,7 +42,4 @@
     </MudCardContent>
 </MudCard>
 
-@code {
-    [Parameter] public List<ProjectUserViewModel> Users { get; set; }
 
-}

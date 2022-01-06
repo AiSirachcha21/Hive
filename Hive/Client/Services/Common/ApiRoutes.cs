@@ -21,6 +21,7 @@ namespace Hive.Client.Services.Common
         public const string UpdateOrganization = _organizationBaseUrl;
         public static string GetUserPool(Guid organizationId) => _organizationBaseUrl + $"/GetUserPool?organizationId={organizationId}";
         public const string AddToOrganization = $"{_organizationBaseUrl}/AddUserToOrganization";
+        public static string GetOrganizationUsers(Guid organizationId) => $"{_organizationBaseUrl}/GetOrganizationUsers?organizationId={organizationId}";
 
         // Project
         private const string _projectBaseUrl = "api/Project";

@@ -14,6 +14,7 @@ namespace Hive.Client.Services.Projects
         Task<List<ProjectViewModel>> GetUserProjectsAsync(Guid organizationId);
         Task<ProjectViewModel> GetProjectByIdAsync(Guid id);
         Task<bool> CreateProjectAsync(CreateProjectRequestModel data);
+        Task<bool> AddUserToProjectAsync(List<string> userIds, Guid projectid);
     }
 
     public class ProjectService : IProjectService
@@ -50,6 +51,11 @@ namespace Hive.Client.Services.Projects
             JsonContent content = JsonContent.Create(data);
             var result = await _http.PostAsync(ApiRoutes.CreateProject, content);
             return result.IsSuccessStatusCode;
+        }
+
+        public Task<bool> AddUserToProjectAsync(List<string> userIds, Guid projectid)
+        {
+            throw new NotImplementedException();
         }
     }
 }

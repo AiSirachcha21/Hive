@@ -55,7 +55,9 @@ else
             <ProjectTasksCard />
         </MudItem>
         <MudItem lg="5">
-            <ProjectTeamListCard Users="Project.Members" />
+            <CascadingValue Value="Project.OrganizationId">
+                <ProjectTeamListCard Users="Project.Members" />
+            </CascadingValue>
         </MudItem>
     </MudGrid>
 }

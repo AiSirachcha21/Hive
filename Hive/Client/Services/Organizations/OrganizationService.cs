@@ -19,6 +19,7 @@ namespace Hive.Client.Services.Organizations
         Task<bool> UpdateOrganizationAsync(UpdateOrganizationRequestViewModel data);
         Task<List<UserViewModel>> GetUserPool(Guid organizationId);
         Task<bool> AddToOrganizationAsync(Guid organizationId, string userId);
+        Task<List<UserViewModel>> GetOrganizationUsers(Guid organizationId);
     }
 
     public class OrganizationService : IOrganizationService
@@ -84,6 +85,17 @@ namespace Hive.Client.Services.Organizations
             var result = await _http.PostAsync(ApiRoutes.AddToOrganization, content);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
+        }
+
+        public async Task<List<UserViewModel>> GetOrganizationUsers(Guid organizationId)
+        {
+            var result = await _http.GetAsync(ApiRoutes.GetOrganizationUsers(organizationId));
+            if (result.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return new List<UserViewModel>();
+            }
+
+            return await result.Content.ReadFromJsonAsync<List<UserViewModel>>();
         }
     }
 }
