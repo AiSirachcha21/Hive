@@ -30,7 +30,21 @@ namespace Hive.Server.Application.Tickets.Queries.GetTicketsByProjectId
             var tickets = await _context.Tickets.Where(t => t.ProjectId == request.ProjectId)
                 .ProjectTo<TicketViewModel>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken: cancellationToken);
+            int index = 0;
+            do
+            {
+                tickets[index].AssignedUserName = await GetUserName(tickets[index].AssignedUserId);
+                tickets[index].Status = (await _context.Tickets.FindAsync(tickets[index].Id)).TicketStatus;
+                index++;
+            } while (index < tickets.Count);
+
             return tickets;
+        }
+
+        public async Task<string> GetUserName(string id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            return $"{user.FirstName} {user.LastName}";
         }
     }
 }

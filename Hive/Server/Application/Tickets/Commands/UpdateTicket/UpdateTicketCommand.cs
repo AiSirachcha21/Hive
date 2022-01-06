@@ -32,6 +32,7 @@ namespace Hive.Server.Application.Tickets.Commands.UpdateTicket
             Ticket newTicket = _mapper.Map(request, originalTicket);
 
             newTicket.LastModfied = DateTime.Now;
+            newTicket.TicketStatus = request.Status;
 
             _context.Tickets.Update(newTicket);
             await _context.SaveChangesAsync(cancellationToken);

@@ -28,7 +28,8 @@ namespace Hive.Server.Application.Common.Mapping
                 .ForMember(dto => dto.Id, target => target.MapFrom(t => Guid.NewGuid()))
                 .ForMember(dto => dto.TicketStatus, target => target.MapFrom(t => TicketStatus.NotStarted));
 
-            CreateMap<UpdateTicketCommand, Ticket>();
+            CreateMap<UpdateTicketCommand, Ticket>()
+                .ForMember(c => c.TicketStatus, target => target.MapFrom(t => t.Status));
         }
     }
 }
