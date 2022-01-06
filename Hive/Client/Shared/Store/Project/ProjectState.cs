@@ -1,9 +1,11 @@
 ﻿using Fluxor;
 using Hive.Shared.Projects.Queries;
+using Hive.Shared.Tickets.Queries;
+using System.Collections.Generic;
 
 namespace Hive.Client.Shared.Store.Project
 {
-    public record ProjectState(bool IsLoading, ProjectViewModel Project);
+    public record ProjectState(bool IsLoading, ProjectViewModel Project, List<TicketViewModel> ProjectTickets);
 
     public class ProjectFeatureState : Feature<ProjectState>
     {
@@ -14,7 +16,7 @@ namespace Hive.Client.Shared.Store.Project
 
         protected override ProjectState GetInitialState()
         {
-            return new ProjectState(false, null);
+            return new ProjectState(false, null, null);
         }
     }
 }

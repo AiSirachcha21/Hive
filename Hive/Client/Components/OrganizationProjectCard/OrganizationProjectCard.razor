@@ -75,6 +75,6 @@
 @code {
     [Parameter] public ProjectViewModel Project { get; set; }
     int CreatedTickets => Project.ProjectStatistics.WorkItemsCreated;
-    int RemainingTickets => Project.ProjectStatistics.WorkItemsCreated - Project.ProjectStatistics.WorkItemsCompleted;
-    int Progress => CreatedTickets != 0 ? (RemainingTickets / CreatedTickets) * 100 : 100;
+    int RemainingTickets => CreatedTickets - Project.ProjectStatistics.WorkItemsCompleted;
+    int Progress => CreatedTickets != 0 ? (Project.ProjectStatistics.WorkItemsCompleted / CreatedTickets) * 100 : 100;
 }

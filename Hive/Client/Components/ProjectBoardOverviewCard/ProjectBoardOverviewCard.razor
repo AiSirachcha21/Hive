@@ -55,7 +55,7 @@
 @code {
     [Parameter] public Guid ProjectId { get; set; }
     [Inject] ITicketService TicketService { get; set; }
-    List<TicketViewModel> _tickets = new(0);
+    List<TicketViewModel> _tickets;
     bool isLoading = false;
     string BoardLink => Routes.ProjectBoard(ProjectId);
 
@@ -63,6 +63,7 @@
     {
         isLoading = true;
         _tickets = await TicketService.GetTicketsByProjectIdAsync(ProjectId);
+        Console.WriteLine(_tickets);
         isLoading = false;
     }
 }

@@ -30,6 +30,7 @@ namespace Hive.Client.Services.Common
         private const string _ticketBaseUrl = "api/Ticket";
         public static string GetTicketsByProjectId(Guid projectId) => $"{_ticketBaseUrl}/{projectId}";
         public const string CreateTicket = $"{_ticketBaseUrl}/Create";
-        public static string DeleteTicket(Guid id) => $"{_ticketBaseUrl}?id={id}";
+        public static string DeleteTicket(Guid id) => $"{_ticketBaseUrl}?ticketId={id}";
+        public const string UpdateTicket = $"{_ticketBaseUrl}/Update";
     }
 }

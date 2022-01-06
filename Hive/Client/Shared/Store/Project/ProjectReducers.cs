@@ -22,5 +22,24 @@ namespace Hive.Client.Shared.Store.Project
                 Project = action.Project
             };
         }
+
+        [ReducerMethod(typeof(FetchProjectTicketsAction))]
+        public static ProjectState FetchProjectTickets(ProjectState state)
+        {
+            return state with
+            {
+                IsLoading = true
+            };
+        }
+
+        [ReducerMethod]
+        public static ProjectState FetchProjectTickets(ProjectState state, SetProjectTicketsAction action)
+        {
+            return state with
+            {
+                IsLoading = false,
+                ProjectTickets = action.Tickets
+            };
+        }
     }
 }

@@ -1,0 +1,140 @@
+﻿@page "/organization/project/{projectId:guid}/board"
+@using Hive.Domain
+
+@inject IDialogService DialogService;
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<style>
+    :root {
+        --border-color: rgba(20,20,20,0.1);
+    }
+
+    .board-container {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        margin-top: 1rem;
+        max-width: 100vw;
+        table-layout: fixed;
+        gap: 1rem;
+    }
+
+
+    .board-column {
+        flex: 1;
+        min-width: 20vw;
+        min-height: 70vh;
+        padding: 1rem 0 1rem 1rem;
+        background-color: rgba(250,250,250,1);
+        border-radius: 1rem;
+    }
+
+        .board-column .header {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+            .board-column .header .header-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 25px;
+                background-color: @HiveColors.Orange;
+                margin-right: 4px;
+            }
+
+            .board-column .header .header-text {
+                font-size: 16px;
+                font-weight: 600;
+                color: @HiveColors.Grey;
+                font-family: "Quicksand",sans-serif;
+                flex: 1;
+            }
+
+        .board-column .ticket-list {
+            display: flex;
+            flex-direction: column;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+
+    .add-button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: @Colors.Grey.Lighten4;
+        margin-inline-end: 1rem;
+        cursor: pointer;
+        gap: 0.75rem;
+        border-radius: 1rem;
+    }
+
+        .add-button .add-button-icon {
+            background-color: @HiveColors.Orange;
+            color: white;
+            border-radius: 1rem;
+            transition: background-color ease-in-out 0.1s;
+        }
+
+        .add-button:hover .add-button-icon {
+            background-color: @HiveColors.OrangeDark;
+        }
+
+    .kanban-item {
+        border-radius: 8px;
+    }
+</style>
+
+@if (ProjectStateIsLoading)
+{
+    <div>
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+    </div>
+}
+else
+{
+    <MudText Typo="Typo.h1" class="mx-2">Tasks</MudText>
+    <div class="board-container">
+        @foreach (var col in Columns)
+        {
+            <div class="board-column">
+                <div class="header">
+                    <div class="header-dot"></div>
+                    <MudText Class="header-text">@col.Item1</MudText>
+                    @if (col.Item2 == TicketStatus.NotStarted)
+                    {
+                        <button class="add-button" @onclick="OpenTicketDialog">
+                            <MudIcon Icon="@Icons.Filled.Add" Class="add-button-icon" />
+                            <p>Add</p>
+                        </button>
+                    }
+                </div>
+                <div class="ticket-list">
+                    @foreach (var ticket in Tickets.Where(t => t.Status == col.Item2).ToList())
+                    {
+                        <MudPaper Outlined="true" Class="mr-4 pa-4 kanban-item">
+                            <MudText Typo="Typo.subtitle1" Class="mb-4">@ticket.Title</MudText>
+                            <div class="mb-4">
+                                <div class="d-flex" style="gap:8px">
+                                    <MudAvatar Size="Size.Small">
+                                        @if (string.IsNullOrEmpty(ticket.AssignedUserName))
+                                        {
+                                            <MudIcon Icon="@Icons.Filled.Person" />
+                                        }
+                                        else
+                                        {
+                                            <MudAvatar Size="Size.Small">@ticket.AssignedUserName.First().ToString().ToUpper()</MudAvatar>
+                                        }
+
+                                    </MudAvatar>
+                                    <MudText>@((string.IsNullOrEmpty(ticket.AssignedUserName) ? "Unassigned" : ticket.AssignedUserName))</MudText>
+                                </div>
+                            </div>
+                        </MudPaper>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

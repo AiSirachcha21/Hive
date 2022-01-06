@@ -14,6 +14,7 @@ namespace Hive.Client.Services.Tickets
         Task<List<TicketViewModel>> GetTicketsByProjectIdAsync(Guid projectId);
         Task<TicketViewModel> AddTicketAsync(CreateTicketRequest request);
         Task<bool> DeleteTicketAsync(Guid ticketId);
+        Task<bool> UpdateTicketAsync(UpdateTicketRequest request);
     }
 
     public class TicketService : ITicketService
@@ -47,6 +48,13 @@ namespace Hive.Client.Services.Tickets
             }
 
             return await result.Content.ReadFromJsonAsync<List<TicketViewModel>>();
+        }
+
+        public async Task<bool> UpdateTicketAsync(UpdateTicketRequest request)
+        {
+            var result = await _http.PutAsync(ApiRoutes.UpdateTicket, JsonContent.Create(request));
+
+            return result.IsSuccessStatusCode;
         }
     }
 }
