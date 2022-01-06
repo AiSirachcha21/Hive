@@ -19,7 +19,7 @@
 </Router>
 
 @code {
-    static readonly string[] HeadingFonts = { "Quicksand", "Arial", "sans-serif" };
+    static readonly string[] HeadingFonts = { "Lexend Deca", "Arial", "sans-serif" };
     static readonly string[] DefaultFonts = { "Nunito", "sans-serif" };
 
     readonly MudTheme _appTheme = new()
@@ -37,6 +37,10 @@
             },
             Typography = new Typography()
             {
+                Default = new Default
+                {
+                    FontFamily = new string[] { "Lexend Deca", "san-serif" }
+                },
                 Body1 = new Body1()
                 {
                     FontFamily = DefaultFonts,
