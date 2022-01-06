@@ -1,4 +1,5 @@
 ﻿using Hive.Client.Services.Common;
+using Hive.Shared.Tickets.Commands;
 using Hive.Shared.Tickets.Queries;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace Hive.Client.Services.Tickets
     public interface ITicketService
     {
         Task<List<TicketViewModel>> GetTicketsByProjectIdAsync(Guid projectId);
+        Task<TicketViewModel> AddTicketAsync(CreateTicketRequest request);
+        Task<bool> DeleteTicketAsync(Guid ticketId);
     }
 
     public class TicketService : ITicketService
@@ -22,10 +25,23 @@ namespace Hive.Client.Services.Tickets
             _http = http;
         }
 
+        public async Task<TicketViewModel> AddTicketAsync(CreateTicketRequest request)
+        {
+            JsonContent content = JsonContent.Create(request);
+            HttpResponseMessage response = await _http.PostAsync(ApiRoutes.CreateTicket, content);
+            return await response.Content.ReadFromJsonAsync<TicketViewModel>();
+        }
+
+        public async Task<bool> DeleteTicketAsync(Guid ticketId)
+        {
+            HttpResponseMessage response = await _http.DeleteAsync(ApiRoutes.DeleteTicket(ticketId));
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<List<TicketViewModel>> GetTicketsByProjectIdAsync(Guid projectId)
         {
             var result = await _http.GetAsync(ApiRoutes.GetTicketsByProjectId(projectId));
-            if (result.IsSuccessStatusCode)
+            if (!result.IsSuccessStatusCode)
             {
                 return new List<TicketViewModel>();
             }
