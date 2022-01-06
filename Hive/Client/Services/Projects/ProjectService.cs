@@ -33,7 +33,12 @@ namespace Hive.Client.Services.Projects
         /// <returns>List of Projects</returns>
         public async Task<List<ProjectViewModel>> GetUserProjectsAsync(Guid organizationId)
         {
-            return await _http.GetFromJsonAsync<List<ProjectViewModel>>(ApiRoutes.GetUserProjects(organizationId));
+            var result = await _http.GetAsync(ApiRoutes.GetUserProjects(organizationId));
+            if(result.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return new List<ProjectViewModel>();
+            }
+            return await result.Content.ReadFromJsonAsync<List<ProjectViewModel>>();
         }
 
         /// <summary>
@@ -53,9 +58,12 @@ namespace Hive.Client.Services.Projects
             return result.IsSuccessStatusCode;
         }
 
-        public Task<bool> AddUserToProjectAsync(List<string> userIds, Guid projectid)
+        public async Task<bool> AddUserToProjectAsync(List<string> userIds, Guid projectId)
         {
-            throw new NotImplementedException();
+            JsonContent content = JsonContent.Create(new { userIds = userIds, projectId = projectId });
+            var result = await _http.PostAsync(ApiRoutes.AddUsersToProject, content);
+
+            return result.IsSuccessStatusCode;
         }
     }
 }

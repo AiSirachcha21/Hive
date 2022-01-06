@@ -32,8 +32,13 @@ namespace Hive.Client.Services.Organizations
         }
         public async Task<List<OrganizationViewModel>> GetOrganizationsAsync()
         {
-            List<OrganizationViewModel> result = await _http.GetFromJsonAsync<List<OrganizationViewModel>>(ApiRoutes.GetOrganizations);
-            return result;
+            var result = await _http.GetAsync(ApiRoutes.GetOrganizations);
+            if (result.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return new List<OrganizationViewModel>();
+            }
+            Console.WriteLine(result);
+            return await result.Content.ReadFromJsonAsync<List<OrganizationViewModel>>();
         }
         public async Task<bool> AddOrganizationAsync(string name)
         {
